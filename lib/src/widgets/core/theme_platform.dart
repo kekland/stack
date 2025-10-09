@@ -1,0 +1,4 @@
+enum ThemePlatform {
+  material,
+  cupertino,
+}
