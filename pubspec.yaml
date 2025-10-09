@@ -22,6 +22,7 @@ dependencies:
   http: ^1.5.0
 
   # utils
+  oklch: ^0.0.3
   collection: ^1.19.1
   colorize: ^3.0.0
   stack_trace: ^1.12.1

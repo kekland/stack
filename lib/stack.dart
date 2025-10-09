@@ -53,6 +53,7 @@ export 'src/widgets/utils/animated_switcher.dart';
 export 'src/widgets/utils/aware_widgets.dart';
 export 'src/widgets/utils/border_no_padding.dart';
 export 'src/widgets/utils/keep_alive_widget.dart';
+export 'src/widgets/utils/oklch_utils.dart';
 export 'src/widgets/utils/paint_utils.dart';
 export 'src/widgets/utils/platform_dependent_widget.dart';
 export 'src/widgets/utils/post_layout_callback_widget.dart';

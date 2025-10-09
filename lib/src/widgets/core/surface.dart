@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oklch/oklch.dart';
 import 'package:stack/src/widgets/flutter/material/material.dart';
 import 'package:stack/stack.dart';
 
@@ -131,7 +132,7 @@ class Surface extends StatelessWidget {
       );
     }
 
-    final decoration = ShapeDecoration(
+    final decoration = ShapeDecorationWithLchLerp(
       color: backgroundColor,
       shape: shape ?? const RoundedRectangleBorder(),
       shadows: shadows,
@@ -149,7 +150,7 @@ class Surface extends StatelessWidget {
         child: child,
       );
     }
-
+  
     return AnimatedContainer(
       duration: animationStyle.duration!,
       curve: animationStyle.curve!,

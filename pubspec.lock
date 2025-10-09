@@ -118,6 +118,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  oklch:
+    dependency: "direct main"
+    description:
+      name: oklch
+      sha256: "238158812d43a67f1cdaa029de4ffdb9d285d9ef1e3e054c28e3936cfdb2f1d5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   path:
     dependency: transitive
     description:

@@ -85,16 +85,11 @@ class _CupertinoHighlightEffectAnimatorState extends State<_CupertinoHighlightEf
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = Surface.maybeColorOf(context);
     final Color overlayColor;
 
-    if (backgroundColor != null) {
-      overlayColor = backgroundColor.computeLuminance() > 0.5
-          ? Colors.black.withValues(alpha: 0.1)
-          : Colors.white.withValues(alpha: 0.12);
-    } else {
-      overlayColor = Colors.black.withValues(alpha: 0.1);
-    }
+    overlayColor = context.stack.brightness == Brightness.light
+        ? Colors.black.withValues(alpha: 0.1)
+        : Colors.white.withValues(alpha: 0.12);
 
     return StAnimatedOpacity(
       animationStyle: context.stack.defaultEffectAnimation,
