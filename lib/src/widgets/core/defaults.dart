@@ -6,6 +6,9 @@ class StackDefaults extends InheritedWidget {
     super.key,
     required this.animation,
     required this.platform,
+    required this.backgroundColor,
+    required this.defaultDisplayColor,
+    required this.brightness,
     required super.child,
   });
 
@@ -18,6 +21,15 @@ class StackDefaults extends InheritedWidget {
 
   final ThemePlatform platform;
   static ThemePlatform platformOf(BuildContext context) => of(context).platform;
+
+  final Color backgroundColor;
+  static Color backgroundColorOf(BuildContext context) => of(context).backgroundColor;
+  
+  final Color defaultDisplayColor;
+  static Color defaultDisplayColorOf(BuildContext context) => of(context).defaultDisplayColor;
+
+  final Brightness brightness;
+  static Brightness brightnessOf(BuildContext context) => of(context).brightness;
 
   @override
   bool updateShouldNotify(StackDefaults oldWidget) {
@@ -32,6 +44,9 @@ class StackDefaultsContext {
 
   AnimationStyle get defaultAnimation => StackDefaults.animationOf(context);
   ThemePlatform get platform => StackDefaults.platformOf(context);
+  Color get backgroundColor => StackDefaults.backgroundColorOf(context);
+  Color get defaultDisplayColor => StackDefaults.defaultDisplayColorOf(context);
+  Brightness get brightness => StackDefaults.brightnessOf(context);
 }
 
 extension StackBuildContextExtension on BuildContext {
