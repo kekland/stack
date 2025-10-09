@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:stack/src/widgets/core/defaults.dart';
 import 'package:stack/stack.dart';
 
 class DefaultForegroundStyle extends StatelessWidget {

@@ -1,4 +1,3 @@
-import 'package:stack/src/core/value_proxy.dart';
 import 'package:stack/stack.dart';
 
 /// An event representing a change to a value.

@@ -2,7 +2,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:stack/src/widgets/core/gesture_region.dart';
 import 'package:stack/src/widgets/flutter/material/material.dart';
 import 'package:stack/stack.dart';
 

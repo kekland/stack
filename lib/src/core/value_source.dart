@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:stack/src/core/value_proxy.dart';
 import 'package:stack/stack.dart';
 
 abstract class ValueSource<T> with Disposable {

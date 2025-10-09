@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:stack/stack.dart';
 
 abstract class ValueProxy<T> extends Signal<T> with Disposable {
-  ValueProxy(T value) : super(value) {
+  ValueProxy(super.value) {
     _dispatcher = di.dispatcherFor<T>();
     _dispatcher.bind(this);
     $streamListen(_dispatcher.eventStreamForId(id), $onValueEvent);
