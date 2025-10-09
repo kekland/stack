@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:stack/stack.dart';
 
-class StAnimatedPadding extends StatelessWidget {
-  const StAnimatedPadding({
+class StAnimatedScale extends StatelessWidget {
+  const StAnimatedScale({
     super.key,
     this.animationStyle,
-    required this.padding,
+    required this.scale,
     this.child,
     this.onEnd,
+    this.alignment = Alignment.center,
   });
 
   final AnimationStyle? animationStyle;
-  final EdgeInsets padding;
+  final Alignment alignment;
+  final double scale;
   final VoidCallback? onEnd;
   final Widget? child;
 
@@ -19,15 +21,9 @@ class StAnimatedPadding extends StatelessWidget {
   Widget build(BuildContext context) {
     final animationStyle = this.animationStyle ?? context.stack.defaultEffectAnimation;
 
-    if (animationStyle.duration == null) {
-      return Padding(
-        padding: padding,
-        child: child,
-      );
-    }
-
-    return AnimatedPadding(
-      padding: padding,
+    return AnimatedScale(
+      scale: scale,
+      alignment: alignment,
       duration: animationStyle.duration!,
       curve: animationStyle.curve ?? Curves.linear,
       onEnd: onEnd,

@@ -17,7 +17,7 @@ class StAnimatedOpacity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final animationStyle = this.animationStyle ?? context.stack.defaultAnimation;
+    final animationStyle = this.animationStyle ?? context.stack.defaultEffectAnimation;
 
     if (animationStyle.duration == null) {
       return Opacity(

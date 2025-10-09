@@ -1,35 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:stack/stack.dart';
 
-class StAnimatedPadding extends StatelessWidget {
-  const StAnimatedPadding({
+class StAnimatedSize extends StatelessWidget {
+  const StAnimatedSize({
     super.key,
     this.animationStyle,
-    required this.padding,
-    this.child,
+    this.alignment = Alignment.center,
+    this.clipBehavior = Clip.none,
     this.onEnd,
+    required this.child,
   });
 
   final AnimationStyle? animationStyle;
-  final EdgeInsets padding;
+  final Alignment alignment;
+  final Clip clipBehavior;
   final VoidCallback? onEnd;
-  final Widget? child;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
     final animationStyle = this.animationStyle ?? context.stack.defaultEffectAnimation;
 
-    if (animationStyle.duration == null) {
-      return Padding(
-        padding: padding,
-        child: child,
-      );
-    }
-
-    return AnimatedPadding(
-      padding: padding,
+    return AnimatedSize(
       duration: animationStyle.duration!,
-      curve: animationStyle.curve ?? Curves.linear,
+      reverseDuration: animationStyle.reverseDuration,
+      curve: animationStyle.curve!,
+      clipBehavior: clipBehavior,
+      alignment: alignment,
       onEnd: onEnd,
       child: child,
     );

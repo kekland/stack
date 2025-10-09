@@ -28,7 +28,7 @@ class DefaultForegroundStyle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final animationStyle = this.animationStyle ?? context.stack.defaultAnimation;
+    final animationStyle = this.animationStyle ?? context.stack.defaultEffectAnimation;
     final color = this.color ?? textStyle?.color;
 
     if (animationStyle.duration == Duration.zero) {

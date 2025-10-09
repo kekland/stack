@@ -4,7 +4,8 @@ import 'package:stack/stack.dart';
 class StackDefaults extends InheritedWidget {
   const StackDefaults({
     super.key,
-    required this.animation,
+    required this.defaultEffectAnimation,
+    required this.defaultSpatialAnimation,
     required this.platform,
     required this.backgroundColor,
     required this.defaultDisplayColor,
@@ -16,15 +17,18 @@ class StackDefaults extends InheritedWidget {
     return context.dependOnInheritedWidgetOfExactType<StackDefaults>()!;
   }
 
-  final AnimationStyle animation;
-  static AnimationStyle animationOf(BuildContext context) => of(context).animation;
+  final AnimationStyle defaultEffectAnimation;
+  static AnimationStyle defaultEffectAnimationOf(BuildContext context) => of(context).defaultEffectAnimation;
+
+  final AnimationStyle defaultSpatialAnimation;
+  static AnimationStyle defaultSpatialAnimationOf(BuildContext context) => of(context).defaultSpatialAnimation;
 
   final ThemePlatform platform;
   static ThemePlatform platformOf(BuildContext context) => of(context).platform;
 
   final Color backgroundColor;
   static Color backgroundColorOf(BuildContext context) => of(context).backgroundColor;
-  
+
   final Color defaultDisplayColor;
   static Color defaultDisplayColorOf(BuildContext context) => of(context).defaultDisplayColor;
 
@@ -33,7 +37,7 @@ class StackDefaults extends InheritedWidget {
 
   @override
   bool updateShouldNotify(StackDefaults oldWidget) {
-    return animation != oldWidget.animation || platform != oldWidget.platform;
+    return defaultEffectAnimation != oldWidget.defaultEffectAnimation || platform != oldWidget.platform;
   }
 }
 
@@ -42,7 +46,8 @@ class StackDefaultsContext {
 
   final BuildContext context;
 
-  AnimationStyle get defaultAnimation => StackDefaults.animationOf(context);
+  AnimationStyle get defaultEffectAnimation => StackDefaults.defaultEffectAnimationOf(context);
+  AnimationStyle get defaultSpatialAnimation => StackDefaults.defaultSpatialAnimationOf(context);
   ThemePlatform get platform => StackDefaults.platformOf(context);
   Color get backgroundColor => StackDefaults.backgroundColorOf(context);
   Color get defaultDisplayColor => StackDefaults.defaultDisplayColorOf(context);

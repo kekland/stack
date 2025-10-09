@@ -29,9 +29,36 @@ export 'src/widgets/core/gesture_surface.dart';
 export 'src/widgets/core/surface.dart';
 export 'src/widgets/core/scaffold.dart';
 export 'src/widgets/core/theme_platform.dart';
+
+export 'src/widgets/input/form/form_field.dart';
+export 'src/widgets/input/form/value_form_field.dart';
+
+export 'src/widgets/input/abstract_text_field.dart';
+
+export 'src/widgets/test/test_sliver_list.dart';
+
 export 'src/widgets/transitions/material_page_transitions_builder.dart';
+
+export 'src/widgets/utils/sliver_persistent_header/basic_sliver_persistent_header_delegate.dart';
+export 'src/widgets/utils/sliver_persistent_header/multiplexing_sliver_persistent_header.dart';
+
 export 'src/widgets/utils/animated_icon_theme.dart';
 export 'src/widgets/utils/animated_opacity.dart';
+export 'src/widgets/utils/animated_padding.dart';
+export 'src/widgets/utils/animated_scale_visibility.dart';
+export 'src/widgets/utils/animated_scale.dart';
+export 'src/widgets/utils/animated_size_switcher.dart';
+export 'src/widgets/utils/animated_size.dart';
+export 'src/widgets/utils/animated_switcher.dart';
 export 'src/widgets/utils/border_no_padding.dart';
+export 'src/widgets/utils/keep_alive_widget.dart';
+export 'src/widgets/utils/paint_utils.dart';
+export 'src/widgets/utils/platform_dependent_widget.dart';
+export 'src/widgets/utils/post_layout_callback_widget.dart';
+export 'src/widgets/utils/preferred_size_widgets.dart';
 export 'src/widgets/utils/separated_sliver_child_builder_delegate.dart';
+export 'src/widgets/utils/size_notifier_widget.dart';
+export 'src/widgets/utils/sliver_spacer.dart';
+export 'src/widgets/utils/top_clamped_bouncing_scroll_physics.dart';
+
 export 'src/widgets/value_source_builder.dart';

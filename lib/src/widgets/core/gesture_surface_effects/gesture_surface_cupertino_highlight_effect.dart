@@ -97,7 +97,7 @@ class _CupertinoHighlightEffectAnimatorState extends State<_CupertinoHighlightEf
     }
 
     return StAnimatedOpacity(
-      animationStyle: context.stack.defaultAnimation,
+      animationStyle: context.stack.defaultEffectAnimation,
       opacity: widget.animateOpacityOnDisabled && widget.state.contains(WidgetState.disabled) ? 0.35 : 1.0,
       child: AnimatedBuilder(
         animation: _animation,
