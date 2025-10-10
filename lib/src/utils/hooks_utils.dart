@@ -168,3 +168,10 @@ extension ValueNotifierSetterFn<T> on ValueNotifier<T> {
     this.value = value as T;
   }
 }
+
+void useCallOnce(VoidCallback callback) {
+  useEffect(() {
+    callback();
+    return null;
+  }, const []);
+}

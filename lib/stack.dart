@@ -37,6 +37,9 @@ export 'src/widgets/input/form/value_form_field.dart';
 
 export 'src/widgets/input/abstract_text_field.dart';
 
+export 'src/widgets/staggerable/staggerable_container.dart';
+export 'src/widgets/staggerable/staggering_widget.dart';
+
 export 'src/widgets/test/test_sliver_list.dart';
 
 export 'src/widgets/transitions/material_page_transitions_builder.dart';
