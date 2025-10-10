@@ -30,6 +30,8 @@ export 'src/widgets/core/surface.dart';
 export 'src/widgets/core/scaffold.dart';
 export 'src/widgets/core/theme_platform.dart';
 
+export 'src/widgets/data/refresh_control_widget.dart';
+
 export 'src/widgets/input/form/form_field.dart';
 export 'src/widgets/input/form/value_form_field.dart';
 

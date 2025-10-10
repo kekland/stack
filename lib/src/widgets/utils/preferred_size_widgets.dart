@@ -42,5 +42,28 @@ class ColumnPreferredSize extends StatelessWidget implements PreferredSizeWidget
 
   @override
   Size get preferredSize => Size.fromHeight(
-      children.map((e) => e.preferredSize.height).reduce((a, b) => a + b) + spacing * (children.length - 1));
+    children.map((e) => e.preferredSize.height).reduce((a, b) => a + b) + spacing * (children.length - 1),
+  );
+}
+
+class OpacityPreferredSize extends StatelessWidget implements PreferredSizeWidget {
+  const OpacityPreferredSize({
+    super.key,
+    required this.opacity,
+    this.child,
+  });
+
+  final double opacity;
+  final PreferredSizeWidget? child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Opacity(
+      opacity: opacity,
+      child: child,
+    );
+  }
+
+  @override
+  Size get preferredSize => child?.preferredSize ?? Size.zero;
 }

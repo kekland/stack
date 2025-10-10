@@ -8,12 +8,20 @@ import 'package:stack/stack.dart';
 const kDebugShowMultiplexingSliverBoundaries = false;
 
 class MultiplexingSliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
-  MultiplexingSliverPersistentHeaderDelegate({required this.delegates});
+  MultiplexingSliverPersistentHeaderDelegate({
+    required this.delegates,
+    this.wrapperBuilder,
+  });
 
   final List<SliverPersistentHeaderDelegate> delegates;
+  final Widget Function(BuildContext context, Widget child)? wrapperBuilder;
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     final extent = (maxExtent - shrinkOffset).clamp(minExtent, maxExtent);
     var flexibleExtent = extent - minExtent;
     final extents = delegates.map((v) => v.minExtent).toList();
@@ -36,7 +44,11 @@ class MultiplexingSliverPersistentHeaderDelegate extends SliverPersistentHeaderD
       (i) => ClipRect(
         child: SizedBox(
           height: extents[i],
-          child: delegates[i].build(context, max(0, delegates[i].maxExtent - extents[i]), overlapsContent),
+          child: delegates[i].build(
+            context,
+            max(0, delegates[i].maxExtent - extents[i]),
+            overlapsContent,
+          ),
         ),
       ),
     );
@@ -53,11 +65,15 @@ class MultiplexingSliverPersistentHeaderDelegate extends SliverPersistentHeaderD
     }
 
     // Layout children with the calculated extents
-    return Column(
+    Widget child = Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: children,
     );
+
+    if (wrapperBuilder != null) child = wrapperBuilder!(context, child);
+
+    return child;
   }
 
   @override
