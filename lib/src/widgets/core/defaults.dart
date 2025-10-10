@@ -9,6 +9,7 @@ class StackDefaults extends InheritedWidget {
     required this.platform,
     required this.backgroundColor,
     required this.defaultDisplayColor,
+    required this.defaultAccentColor,
     required this.brightness,
     required super.child,
   });
@@ -32,6 +33,9 @@ class StackDefaults extends InheritedWidget {
   final Color defaultDisplayColor;
   static Color defaultDisplayColorOf(BuildContext context) => of(context).defaultDisplayColor;
 
+  final Color defaultAccentColor;
+  static Color defaultAccentColorOf(BuildContext context) => of(context).defaultAccentColor;
+
   final Brightness brightness;
   static Brightness brightnessOf(BuildContext context) => of(context).brightness;
 
@@ -51,6 +55,7 @@ class StackDefaultsContext {
   ThemePlatform get platform => StackDefaults.platformOf(context);
   Color get backgroundColor => StackDefaults.backgroundColorOf(context);
   Color get defaultDisplayColor => StackDefaults.defaultDisplayColorOf(context);
+  Color get defaultAccentColor => StackDefaults.defaultAccentColorOf(context);
   Brightness get brightness => StackDefaults.brightnessOf(context);
 }
 

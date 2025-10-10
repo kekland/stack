@@ -21,6 +21,8 @@ export 'src/utils/hooks_utils.dart';
 export 'src/utils/log.dart';
 export 'src/utils/signals_utils.dart';
 
+export 'src/widgets/action/future_action.dart';
+
 export 'src/widgets/core/colors.dart';
 export 'src/widgets/core/default_foreground_style.dart';
 export 'src/widgets/core/defaults.dart';
@@ -47,6 +49,7 @@ export 'src/widgets/transitions/material_page_transitions_builder.dart';
 export 'src/widgets/utils/sliver_persistent_header/basic_sliver_persistent_header_delegate.dart';
 export 'src/widgets/utils/sliver_persistent_header/multiplexing_sliver_persistent_header.dart';
 
+export 'src/widgets/utils/activity_indicator.dart';
 export 'src/widgets/utils/animated_icon_theme.dart';
 export 'src/widgets/utils/animated_opacity.dart';
 export 'src/widgets/utils/animated_padding.dart';
