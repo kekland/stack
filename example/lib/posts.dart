@@ -247,11 +247,12 @@ class SinglePostPage extends StatelessWidget {
     final source = useDisposable(() => di.dispatchers.post.createPostSingleSource(postId));
     useCallOnce(source.load);
 
-    final value = useExistingSignal(source.valueSignal).value;
-    if (value == null) {
+    final hasValue = useExistingSignal(source.hasValueSignal).value;
+    if (!hasValue) {
       return const CircularProgressIndicator();
     }
 
+    final value = source.value!;
     return Card(
       child: Column(
         children: [
