@@ -6,6 +6,8 @@ import 'package:signals_flutter/signals_flutter.dart';
 import 'package:stack_trace/stack_trace.dart';
 import 'package:logging/logging.dart';
 
+final stackLogger = Logger('stack');
+
 Frame? getTraceAtLevel([int level = 0, Type? runtimeType]) {
   final trace = Trace.current(level);
 

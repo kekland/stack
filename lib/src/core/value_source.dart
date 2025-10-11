@@ -177,14 +177,34 @@ abstract class ListValueSource<TData, TProxy extends ValueProxy<TData>> extends 
     super.dispose();
   }
 
+  void $insertAt(int index, TData item) {
+    final list = value;
+    final proxy = _dispatcher.createProxy(item) as TProxy;
+
+    if (list == null) {
+      valueSignal.value = [proxy];
+    } else {
+      if (index < 0 || index > list.length) throw RangeError.index(index, list, 'index');
+      valueSignal.value = [...list..insert(index, proxy)];
+    }
+  }
+
+  void $removeAt(int index) {
+    final list = value;
+    if (list == null) throw Exception('List is null');
+    if (index < 0 || index >= list.length) throw RangeError.index(index, list, 'index');
+
+    list[index].dispose();
+    valueSignal.value = [...list..removeAt(index)];
+  }
+
   @override
   void $onValueEvent(ValueEvent<TData> event) {
     if (event is ValueDeleteEvent<TData>) {
       final id = event.id;
       final index = value?.indexWhere((e) => _dispatcher.identify(e.value) == id);
       if (index != null && index >= 0) {
-        value?[index].dispose();
-        valueSignal.value = [...?value?..removeAt(index)];
+        $removeAt(index);
       }
     }
   }

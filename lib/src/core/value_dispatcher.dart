@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:stack/stack.dart';
 
 /// An event representing a change to a value.
@@ -102,4 +104,117 @@ abstract class ValueDispatcher<T> with Disposable {
   void dispatchUpdate(Object? source, T value) => dispatch(ValueUpdateEvent<T>(source, identify(value), value));
   void dispatchDelete(Object? source, T value) => dispatchDeleteId(source, identify(value), value);
   void dispatchDeleteId(Object? source, Object id, [T? value]) => dispatch(ValueDeleteEvent<T>(source, id, value));
+
+  // -------------------------------------------------------------------
+  // Mutations
+  // -------------------------------------------------------------------
+  final _mutationCompleters = <(Object, Object), Completer>{};
+  void _dispatchMutationResult<TReturn>(TReturn value) {
+    if (value is T) {
+      dispatchUpdate(this, value);
+    } else if (value is List<T>) {
+      for (final v in value) dispatchUpdate(this, v);
+    } else {
+      stackLogger.warning('Automatically dispatching mutation result of type $TReturn failed: cannot unwrap into $T');
+    }
+  }
+
+  /// A mutation is a function that can be called to "modify" something.
+  ///
+  /// The return result of a mutation will be propagated automatically to the dispatcher if the return type is either
+  /// [T] or [List<T>], and [automaticallyDispatchUpdates] is set to `true`.
+  ///
+  /// Optimistic (or eager) updates are also supported by passing `optimisticUpdate`. Since optimistic updates only
+  /// work on data that exists locally, you can try to get the data by using `this[]`. If there's no local data, it's
+  /// safe to return `null` - this will ignore the optimistic update.
+  ///
+  /// [disallowConcurrent] is set to `true` by default and will block calls to this mutation with the same [operationId]
+  /// and [args] if there's already an ongoing mutation (it'll return the same `Future` instance). If set to `false`,
+  /// multiple mutations with the same args can be executed simultaneously.
+  /// 
+  /// The way to implement mutations in your dispatchers is something like this:
+  /// 
+  /// ```dart
+  /// Future<Post> like(String postId) {
+  ///   return $mutation(
+  ///     #like,
+  ///     (postId),
+  ///     () async {
+  ///       final newPost = await myApi.likePost(postId);
+  ///       return newPost;
+  ///     },
+  ///     optimisticUpdate: () {
+  ///       final existingPost = this[postId];
+  ///       if (existingPost != null) return (existingPost, existingPost.copyWith(isLiked: true));
+  ///       return null;
+  ///     }
+  ///   );
+  /// }
+  /// ```
+  Future<TReturn> $mutation<TReturn>(
+    Object operationId,
+    Object args,
+    Future<TReturn> Function() mutate, {
+    (TReturn oldValue, TReturn newValue)? Function()? optimisticUpdate,
+    bool disallowConcurrent = true,
+    bool automaticallyDispatchUpdates = true,
+  }) async {
+    final mutationKey = (operationId, args);
+    void maybeDispatchMutationResult(TReturn value) {
+      if (automaticallyDispatchUpdates) _dispatchMutationResult(value);
+    }
+
+    // First, if we disallowed concurrent executions, check if we have a pending completer
+    if (disallowConcurrent) {
+      final completer = _mutationCompleters[mutationKey];
+      if (completer != null) return completer.future as Future<TReturn>;
+    }
+
+    // If all good, continue with the mutation. We'll set up the completer - if we disallowed concurrent execution.
+    // Otherwise, there's no need for a completer.
+    final Completer<TReturn>? completer;
+    if (disallowConcurrent) {
+      completer = Completer<TReturn>();
+      _mutationCompleters[mutationKey] = completer;
+    }
+    else {
+      completer = null;
+    }
+
+    // A value for optimistic updates that we will revert to in case of an error.
+    // We will execute the optimistic update first. If it fails, we'll "swallow" the error, and continue with the
+    // regular mutation.
+    TReturn? revertValue;
+
+    if (optimisticUpdate != null) {
+      try {
+        final optimisticResult = optimisticUpdate();
+        if (optimisticResult != null) {
+          revertValue = optimisticResult.$1;
+          maybeDispatchMutationResult(optimisticResult.$2);
+        }
+      } catch (e) {
+        stackLogger.warning('Optimistic update for $operationId failed with: $e. Ignoring.');
+      }
+    }
+
+    // After optimistic updates, proceed with regular mutation.
+    try {
+      final result = await mutate();
+
+      completer?.complete(result);
+      maybeDispatchMutationResult(result);
+
+      return result;
+    } catch (e, stackTrace) {
+      completer?.completeError(e, stackTrace);
+      if (revertValue != null) {
+        maybeDispatchMutationResult(revertValue);
+      }
+
+      rethrow;
+    } finally {
+      _mutationCompleters.remove(mutationKey);
+    }
+  }
 }
