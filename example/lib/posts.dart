@@ -247,6 +247,8 @@ class SinglePostPage extends StatelessWidget {
     final source = useDisposable(() => di.dispatchers.post.createPostSingleSource(postId));
     useCallOnce(source.load);
 
+    // By doing this, we can achieve granular reactivity. It's a bit verbose looking here, but this logic is usually
+    // wrapped in a [ValueSourceBuilder] or similar widget to provide common UI for loading/error states.
     final hasValue = useExistingSignal(source.hasValueSignal).value;
     if (!hasValue) {
       return const CircularProgressIndicator();
