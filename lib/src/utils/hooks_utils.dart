@@ -189,3 +189,7 @@ void useCallOncePostFrame(VoidCallback callback) {
     return null;
   }, const []);
 }
+
+LayerLink useLayerLink() {
+  return useMemoized(() => LayerLink());
+}

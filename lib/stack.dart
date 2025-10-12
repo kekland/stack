@@ -62,6 +62,7 @@ export 'src/widgets/utils/animated_scale_visibility.dart';
 export 'src/widgets/utils/animated_scale.dart';
 export 'src/widgets/utils/animated_size_switcher.dart';
 export 'src/widgets/utils/animated_size.dart';
+export 'src/widgets/utils/animated_slide.dart';
 export 'src/widgets/utils/animated_switcher.dart';
 export 'src/widgets/utils/aware_widgets.dart';
 export 'src/widgets/utils/border_no_padding.dart';

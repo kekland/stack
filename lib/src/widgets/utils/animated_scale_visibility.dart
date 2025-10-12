@@ -7,8 +7,14 @@ class StAnimatedScaleVisibility extends StatelessWidget {
     required this.isVisible,
     required this.child,
     this.alignment = Alignment.center,
+    this.animationStyle,
+    this.opacityAnimationStyle,
+    this.scaleAnimationStyle,
   });
 
+  final AnimationStyle? animationStyle;
+  final AnimationStyle? opacityAnimationStyle;
+  final AnimationStyle? scaleAnimationStyle;
   final bool isVisible;
   final Alignment alignment;
   final Widget child;
@@ -16,10 +22,10 @@ class StAnimatedScaleVisibility extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StAnimatedOpacity(
-      animationStyle: context.stack.defaultEffectAnimation,
+      animationStyle: opacityAnimationStyle ?? animationStyle ?? context.stack.defaultEffectAnimation,
       opacity: isVisible ? 1.0 : 0.0,
       child: StAnimatedScale(
-        animationStyle: context.stack.defaultSpatialAnimation,
+        animationStyle: opacityAnimationStyle ?? animationStyle ?? context.stack.defaultSpatialAnimation,
         alignment: alignment,
         scale: isVisible ? 1.0 : 0.0,
         child: child,

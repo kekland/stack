@@ -11,12 +11,14 @@ class Surface extends StatelessWidget {
     this.padding,
     this.color,
     this.foregroundColor,
+    this.gradient,
     this.clipBehavior,
     this.borderRadius,
     this.borderSide,
     this.shadows,
     this.shape,
     this.materialIsContainer = true,
+    this.forceNonSuperellipse = false,
     this.child,
   });
 
@@ -27,6 +29,7 @@ class Surface extends StatelessWidget {
 
   final Color? color;
   final Color? foregroundColor;
+  final Gradient? gradient;
 
   final Clip? clipBehavior;
   final BorderRadius? borderRadius;
@@ -37,6 +40,9 @@ class Surface extends StatelessWidget {
   final ShapeBorder? shape;
 
   final bool materialIsContainer;
+
+  // https://github.com/flutter/flutter/issues/176894
+  final bool forceNonSuperellipse;
 
   final Widget? child;
 
@@ -67,10 +73,16 @@ class Surface extends StatelessWidget {
     final _borderRadius = (borderRadius ?? BorderRadius.zero);
     final _borderSide = borderSide ?? BorderSide.none;
 
-    if (context.stack.platform == ThemePlatform.cupertino && !isCircle) {
-      return RoundedSuperellipseBorderNoPadding(borderRadius: _borderRadius, side: _borderSide);
+    if (!forceNonSuperellipse && context.stack.platform == ThemePlatform.cupertino && !isCircle) {
+      return RoundedSuperellipseBorderNoPadding(
+        borderRadius: _borderRadius,
+        side: _borderSide,
+      );
     } else {
-      return RoundedRectangleBorderNoPadding(borderRadius: _borderRadius, side: _borderSide);
+      return RoundedRectangleBorderNoPadding(
+        borderRadius: _borderRadius,
+        side: _borderSide,
+      );
     }
   }
 
@@ -125,16 +137,15 @@ class Surface extends StatelessWidget {
         type: MaterialType.transparency,
         clipBehavior: Clip.none,
         shape: shape,
-        child: MaterialWithNoInkClip(
-          child: child,
-        ),
+        child: MaterialWithNoInkClip(child: child),
       );
     }
 
     final decoration = ShapeDecorationWithLchLerp(
-      color: backgroundColor,
+      color: gradient != null ? null : backgroundColor,
       shape: shape ?? const RoundedRectangleBorder(),
       shadows: shadows,
+      gradient: gradient,
     );
 
     var clipBehavior = this.clipBehavior;
@@ -149,7 +160,7 @@ class Surface extends StatelessWidget {
         child: child,
       );
     }
-  
+
     return AnimatedContainer(
       duration: animationStyle.duration!,
       curve: animationStyle.curve!,
