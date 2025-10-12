@@ -74,6 +74,7 @@ export 'src/widgets/utils/preferred_size_widgets.dart';
 export 'src/widgets/utils/separated_sliver_child_builder_delegate.dart';
 export 'src/widgets/utils/size_notifier_widget.dart';
 export 'src/widgets/utils/sliver_spacer.dart';
+export 'src/widgets/utils/system_chrome.dart';
 export 'src/widgets/utils/top_clamped_bouncing_scroll_physics.dart';
 
 export 'src/widgets/value_source_builder.dart';

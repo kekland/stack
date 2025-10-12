@@ -70,6 +70,13 @@ class _ManagedResourceHookState<T> extends HookState<T, _ManagedResourceHook<T>>
   T build(BuildContext context) => value;
 }
 
+void useAnimationEffect(Animation<double> animation, VoidCallback listener) {
+  useEffect(() {
+    animation.addListener(listener);
+    return () => animation.removeListener(listener);
+  }, [animation, listener]);
+}
+
 void useListenerEffect(ChangeNotifier notifier, VoidCallback listener, {bool callImmediately = false}) {
   useEffect(() {
     notifier.addListener(listener);

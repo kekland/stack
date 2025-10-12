@@ -38,7 +38,7 @@ abstract class ValueSource<T> with Disposable {
     errorSignal.value = null;
 
     try {
-      _loadInternal(refresh: false);
+      await _loadInternal(refresh: false);
     } catch (e, stackTrace) {
       errorSignal.value = (e, stackTrace);
     } finally {
@@ -53,7 +53,7 @@ abstract class ValueSource<T> with Disposable {
     isInitialStateSignal.value = false;
 
     try {
-      _loadInternal(refresh: true);
+      await _loadInternal(refresh: true);
       errorSignal.value = null;
     } catch (e, stackTrace) {
       errorSignal.value = (e, stackTrace);
