@@ -182,3 +182,10 @@ void useCallOnce(VoidCallback callback) {
     return null;
   }, const []);
 }
+
+void useCallOncePostFrame(VoidCallback callback) {
+  useEffect(() {
+    WidgetsBinding.instance.addPostFrameCallback((_) => callback());
+    return null;
+  }, const []);
+}
