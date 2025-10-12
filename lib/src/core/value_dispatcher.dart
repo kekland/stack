@@ -131,9 +131,9 @@ abstract class ValueDispatcher<T> with Disposable {
   /// [disallowConcurrent] is set to `true` by default and will block calls to this mutation with the same [operationId]
   /// and [args] if there's already an ongoing mutation (it'll return the same `Future` instance). If set to `false`,
   /// multiple mutations with the same args can be executed simultaneously.
-  /// 
+  ///
   /// The way to implement mutations in your dispatchers is something like this:
-  /// 
+  ///
   /// ```dart
   /// Future<Post> like(String postId) {
   ///   return $mutation(
@@ -158,6 +158,7 @@ abstract class ValueDispatcher<T> with Disposable {
     (TReturn oldValue, TReturn newValue)? Function()? optimisticUpdate,
     bool disallowConcurrent = true,
     bool automaticallyDispatchUpdates = true,
+    bool automaticallyHandleError = true,
   }) async {
     final mutationKey = (operationId, args);
     void maybeDispatchMutationResult(TReturn value) {
@@ -176,8 +177,7 @@ abstract class ValueDispatcher<T> with Disposable {
     if (disallowConcurrent) {
       completer = Completer<TReturn>();
       _mutationCompleters[mutationKey] = completer;
-    }
-    else {
+    } else {
       completer = null;
     }
 
@@ -210,6 +210,10 @@ abstract class ValueDispatcher<T> with Disposable {
       completer?.completeError(e, stackTrace);
       if (revertValue != null) {
         maybeDispatchMutationResult(revertValue);
+      }
+
+      if (automaticallyHandleError) {
+        handleError(e, stackTrace);
       }
 
       rethrow;

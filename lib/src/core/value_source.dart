@@ -57,7 +57,7 @@ abstract class ValueSource<T> with Disposable {
       errorSignal.value = null;
     } catch (e, stackTrace) {
       errorSignal.value = (e, stackTrace);
-      // TODO: Show error toast
+      handleError(e, stackTrace);
     } finally {
       _isRefreshing = false;
     }

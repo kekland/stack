@@ -15,9 +15,9 @@ class ValueSourceBuilder<T> extends HookWidget {
 
   final ValueSource<T> valueSource;
   final WidgetBuilder? initialStateBuilder;
-  final Widget Function(BuildContext context, Object? error)? loadingBuilder;
-  final Widget Function(BuildContext context, Object error)? errorBuilder;
-  final Widget Function(BuildContext context, bool isLoading, Object? error) valueBuilder;
+  final Widget Function(BuildContext context, DecodedError? error)? loadingBuilder;
+  final Widget Function(BuildContext context, DecodedError error)? errorBuilder;
+  final Widget Function(BuildContext context, bool isLoading, DecodedError? error) valueBuilder;
   final Widget Function(BuildContext context)? emptyBuilder;
   final Widget defaultWidget;
 
@@ -27,6 +27,10 @@ class ValueSourceBuilder<T> extends HookWidget {
     final hasValue = useExistingSignal(valueSource.hasValueSignal).value;
     final isLoading = useExistingSignal(valueSource.isLoadingSignal).value;
     final error = useExistingSignal(valueSource.errorSignal).value;
+    final decodedError = useMemoized(
+      () => error != null ? DecodedError.decode(error.$1, error.$2) : null,
+      [error],
+    );
 
     // Cases are as follows:
     // - Initial state: show [initialStateBuilder]
@@ -44,14 +48,14 @@ class ValueSourceBuilder<T> extends HookWidget {
     } else {
       if (!hasValue) {
         if (isLoading) {
-          return loadingBuilder?.call(context, error) ?? defaultWidget;
-        } else if (error != null) {
-          return errorBuilder?.call(context, error) ?? defaultWidget;
+          return loadingBuilder?.call(context, decodedError) ?? defaultWidget;
+        } else if (decodedError != null) {
+          return errorBuilder?.call(context, decodedError) ?? defaultWidget;
         } else {
           return emptyBuilder?.call(context) ?? defaultWidget;
         }
       } else {
-        return valueBuilder(context, isLoading, error);
+        return valueBuilder(context, isLoading, decodedError);
       }
     }
   }

@@ -1,8 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:stack/stack.dart';
 
-Future<void> stackInitialize() async {
+Future<void> stackInitialize({
+  required ErrorDecoderFn errorDecoder,
+  required ErrorHandlerFn errorHandler,
+}) async {
   SignalsObserver.instance = LoggerSignalsObserver();
+  globalErrorDecoder = errorDecoder;
+  globalErrorHandler = errorHandler;
 
   if (kDebugMode) {
     Logger.root.level = Level.FINER;

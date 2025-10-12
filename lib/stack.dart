@@ -12,6 +12,9 @@ export 'src/core/value_source.dart';
 export 'src/core/value_proxy.dart';
 export 'src/core/value_dispatcher.dart';
 
+export 'src/error/error_handler.dart';
+export 'src/error/error.dart';
+
 export 'src/utils/border_radius_utils.dart';
 export 'src/utils/brightness_utils.dart';
 export 'src/utils/color_utils.dart';
@@ -43,6 +46,8 @@ export 'src/widgets/staggerable/staggerable_container.dart';
 export 'src/widgets/staggerable/staggering_widget.dart';
 
 export 'src/widgets/test/test_sliver_list.dart';
+
+export 'src/widgets/toaster/toaster.dart';
 
 export 'src/widgets/transitions/material_page_transitions_builder.dart';
 
