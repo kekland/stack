@@ -41,5 +41,5 @@ class SurfaceColor extends Color {
   }
 
   @override
-  int get hashCode => Object.hash(background, foreground);
+  int get hashCode => Object.hash(background.toARGB32(), foreground);
 }

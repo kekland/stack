@@ -41,7 +41,13 @@ class StackDefaults extends InheritedWidget {
 
   @override
   bool updateShouldNotify(StackDefaults oldWidget) {
-    return defaultEffectAnimation != oldWidget.defaultEffectAnimation || platform != oldWidget.platform;
+    return defaultEffectAnimation != oldWidget.defaultEffectAnimation ||
+        defaultSpatialAnimation != oldWidget.defaultSpatialAnimation ||
+        platform != oldWidget.platform ||
+        backgroundColor != oldWidget.backgroundColor ||
+        brightness != oldWidget.brightness ||
+        defaultDisplayColor != oldWidget.defaultDisplayColor ||
+        defaultAccentColor != oldWidget.defaultAccentColor;
   }
 }
 
