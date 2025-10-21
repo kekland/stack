@@ -42,6 +42,8 @@ export 'src/widgets/input/form/value_form_field.dart';
 
 export 'src/widgets/input/abstract_text_field.dart';
 
+export 'src/widgets/scoped/scoped.dart';
+
 export 'src/widgets/staggerable/staggerable_container.dart';
 export 'src/widgets/staggerable/staggering_widget.dart';
 
@@ -64,6 +66,7 @@ export 'src/widgets/utils/animated_size_switcher.dart';
 export 'src/widgets/utils/animated_size.dart';
 export 'src/widgets/utils/animated_slide.dart';
 export 'src/widgets/utils/animated_switcher.dart';
+export 'src/widgets/utils/animated_transform.dart';
 export 'src/widgets/utils/aware_widgets.dart';
 export 'src/widgets/utils/border_no_padding.dart';
 export 'src/widgets/utils/keep_alive_widget.dart';

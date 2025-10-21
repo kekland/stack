@@ -1,0 +1,34 @@
+name: stack
+description: My set of state management solutions, widgets, utilities, and tools for Flutter.
+version: 1.0.0
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # state management
+  get_it: ^8.2.0
+  provider: ^6.1.5+1
+  flutter_hooks: ^0.21.3+1
+  signals: ^6.2.0
+  signals_flutter: ^6.2.0
+  signals_hooks: ^0.3.1
+
+  # plugins
+  http: ^1.5.0
+
+  # utils
+  oklch: ^0.0.3
+  collection: ^1.19.1
+  colorize: ^3.0.0
+  stack_trace: ^1.12.1
+  logging: ^1.3.0
+  vector_math: ^2.2.0
+
+dev_dependencies:
+  flutter_lints: ^6.0.0

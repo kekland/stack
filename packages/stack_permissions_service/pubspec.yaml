@@ -1,4 +1,5 @@
-name: example
+name: stack_permissions_service
+version: 1.0.0
 publish_to: none
 resolution: workspace
 
@@ -9,4 +10,5 @@ dependencies:
   flutter:
     sdk: flutter
 
-  stack:
+  permission_handler: ^12.0.1
+  stack: ^1.0.0
