@@ -162,8 +162,12 @@ void useTimerPeriodic(Duration duration, VoidCallback callback) {
   }, [duration, callback]);
 }
 
+GlobalKey<T> useGlobalKey<T extends State<StatefulWidget>>() {
+  return useMemoized(() => GlobalKey<T>());
+}
+
 GlobalKey<FormState> useFormKey() {
-  return useMemoized(() => GlobalKey<FormState>());
+  return useGlobalKey<FormState>();
 }
 
 extension ValueNotifierSetterFn<T> on ValueNotifier<T> {
@@ -192,4 +196,41 @@ void useCallOncePostFrame(VoidCallback callback) {
 
 LayerLink useLayerLink() {
   return useMemoized(() => LayerLink());
+}
+
+DateTime usePeriodicTimer(Duration period) {
+  final dateTime = useState(DateTime.now());
+
+  useEffect(() {
+    final timer = Timer.periodic(period, (timer) {
+      dateTime.value = DateTime.now();
+    });
+
+    return timer.cancel;
+  }, [period]);
+
+  return dateTime.value;
+}
+
+int usePageControllerCurrentPage(
+  PageController controller, {
+  ValueChanged<int>? onChanged,
+}) {
+  final currentPage = useState(0);
+
+  useEffect(() {
+    void _onControllerChanged() {
+      if (controller.hasClients && controller.page != null) {
+        currentPage.value = controller.page!.round();
+      } else {
+        currentPage.value = controller.initialPage;
+      }
+    }
+
+    _onControllerChanged();
+    controller.addListener(_onControllerChanged);
+    return () => controller.removeListener(_onControllerChanged);
+  }, [controller]);
+
+  return currentPage.value;
 }

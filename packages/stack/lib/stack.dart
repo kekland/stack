@@ -47,6 +47,8 @@ export 'src/widgets/scoped/scoped.dart';
 export 'src/widgets/staggerable/staggerable_container.dart';
 export 'src/widgets/staggerable/staggering_widget.dart';
 
+export 'src/widgets/stepped_page/stepped_page.dart';
+
 export 'src/widgets/test/test_sliver_list.dart';
 
 export 'src/widgets/toaster/toaster.dart';
@@ -69,6 +71,7 @@ export 'src/widgets/utils/animated_switcher.dart';
 export 'src/widgets/utils/animated_transform.dart';
 export 'src/widgets/utils/aware_widgets.dart';
 export 'src/widgets/utils/border_no_padding.dart';
+export 'src/widgets/utils/inherited_form_key.dart';
 export 'src/widgets/utils/keep_alive_widget.dart';
 export 'src/widgets/utils/oklch_utils.dart';
 export 'src/widgets/utils/paint_utils.dart';

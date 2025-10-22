@@ -36,6 +36,7 @@ class ColumnPreferredSize extends StatelessWidget implements PreferredSizeWidget
   Widget build(BuildContext context) {
     return Column(
       spacing: spacing,
+      mainAxisSize: MainAxisSize.min,
       children: children,
     );
   }

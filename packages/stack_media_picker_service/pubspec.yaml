@@ -1,0 +1,16 @@
+name: stack_media_picker_service
+version: 1.0.0
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  croppy: ^1.4.1
+  image_picker: ^1.2.0
+  path_provider: ^2.1.5
+  stack: ^1.0.0

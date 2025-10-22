@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:stack/stack.dart';
 
 class InheritedSurroundings<T extends Widget> extends InheritedWidget {
   const InheritedSurroundings({
@@ -14,8 +15,11 @@ class InheritedSurroundings<T extends Widget> extends InheritedWidget {
     this.bottomRight,
   });
 
-  static InheritedSurroundings<T>? maybeOf<T extends Widget>(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<InheritedSurroundings<T>>();
+  static InheritedSurroundings<T>? maybeOf<T extends Widget>(
+    BuildContext context,
+  ) {
+    return context
+        .dependOnInheritedWidgetOfExactType<InheritedSurroundings<T>>();
   }
 
   final T? left;
@@ -57,8 +61,8 @@ class FlexAware<T extends Widget> extends StatelessWidget {
   final MainAxisAlignment mainAxisAlignment;
   final MainAxisSize mainAxisSize;
 
-  T _unwrapChild(Widget child) {
-    var current = child;
+  T? _unwrapChild(Widget child) {
+    Widget? current = child;
 
     while (current is! T) {
       if (current is Expanded) {
@@ -66,15 +70,19 @@ class FlexAware<T extends Widget> extends StatelessWidget {
       } else if (current is Flexible) {
         current = current.child;
       } else if (current is Padding) {
-        current = current.child!;
+        current = current.child;
       } else if (current is Align) {
-        current = current.child!;
+        current = current.child;
       } else if (current is SizedBox) {
-        current = current.child!;
+        current = current.child;
       } else if (current is AwareUnwrappable) {
         current = current.child;
+      } else if (current is PreferredSize) {
+        current = current.child;
+      } else if (current is StAnimatedSizeSwitcher) {
+        current = current.child;
       } else {
-        throw Exception('Could not unwrap child of type ${child.runtimeType} to obtain $T');
+        return null;
       }
     }
 

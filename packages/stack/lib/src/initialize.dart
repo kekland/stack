@@ -1,5 +1,9 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:stack/stack.dart';
+
+final belowNavigatorKey = GlobalKey();
+BuildContext get belowNavigatorContext => belowNavigatorKey.currentContext!;
 
 Future<void> stackInitialize({
   required ErrorDecoderFn errorDecoder,

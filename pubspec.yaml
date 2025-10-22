@@ -7,4 +7,5 @@ environment:
 workspace:
   - example
   - packages/stack
+  - packages/stack_media_picker_service
   - packages/stack_permissions_service
