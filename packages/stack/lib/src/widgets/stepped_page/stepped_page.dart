@@ -20,8 +20,9 @@ class SteppedPageTemplate extends StatefulHookWidget {
 
   final Widget Function(
     BuildContext context,
-    Future<void> Function() onContinue,
+    Future<void> Function()? onContinue,
     Future<void> Function()? onSkip,
+    void Function()? onBack,
     int currentStepIndex,
     String currentStepId,
     SteppedPageChild currentStepWidget,
@@ -54,12 +55,25 @@ class SteppedPageTemplateState extends State<SteppedPageTemplate> {
   }
 
   @override
+  void didUpdateWidget(covariant SteppedPageTemplate oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.steps.length != widget.steps.length) {
+      pageCount = widget.steps.length;
+      _generateFormKeys();
+    }
+  }
+
+  @override
   void dispose() {
     pageController.dispose();
     super.dispose();
   }
 
-  Future<void> animateToPage({required int page, AnimationStyle? animationStyle}) async {
+  Future<void> animateToPage({
+    required int page,
+    AnimationStyle? animationStyle,
+  }) async {
     final style = animationStyle ?? context.stack.defaultEffectAnimation;
     await pageController.animateToPage(
       page,
@@ -130,8 +144,9 @@ class SteppedPageTemplateState extends State<SteppedPageTemplate> {
 
     return widget.builder(
       context,
-      onContinue,
-      currentStepWidget.isSkippable ? onSkip : null,
+      currentStepWidget.canContinue ? onContinue : null,
+      currentStepWidget.canSkip ? onSkip : null,
+      currentStepWidget.canGoBack && Navigator.of(context).canPop() ? previousPage : null,
       currentStep,
       currentStepId,
       currentStepWidget,
@@ -141,7 +156,10 @@ class SteppedPageTemplateState extends State<SteppedPageTemplate> {
 }
 
 mixin SteppedPageChild on Widget {
-  bool get isSkippable => false;
+  bool get canContinue => true;
+  bool get canSkip => false;
+  bool get canGoBack => true;
+
   Future<void> onContinue(BuildContext context) async {}
   Future<void> onSkip(BuildContext context) async {}
 }

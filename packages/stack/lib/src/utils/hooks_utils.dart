@@ -162,6 +162,12 @@ void useTimerPeriodic(Duration duration, VoidCallback callback) {
   }, [duration, callback]);
 }
 
+DateTime useTimerPeriodicWithDateTime(Duration duration) {
+  final currentTime = useState(DateTime.now());
+  useTimerPeriodic(duration, () => currentTime.value = DateTime.now());
+  return currentTime.value;
+}
+
 GlobalKey<T> useGlobalKey<T extends State<StatefulWidget>>() {
   return useMemoized(() => GlobalKey<T>());
 }
@@ -196,20 +202,6 @@ void useCallOncePostFrame(VoidCallback callback) {
 
 LayerLink useLayerLink() {
   return useMemoized(() => LayerLink());
-}
-
-DateTime usePeriodicTimer(Duration period) {
-  final dateTime = useState(DateTime.now());
-
-  useEffect(() {
-    final timer = Timer.periodic(period, (timer) {
-      dateTime.value = DateTime.now();
-    });
-
-    return timer.cancel;
-  }, [period]);
-
-  return dateTime.value;
 }
 
 int usePageControllerCurrentPage(
