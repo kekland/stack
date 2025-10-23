@@ -1,4 +1,4 @@
-name: workspace
+name: stack_workspace
 publish_to: none
 
 environment:
@@ -7,6 +7,7 @@ environment:
 workspace:
   - example
   - packages/stack
+  - packages/stack_ui
   - packages/stack_media_picker_service
   - packages/stack_permissions_service
   - packages/stack_geolocation_service

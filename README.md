@@ -2,11 +2,18 @@
 
 my extremely opinionated, easy-to-shoot-yourself app architecture for Flutter. but it works pretty well for me.
 
-warning: do not use it in your own apps, as it's extremely tied to my own way of architecturing apps. also, there might be tons of pitfalls that i don't yet realize.
+warning: do not use it in your own apps directly, as it's extremely tied to my own way of architecturing apps. also, there might be tons of pitfalls that i don't yet realize. however, feel free to take inspiration from the UI concepts or other parts of the architecture.
 
 no documentation provided yet, as i'm still iterating on the architecture itself. it'll also contain most of my widget primitives that i use across my apps at some point, once the code there isn't as ugly as it's now :)
 
 i decided to publish this as i'm currently sharing this structure across several projects, and i'm tired of copy-pasting the same code over and over again.
+
+## structure
+
+`packages` folder contains multiple packages:
+- `stack`: core data layer structure and utilities
+- `stack_ui`: ui layer structure and widgets
+- `stack_$_service` common services that can be used across multiple apps.
 
 ## primary dependencies
 
