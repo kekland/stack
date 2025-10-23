@@ -10,3 +10,5 @@ workspace:
   - packages/stack_media_picker_service
   - packages/stack_permissions_service
   - packages/stack_geolocation_service
+  - packages/stack_package_info_service
+  - packages/stack_device_info_service

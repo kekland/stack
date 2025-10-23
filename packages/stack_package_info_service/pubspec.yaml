@@ -1,0 +1,17 @@
+name: stack_package_info_service
+version: 1.0.0
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  package_info_plus: ^8.3.1
+  stack: 
+    git:
+      url: https://github.com/kekland/stack
+      path: packages/stack
