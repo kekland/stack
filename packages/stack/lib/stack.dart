@@ -37,6 +37,8 @@ export 'src/widgets/core/theme_platform.dart';
 
 export 'src/widgets/data/refresh_control_widget.dart';
 
+export 'src/widgets/draggable_scrollable_sheet/draggable_scrollable_sheet.dart';
+
 export 'src/widgets/input/form/form_field.dart';
 export 'src/widgets/input/form/value_form_field.dart';
 

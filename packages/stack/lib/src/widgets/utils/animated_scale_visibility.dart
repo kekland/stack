@@ -25,7 +25,7 @@ class StAnimatedScaleVisibility extends StatelessWidget {
       animationStyle: opacityAnimationStyle ?? animationStyle ?? context.stack.defaultEffectAnimation,
       opacity: isVisible ? 1.0 : 0.0,
       child: StAnimatedScale(
-        animationStyle: opacityAnimationStyle ?? animationStyle ?? context.stack.defaultSpatialAnimation,
+        animationStyle: scaleAnimationStyle?? animationStyle ?? context.stack.defaultSpatialAnimation,
         alignment: alignment,
         scale: isVisible ? 1.0 : 0.0,
         child: child,

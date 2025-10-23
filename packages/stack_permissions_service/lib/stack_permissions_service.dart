@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:stack/stack.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+export 'package:permission_handler/permission_handler.dart' show Permission, PermissionStatus;
+
 /// A service that manages app permissions.
 ///
 /// It provides methods to check and request permissions, and exposes signals to notify about permission status changes.
@@ -40,6 +42,11 @@ class PermissionsService extends Service {
 
   @override
   Future<void> initialize() async {
+    // Setup signals
+    for (final permission in permissions) {
+      $permissionSignal(permission);
+    }
+
     await loadPermissions();
     return super.initialize();
   }
@@ -53,7 +60,7 @@ class PermissionsService extends Service {
   /// request, or `false` to cancel it.
   ///
   /// By default, this method does nothing and returns `true`.
-  Future<bool> showRequestRationale(Permission permission) async {
+  Future<bool> handleShowRequestRationale(Permission permission) async {
     return true;
   }
 
@@ -97,7 +104,7 @@ class PermissionSignal extends Signal<PermissionStatus?> {
   }
 
   /// Request the permission.
-  /// 
+  ///
   /// This method handles showing rationale and permanently denied cases via the service.
   Future<PermissionStatus> request() async {
     await load();
@@ -114,7 +121,7 @@ class PermissionSignal extends Signal<PermissionStatus?> {
     // Show rationale if needed.
     final shouldShowRequestRationale = await permission.shouldShowRequestRationale;
     if (shouldShowRequestRationale) {
-      final proceed = await service.showRequestRationale(permission);
+      final proceed = await service.handleShowRequestRationale(permission);
       if (!proceed) return value;
     }
 
@@ -124,7 +131,7 @@ class PermissionSignal extends Signal<PermissionStatus?> {
   }
 
   /// Get the current permission status value.
-  /// 
+  ///
   /// Note that even though the base class allows null values, this will always return a non-null value after loading.
   /// It's expected that before using the service, all permissions are loaded.
   @override

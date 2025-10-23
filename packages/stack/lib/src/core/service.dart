@@ -8,6 +8,7 @@ abstract class Service with Disposable {
 
   @mustCallSuper
   Future<void> initialize() async {
+    logger.fine('Service initialized: ${runtimeType.toString()}');
     await Future.microtask(() => di.signalReady(this));
   }
 

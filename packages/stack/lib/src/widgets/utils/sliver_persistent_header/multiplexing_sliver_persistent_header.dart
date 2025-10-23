@@ -3,11 +3,13 @@ import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:stack/stack.dart';
 
 const kDebugShowMultiplexingSliverBoundaries = false;
 
-class MultiplexingSliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
+class MultiplexingSliverPersistentHeaderDelegate
+    extends SliverPersistentHeaderDelegate {
   MultiplexingSliverPersistentHeaderDelegate({
     required this.delegates,
     this.wrapperBuilder,
@@ -57,7 +59,8 @@ class MultiplexingSliverPersistentHeaderDelegate extends SliverPersistentHeaderD
       children = children
           .mapIndexed(
             (i, v) => ColoredBox(
-              color: Colors.primaries[i % Colors.primaries.length].withMultipliedOpacity(0.2),
+              color: Colors.primaries[i % Colors.primaries.length]
+                  .withMultipliedOpacity(0.2),
               child: v,
             ),
           )
@@ -81,6 +84,13 @@ class MultiplexingSliverPersistentHeaderDelegate extends SliverPersistentHeaderD
 
   @override
   double get minExtent => delegates.map((v) => v.minExtent).sum;
+
+  @override
+  PersistentHeaderShowOnScreenConfiguration? get showOnScreenConfiguration =>
+      PersistentHeaderShowOnScreenConfiguration(
+        minShowOnScreenExtent: minExtent,
+        maxShowOnScreenExtent: maxExtent,
+      );
 
   @override
   bool shouldRebuild(MultiplexingSliverPersistentHeaderDelegate oldDelegate) =>

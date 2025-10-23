@@ -11,13 +11,13 @@ class BasicSliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate
   BasicSliverPersistentHeaderDelegate.static({
     required double extent,
     required this.child,
-  })  : minExtent = extent,
-        maxExtent = extent;
+  }) : minExtent = extent,
+       maxExtent = extent;
 
   BasicSliverPersistentHeaderDelegate.preferredSize({
     required PreferredSizeWidget this.child,
-  })  : minExtent = child.preferredSize.height,
-        maxExtent = child.preferredSize.height;
+  }) : minExtent = child.preferredSize.height,
+       maxExtent = child.preferredSize.height;
 
   @override
   final double maxExtent;
@@ -43,6 +43,12 @@ class BasicSliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate
   @override
   bool shouldRebuild(BasicSliverPersistentHeaderDelegate oldDelegate) =>
       oldDelegate.minExtent != minExtent || oldDelegate.maxExtent != maxExtent || oldDelegate.child != child;
+
+  @override
+  PersistentHeaderShowOnScreenConfiguration? get showOnScreenConfiguration => PersistentHeaderShowOnScreenConfiguration(
+    minShowOnScreenExtent: minExtent,
+    maxShowOnScreenExtent: maxExtent,
+  );
 }
 
 class PaddingSliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {

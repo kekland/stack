@@ -9,3 +9,4 @@ workspace:
   - packages/stack
   - packages/stack_media_picker_service
   - packages/stack_permissions_service
+  - packages/stack_geolocation_service
