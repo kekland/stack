@@ -1068,7 +1068,11 @@ class ResetNotifier extends ChangeNotifier {
 class InheritedResetNotifier extends InheritedNotifier<ResetNotifier> {
   /// Creates an [InheritedNotifier] that the [DraggableScrollableSheet] will
   /// listen to for an indication that it should reset itself back to [DraggableScrollableSheet.initialChildSize].
-  const InheritedResetNotifier({required super.child, required ResetNotifier super.notifier});
+  const InheritedResetNotifier({
+    super.key,
+    required super.child,
+    required ResetNotifier super.notifier,
+  });
 
   bool _sendReset() => notifier!.sendReset();
 
