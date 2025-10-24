@@ -8,8 +8,9 @@ workspace:
   - example
   - packages/stack
   - packages/stack_ui
-  - packages/stack_media_picker_service
-  - packages/stack_permissions_service
-  - packages/stack_geolocation_service
-  - packages/stack_package_info_service
   - packages/stack_device_info_service
+  - packages/stack_firebase_messaging_service
+  - packages/stack_geolocation_service
+  - packages/stack_media_picker_service
+  - packages/stack_package_info_service
+  - packages/stack_permissions_service

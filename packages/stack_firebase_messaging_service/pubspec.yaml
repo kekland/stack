@@ -1,0 +1,24 @@
+name: stack_firebase_messaging_service
+version: 1.0.0
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  firebase_core: ^4.2.0
+  firebase_messaging: ^16.0.3
+
+  stack: 
+    git:
+      url: https://github.com/kekland/stack
+      path: packages/stack
+
+  stack_permissions_service:
+    git:
+      url: https://github.com/kekland/stack
+      path: packages/stack_permissions_service
