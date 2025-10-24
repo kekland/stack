@@ -7,6 +7,7 @@ environment:
 workspace:
   - example
   - packages/stack
+  - packages/stack_prefs
   - packages/stack_ui
   - packages/stack_device_info_service
   - packages/stack_firebase_messaging_service

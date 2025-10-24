@@ -18,6 +18,7 @@ export 'src/error/error.dart';
 export 'src/utils/debouncer.dart';
 export 'src/utils/disposable.dart';
 export 'src/utils/hooks_utils.dart';
+export 'src/utils/jwt.dart';
 export 'src/utils/log.dart';
 export 'src/utils/signals_utils.dart';
 export 'src/widgets/value_source_builder.dart';
