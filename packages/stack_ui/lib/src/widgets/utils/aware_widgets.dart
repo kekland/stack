@@ -81,6 +81,8 @@ class FlexAware<T extends Widget> extends StatelessWidget {
         current = current.child;
       } else if (current is StAnimatedSizeSwitcher) {
         current = current.child;
+      } else if(current is StAnimatedSwitcher) {
+        current = current.child;
       } else {
         return null;
       }

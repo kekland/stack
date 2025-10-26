@@ -25,7 +25,10 @@ class StDraggableScrollableSheet extends flutter.DraggableScrollableSheet {
     super.snapSizes,
     super.shouldCloseOnMinExtent,
     super.snapAnimationDuration,
+    this.headerAreaExtent,
   });
+
+  final double? headerAreaExtent;
 
   @override
   StDraggableScrollableSheetState createState() => StDraggableScrollableSheetState();
@@ -37,12 +40,20 @@ class StDraggableScrollableSheetState extends flutter.DraggableScrollableSheetSt
 
   @override
   StDraggableScrollableSheetScrollController createScrollController(flutter.DraggableSheetExtent extent) {
-    return StDraggableScrollableSheetScrollController(extent: extent);
+    return StDraggableScrollableSheetScrollController(
+      extent: extent,
+      headerAreaExtent: widget.headerAreaExtent,
+    );
   }
 }
 
 class StDraggableScrollableSheetScrollController extends flutter.DraggableScrollableSheetScrollController {
-  StDraggableScrollableSheetScrollController({required super.extent});
+  StDraggableScrollableSheetScrollController({
+    required super.extent,
+    this.headerAreaExtent,
+  });
+
+  final double? headerAreaExtent;
 
   @override
   StDraggableScrollableSheetScrollPosition createScrollPosition(
@@ -55,6 +66,7 @@ class StDraggableScrollableSheetScrollController extends flutter.DraggableScroll
       context: context,
       oldPosition: oldPosition,
       getExtent: () => extent,
+      headerAreaExtent: headerAreaExtent,
     );
   }
 }
@@ -65,9 +77,11 @@ class StDraggableScrollableSheetScrollPosition extends flutter.DraggableScrollab
     required super.context,
     required super.getExtent,
     super.oldPosition,
+    this.headerAreaExtent,
   });
 
   var _isHeaderDragging = false;
+  final double? headerAreaExtent;
 
   @override
   void applyUserOffset(double delta) {
@@ -102,7 +116,11 @@ class StDraggableScrollableSheetScrollPosition extends flutter.DraggableScrollab
 
   @override
   Drag drag(DragStartDetails details, VoidCallback dragCancelCallback) {
-    _isHeaderDragging = details.localPosition.dy <= extent.sizeToPixels(extent.minSize);
+    if (headerAreaExtent != null) {
+      _isHeaderDragging = details.localPosition.dy <= headerAreaExtent!;
+      return super.drag(details, dragCancelCallback);
+    }
+
     return super.drag(details, dragCancelCallback);
   }
 }

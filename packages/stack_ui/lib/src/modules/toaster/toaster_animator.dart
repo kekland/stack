@@ -51,7 +51,7 @@ class DefaultToasterAnimatorState extends State<DefaultToasterAnimator> with Tic
       _animationStyle = animationStyle;
 
       _forwardAnimationController.duration = animationStyle.duration;
-      _reverseAnimationController.duration = animationStyle.reverseDuration;
+      _reverseAnimationController.duration = animationStyle.reverseDuration ?? animationStyle.duration;
 
       final forwardCurve = animationStyle.curve ?? Curves.linear;
       final reverseCurve = animationStyle.reverseCurve ?? forwardCurve;

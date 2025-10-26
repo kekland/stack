@@ -17,6 +17,7 @@ export 'data/refresh_control_widget.dart';
 export 'input/form/form_field.dart';
 export 'input/form/value_form_field.dart';
 export 'input/abstract_text_field.dart';
+export 'input/formatters.dart';
 
 export 'test/test_sliver_list.dart';
 

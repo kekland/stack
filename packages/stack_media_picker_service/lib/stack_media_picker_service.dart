@@ -23,7 +23,7 @@ class MediaPickerService extends Service {
 
       final result = await croppy.showAdaptiveImageCropper(
         // ignore: use_build_context_synchronously
-        belowNavigatorContext,
+        stableGlobalContext,
         imageProvider: imageProvider,
         allowedAspectRatios: allowedAspectRatios,
       );

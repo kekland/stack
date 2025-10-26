@@ -106,7 +106,10 @@ class PermissionSignal extends Signal<PermissionStatus?> {
   /// Request the permission.
   ///
   /// This method handles showing rationale and permanently denied cases via the service.
-  Future<PermissionStatus> request() async {
+  ///
+  /// If [evenIfPermanentlyDenied] is `true`, it will make sure to call the permanently denied handler. Otherwise, if
+  /// the user denied the permission, it'll not do anything.
+  Future<PermissionStatus> request({bool evenIfPermanentlyDenied = true}) async {
     await load();
 
     // If granted, return early.
@@ -114,7 +117,7 @@ class PermissionSignal extends Signal<PermissionStatus?> {
 
     // If permanently denied, handle it via the service call.
     if (value == PermissionStatus.permanentlyDenied) {
-      await service.handlePermanentlyDenied(permission);
+      if (evenIfPermanentlyDenied) await service.handlePermanentlyDenied(permission);
       return PermissionStatus.permanentlyDenied;
     }
 
@@ -145,7 +148,7 @@ class LocationAlwaysPermissionSignal extends PermissionSignal {
   LocationAlwaysPermissionSignal(PermissionsService service) : super(service, Permission.locationAlways);
 
   @override
-  Future<PermissionStatus> request() async {
+  Future<PermissionStatus> request({bool evenIfPermanentlyDenied = true}) async {
     final location = service[Permission.location];
     if (await location.request() != PermissionStatus.granted) return PermissionStatus.denied;
 

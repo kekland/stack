@@ -17,6 +17,7 @@ dependencies:
   
   # utils
   collection: ^1.19.1
+  email_validator: ^3.0.0
   oklch: ^0.0.3
   vector_math: ^2.2.0
 

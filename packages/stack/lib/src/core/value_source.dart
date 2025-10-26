@@ -3,14 +3,14 @@ import 'package:stack/stack.dart';
 
 abstract class ValueSource<T> with Disposable {
   ValueSource({required this.logger}) {
-    _dispatcher = di.dispatcherFor<T>();
+    dispatcher = di.dispatcherFor<T>();
     initialize();
 
-    $streamListen(_dispatcher.eventStreamIgnoringSource(this), $onValueEvent);
+    $streamListen(dispatcher.eventStreamIgnoringSource(this), $onValueEvent);
   }
 
   final Logger logger;
-  late final ValueDispatcher<T> _dispatcher;
+  late final ValueDispatcher<T> dispatcher;
 
   late final isInitialStateSignal = $signal<bool>(true);
   bool get isInitialState => isInitialStateSignal.value;
@@ -76,7 +76,7 @@ abstract class ValueSource<T> with Disposable {
 abstract class SingleValueSource<TData, TProxy extends ValueProxy<TData>> extends ValueSource<TData> {
   SingleValueSource({required super.logger, TData? initialValue}) : super() {
     if (initialValue != null) {
-      valueSignal.value = _dispatcher.createProxy(initialValue) as TProxy;
+      valueSignal.value = dispatcher.createProxy(initialValue) as TProxy;
       isInitialStateSignal.value = false;
     }
   }
@@ -95,8 +95,8 @@ abstract class SingleValueSource<TData, TProxy extends ValueProxy<TData>> extend
     value?.dispose();
 
     if (data != null) {
-      valueSignal.value = _dispatcher.createProxy(data) as TProxy;
-      _dispatcher.dispatchFetch(this, data);
+      valueSignal.value = dispatcher.createProxy(data) as TProxy;
+      dispatcher.dispatchFetch(this, data);
     } else {
       valueSignal.value = null;
     }
@@ -119,7 +119,7 @@ abstract class SingleValueSource<TData, TProxy extends ValueProxy<TData>> extend
 abstract class ListValueSource<TData, TProxy extends ValueProxy<TData>> extends ValueSource<TData> {
   ListValueSource({required super.logger, List<TData>? initialValue}) : super() {
     if (initialValue != null) {
-      valueSignal.value = initialValue.map((e) => _dispatcher.createProxy(e) as TProxy).toList();
+      valueSignal.value = initialValue.map((e) => dispatcher.createProxy(e) as TProxy).toList();
       isInitialStateSignal.value = false;
     }
   }
@@ -147,8 +147,8 @@ abstract class ListValueSource<TData, TProxy extends ValueProxy<TData>> extends 
   @override
   Future<void> _loadInternal({bool refresh = false}) async {
     final (data, nextPageToken, totalCount) = await performLoad(_paginationKey.value);
-    final newProxies = data.map((e) => _dispatcher.createProxy(e) as TProxy).toList();
-    for (final v in data) _dispatcher.dispatchFetch(this, v);
+    final newProxies = data.map((e) => dispatcher.createProxy(e) as TProxy).toList();
+    for (final v in data) dispatcher.dispatchFetch(this, v);
 
     if (refresh) {
       if (value != null) for (final v in value!) v.dispose();
@@ -179,7 +179,7 @@ abstract class ListValueSource<TData, TProxy extends ValueProxy<TData>> extends 
 
   void $insertAt(int index, TData item) {
     final list = value;
-    final proxy = _dispatcher.createProxy(item) as TProxy;
+    final proxy = dispatcher.createProxy(item) as TProxy;
 
     if (list == null) {
       valueSignal.value = [proxy];
@@ -202,7 +202,7 @@ abstract class ListValueSource<TData, TProxy extends ValueProxy<TData>> extends 
   void $onValueEvent(ValueEvent<TData> event) {
     if (event is ValueDeleteEvent<TData>) {
       final id = event.id;
-      final index = value?.indexWhere((e) => _dispatcher.identify(e.value) == id);
+      final index = value?.indexWhere((e) => dispatcher.identify(e.value) == id);
       if (index != null && index >= 0) {
         $removeAt(index);
       }

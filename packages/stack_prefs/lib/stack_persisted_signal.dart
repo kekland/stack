@@ -20,6 +20,13 @@ class StackPersistedSignal<T> extends FlutterSignal<T?> with PersistedSignalMixi
   final List<T>? enumValues;
 
   @override
+  Future<T?> load() async {
+    final val = await store.getItem(key);
+    if (val == null) return null;
+    return decode(val);
+  }
+
+  @override
   T decode(String value) {
     if (decoder != null) return decoder!(value);
 

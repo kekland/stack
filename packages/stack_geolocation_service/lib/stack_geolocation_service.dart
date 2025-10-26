@@ -47,7 +47,7 @@ class GeolocationService extends Service {
     // Check for location permission.
     final permissionsService = di<PermissionsService>();
     final permission = permissionsService[Permission.locationWhenInUse];
-    final status = await permission.request();
+    final status = await permission.request(evenIfPermanentlyDenied: false);
 
     if (status != PermissionStatus.granted) {
       logger.warning('Location permission not granted: $status');

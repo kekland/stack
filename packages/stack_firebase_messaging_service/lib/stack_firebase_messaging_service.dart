@@ -1,8 +1,8 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:stack/stack.dart';
 
-class StackFirebaseMessagingService extends Service {
-  StackFirebaseMessagingService() : super(logger: Logger('StackFirebaseMessagingService'));
+class FirebaseMessagingService extends Service {
+  FirebaseMessagingService() : super(logger: Logger('StackFirebaseMessagingService'));
 
   @override
   Future<void> initialize() {
