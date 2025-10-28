@@ -226,3 +226,51 @@ int usePageControllerCurrentPage(
 
   return currentPage.value;
 }
+
+
+class ChangeableStateTracker {
+  bool get didChange => _states.values.any((v) => v);
+  final _states = <ValueNotifier, bool>{};
+
+  bool didStateChange(ValueNotifier state) => _states[state] ?? false;
+
+  void _register(ValueNotifier state, bool didChange) {
+    _states[state] = didChange;
+  }
+}
+
+(ValueNotifier<T> state, bool didChange) useChangeableState<T>(T initialValue) {
+  final state = useState(initialValue);
+  final didChange = useState(false);
+
+  useEffect(() {
+    if (state.value != initialValue) {
+      didChange.value = true;
+    } else {
+      didChange.value = false;
+    }
+
+    return null;
+  }, [state.value]);
+
+  return (state, didChange.value);
+}
+
+ChangeableStateTracker useChangeableStateTracker() {
+  final tracker = useMemoized(() => ChangeableStateTracker());
+  useEffect(() => tracker._states.clear, [tracker]);
+  return tracker;
+}
+
+ValueNotifier<T> useTrackedChangeableState<T>(
+  ChangeableStateTracker tracker,
+  T initialValue,
+) {
+  final (state, didChange) = useChangeableState(initialValue);
+  useEffect(() {
+    tracker._register(state, didChange);
+    return null;
+  }, [didChange]);
+
+  return state;
+}

@@ -94,6 +94,17 @@ abstract class ValueDispatcher<T> with Disposable {
     return list?.first.value;
   }
 
+  T? findByPredicate(bool Function(T value) predicate) {
+    for (final list in _proxies.values) {
+      for (final proxy in list) {
+        final value = proxy.value;
+        if (predicate(value)) return value;
+      }
+    }
+
+    return null;
+  }
+
   /// Dispatches the given event to all listeners.
   void dispatch(ValueEvent<T> event) {
     _eventStreamController.add(event);
