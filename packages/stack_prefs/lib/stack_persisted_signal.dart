@@ -27,6 +27,17 @@ class StackPersistedSignal<T> extends FlutterSignal<T?> with PersistedSignalMixi
   }
 
   @override
+  Future<void> save(T? value) async {
+    if (value == null) {
+      await store.removeItem(key);
+      return;
+    }
+
+    final str = encode(value);
+    await store.setItem(key, str);
+  }
+
+  @override
   T decode(String value) {
     if (decoder != null) return decoder!(value);
 
