@@ -218,6 +218,7 @@ mixin QueryableValueSource<TQuery, T> on ValueSource<T> {
   bool get isQueryEmpty => query == null || (query is String && (query as String).isEmpty);
 
   bool get providesResultsOnEmptyQuery => true;
+  bool get immediatelyClearValueOnQueryChange => true;
   bool _isLoadingOverridden = false;
 
   @override
@@ -226,12 +227,17 @@ mixin QueryableValueSource<TQuery, T> on ValueSource<T> {
 
     $effect(() {
       _query.value;
-      untracked(() => reset());
 
-      if (!isQueryEmpty || providesResultsOnEmptyQuery) {
-        isInitialStateSignal.value = false;
-        isLoadingSignal.value = true;
-        _isLoadingOverridden = true;
+      if (immediatelyClearValueOnQueryChange) {
+        untracked(() => reset());
+
+        if (!isQueryEmpty || providesResultsOnEmptyQuery) {
+          isInitialStateSignal.value = false;
+          isLoadingSignal.value = true;
+          _isLoadingOverridden = true;
+          _debouncer.schedule();
+        }
+      } else {
         _debouncer.schedule();
       }
     });

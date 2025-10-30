@@ -556,14 +556,18 @@ class DraggableSheetExtent {
       return;
     }
     _currentSize.value = clampedSize;
-    DraggableScrollableNotification(
+    createNotification(context).dispatch(context);
+  }
+
+  DraggableScrollableNotification createNotification(BuildContext context) {
+    return DraggableScrollableNotification(
       minExtent: minSize,
       maxExtent: maxSize,
       extent: currentSize,
       initialExtent: initialSize,
       context: context,
       shouldCloseOnMinExtent: shouldCloseOnMinExtent,
-    ).dispatch(context);
+    );
   }
 
   double pixelsToSize(double pixels) {
@@ -578,6 +582,8 @@ class DraggableSheetExtent {
     assert(debugMaybeDispatchDisposed(this));
     _currentSize.dispose();
   }
+
+  double get currentSizeValue => _currentSize.value;
 
   DraggableSheetExtent copyWith({
     required double minSize,
@@ -598,7 +604,7 @@ class DraggableSheetExtent {
       // Set the current size to the possibly updated initial size if the sheet
       // hasn't changed yet.
       currentSize: ValueNotifier<double>(
-        hasChanged ? clampDouble(_currentSize.value, minSize, maxSize) : initialSize,
+        hasChanged ? clampDouble(currentSizeValue, minSize, maxSize) : initialSize,
       ),
       hasDragged: hasDragged,
       hasChanged: hasChanged,
@@ -615,23 +621,27 @@ class DraggableScrollableSheetState extends State<DraggableScrollableSheet> {
     return DraggableScrollableSheetScrollController(extent: extent);
   }
 
-  @override
-  void initState() {
-    super.initState();
-    extent = DraggableSheetExtent(
+  DraggableSheetExtent createExtent() {
+    return DraggableSheetExtent(
       minSize: widget.minChildSize,
       maxSize: widget.maxChildSize,
       snap: widget.snap,
-      snapSizes: _impliedSnapSizes(),
+      snapSizes: impliedSnapSizes(),
       snapAnimationDuration: widget.snapAnimationDuration,
       initialSize: widget.initialChildSize,
       shouldCloseOnMinExtent: widget.shouldCloseOnMinExtent,
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    extent = createExtent();
     scrollController = createScrollController(extent);
     widget.controller?._attach(scrollController);
   }
 
-  List<double> _impliedSnapSizes() {
+  List<double> impliedSnapSizes() {
     for (int index = 0; index < (widget.snapSizes?.length ?? 0); index += 1) {
       final double snapSize = widget.snapSizes![index];
       assert(
@@ -708,7 +718,7 @@ class DraggableScrollableSheetState extends State<DraggableScrollableSheet> {
       minSize: widget.minChildSize,
       maxSize: widget.maxChildSize,
       snap: widget.snap,
-      snapSizes: _impliedSnapSizes(),
+      snapSizes: impliedSnapSizes(),
       snapAnimationDuration: widget.snapAnimationDuration,
       initialSize: widget.initialChildSize,
       shouldCloseOnMinExtent: widget.shouldCloseOnMinExtent,

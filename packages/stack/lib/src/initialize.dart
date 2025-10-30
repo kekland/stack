@@ -14,7 +14,7 @@ Future<void> stackInitialize({
   globalErrorHandler = errorHandler;
 
   if (kDebugMode) {
-    Logger.root.level = Level.FINEST;
+    Logger.root.level = Level.FINER;
     Logger.root.onRecord.listen(logColorized);
   } else {
     Logger.root.level = Level.INFO;

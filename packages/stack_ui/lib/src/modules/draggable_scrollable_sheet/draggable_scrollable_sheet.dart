@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import '../../widgets/flutter/draggable_scrollable_sheet.dart' as flutter;
@@ -10,6 +12,17 @@ class StDraggableScrollableController extends flutter.DraggableScrollableControl
     attachedController?.position.goIdle();
     return super.animateTo(size, duration: duration, curve: curve);
   }
+}
+
+class StDraggableScrollableNotification extends flutter.DraggableScrollableNotification {
+  StDraggableScrollableNotification({
+    required super.extent,
+    required super.minExtent,
+    required super.maxExtent,
+    required super.initialExtent,
+    required super.context,
+    super.shouldCloseOnMinExtent,
+  });
 }
 
 class StDraggableScrollableSheet extends flutter.DraggableScrollableSheet {
@@ -37,6 +50,19 @@ class StDraggableScrollableSheet extends flutter.DraggableScrollableSheet {
 class StDraggableScrollableSheetState extends flutter.DraggableScrollableSheetState {
   @override
   StDraggableScrollableSheet get widget => super.widget as StDraggableScrollableSheet;
+
+  @override
+  StDraggableSheetExtent createExtent() {
+    return StDraggableSheetExtent(
+      minSize: widget.minChildSize,
+      maxSize: widget.maxChildSize,
+      snap: widget.snap,
+      snapSizes: impliedSnapSizes(),
+      snapAnimationDuration: widget.snapAnimationDuration,
+      initialSize: widget.initialChildSize,
+      shouldCloseOnMinExtent: widget.shouldCloseOnMinExtent,
+    );
+  }
 
   @override
   StDraggableScrollableSheetScrollController createScrollController(flutter.DraggableSheetExtent extent) {
@@ -122,5 +148,56 @@ class StDraggableScrollableSheetScrollPosition extends flutter.DraggableScrollab
     }
 
     return super.drag(details, dragCancelCallback);
+  }
+}
+
+class StDraggableSheetExtent extends flutter.DraggableSheetExtent {
+  StDraggableSheetExtent({
+    required super.minSize,
+    required super.maxSize,
+    required super.snap,
+    required super.snapSizes,
+    required super.initialSize,
+    super.currentSize,
+    super.hasChanged,
+    super.hasDragged,
+    super.shouldCloseOnMinExtent,
+    super.snapAnimationDuration,
+  });
+
+  @override
+  StDraggableScrollableNotification createNotification(BuildContext context) {
+    return StDraggableScrollableNotification(
+      minExtent: minSize,
+      maxExtent: maxSize,
+      extent: currentSize,
+      initialExtent: initialSize,
+      context: context,
+      shouldCloseOnMinExtent: shouldCloseOnMinExtent,
+    );
+  }
+
+  @override
+  StDraggableSheetExtent copyWith({
+    required double minSize,
+    required double maxSize,
+    required bool snap,
+    required List<double> snapSizes,
+    required double initialSize,
+    required Duration? snapAnimationDuration,
+    required bool shouldCloseOnMinExtent,
+  }) {
+    return StDraggableSheetExtent(
+      minSize: minSize,
+      maxSize: maxSize,
+      snap: snap,
+      snapSizes: snapSizes,
+      snapAnimationDuration: snapAnimationDuration,
+      initialSize: initialSize,
+      currentSize: ValueNotifier<double>(hasChanged ? clampDouble(currentSizeValue, minSize, maxSize) : initialSize),
+      hasDragged: hasDragged,
+      hasChanged: hasChanged,
+      shouldCloseOnMinExtent: shouldCloseOnMinExtent,
+    );
   }
 }
