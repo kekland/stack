@@ -3,10 +3,16 @@ publish_to: none
 resolution: workspace
 
 environment:
-  sdk: ^3.9.2
+  sdk: ^3.10.0
 
 dependencies:
   flutter:
     sdk: flutter
 
   stack:
+  stack_ui:
+  vector_graphics: ^1.1.19
+
+dev_dependencies: 
+  stack_assets:
+  stack_theme:

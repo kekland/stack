@@ -31,180 +31,160 @@
     },
     {
       "name": "stack",
-      "cwd": "packages/stack",
+      "cwd": "stack",
       "request": "launch",
       "type": "dart"
     },
     {
       "name": "stack (profile mode)",
-      "cwd": "packages/stack",
+      "cwd": "stack",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile"
     },
     {
       "name": "stack (release mode)",
-      "cwd": "packages/stack",
+      "cwd": "stack",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"
     },
     {
-      "name": "stack_device_info_service",
-      "cwd": "packages/stack_device_info_service",
+      "name": "stack_assets",
+      "cwd": "stack_assets",
       "request": "launch",
       "type": "dart"
     },
     {
-      "name": "stack_device_info_service (profile mode)",
-      "cwd": "packages/stack_device_info_service",
+      "name": "stack_assets (profile mode)",
+      "cwd": "stack_assets",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile"
     },
     {
-      "name": "stack_device_info_service (release mode)",
-      "cwd": "packages/stack_device_info_service",
+      "name": "stack_assets (release mode)",
+      "cwd": "stack_assets",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"
     },
     {
-      "name": "stack_firebase_messaging_service",
-      "cwd": "packages/stack_firebase_messaging_service",
+      "name": "stack_ffi",
+      "cwd": "stack_ffi",
       "request": "launch",
       "type": "dart"
     },
     {
-      "name": "stack_firebase_messaging_service (profile mode)",
-      "cwd": "packages/stack_firebase_messaging_service",
+      "name": "stack_ffi (profile mode)",
+      "cwd": "stack_ffi",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile"
     },
     {
-      "name": "stack_firebase_messaging_service (release mode)",
-      "cwd": "packages/stack_firebase_messaging_service",
+      "name": "stack_ffi (release mode)",
+      "cwd": "stack_ffi",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"
     },
     {
-      "name": "stack_geolocation_service",
-      "cwd": "packages/stack_geolocation_service",
+      "name": "stack_theme",
+      "cwd": "stack_theme",
       "request": "launch",
       "type": "dart"
     },
     {
-      "name": "stack_geolocation_service (profile mode)",
-      "cwd": "packages/stack_geolocation_service",
+      "name": "stack_theme (profile mode)",
+      "cwd": "stack_theme",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile"
     },
     {
-      "name": "stack_geolocation_service (release mode)",
-      "cwd": "packages/stack_geolocation_service",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "release"
-    },
-    {
-      "name": "stack_media_picker_service",
-      "cwd": "packages/stack_media_picker_service",
-      "request": "launch",
-      "type": "dart"
-    },
-    {
-      "name": "stack_media_picker_service (profile mode)",
-      "cwd": "packages/stack_media_picker_service",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "profile"
-    },
-    {
-      "name": "stack_media_picker_service (release mode)",
-      "cwd": "packages/stack_media_picker_service",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "release"
-    },
-    {
-      "name": "stack_package_info_service",
-      "cwd": "packages/stack_package_info_service",
-      "request": "launch",
-      "type": "dart"
-    },
-    {
-      "name": "stack_package_info_service (profile mode)",
-      "cwd": "packages/stack_package_info_service",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "profile"
-    },
-    {
-      "name": "stack_package_info_service (release mode)",
-      "cwd": "packages/stack_package_info_service",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "release"
-    },
-    {
-      "name": "stack_permissions_service",
-      "cwd": "packages/stack_permissions_service",
-      "request": "launch",
-      "type": "dart"
-    },
-    {
-      "name": "stack_permissions_service (profile mode)",
-      "cwd": "packages/stack_permissions_service",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "profile"
-    },
-    {
-      "name": "stack_permissions_service (release mode)",
-      "cwd": "packages/stack_permissions_service",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "release"
-    },
-    {
-      "name": "stack_prefs",
-      "cwd": "packages/stack_prefs",
-      "request": "launch",
-      "type": "dart"
-    },
-    {
-      "name": "stack_prefs (profile mode)",
-      "cwd": "packages/stack_prefs",
-      "request": "launch",
-      "type": "dart",
-      "flutterMode": "profile"
-    },
-    {
-      "name": "stack_prefs (release mode)",
-      "cwd": "packages/stack_prefs",
+      "name": "stack_theme (release mode)",
+      "cwd": "stack_theme",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"
     },
     {
       "name": "stack_ui",
-      "cwd": "packages/stack_ui",
+      "cwd": "stack_ui",
       "request": "launch",
       "type": "dart"
     },
     {
       "name": "stack_ui (profile mode)",
-      "cwd": "packages/stack_ui",
+      "cwd": "stack_ui",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile"
     },
     {
       "name": "stack_ui (release mode)",
-      "cwd": "packages/stack_ui",
+      "cwd": "stack_ui",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    },
+    {
+      "name": "stack_mouse_cursor",
+      "cwd": "utils/stack_mouse_cursor",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "stack_mouse_cursor (profile mode)",
+      "cwd": "utils/stack_mouse_cursor",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "stack_mouse_cursor (release mode)",
+      "cwd": "utils/stack_mouse_cursor",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    },
+    {
+      "name": "stack_multi_pane_container",
+      "cwd": "utils/stack_multi_pane_container",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "stack_multi_pane_container (profile mode)",
+      "cwd": "utils/stack_multi_pane_container",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "stack_multi_pane_container (release mode)",
+      "cwd": "utils/stack_multi_pane_container",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    },
+    {
+      "name": "stack_windows",
+      "cwd": "utils/stack_windows",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "stack_windows (profile mode)",
+      "cwd": "utils/stack_windows",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "stack_windows (release mode)",
+      "cwd": "utils/stack_windows",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"

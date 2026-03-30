@@ -1,0 +1,234 @@
+import 'package:flutter/foundation.dart';
+import '../../stack.dart';
+
+abstract class ValueSource<T> extends Controller {
+  ValueSource({required super.logger}) {
+    dispatcher = di.i.dispatcherFor<T>();
+    initialize();
+
+    $streamListen(dispatcher.eventStreamIgnoringSource(this), $onValueEvent);
+  }
+
+  late final ValueDispatcher<T> dispatcher;
+
+  late final isInitialStateSignal = $signal<bool>(true);
+  bool get isInitialState => isInitialStateSignal.value;
+
+  late final isLoadingSignal = $signal<bool>(false);
+  bool get isLoading => isLoadingSignal.value;
+
+  late final errorSignal = $signal<(Object, StackTrace)?>(null);
+  Object? get error => errorSignal.value?.$1;
+  StackTrace? get errorStackTrace => errorSignal.value?.$2;
+
+  bool get hasValue => hasValueSignal.value;
+  Computed<bool> get hasValueSignal;
+
+  bool _isRefreshing = false;
+
+  @protected
+  Future<void> _loadInternal({bool refresh = false});
+
+  Future<void> load() async {
+    if (isLoading || _isRefreshing) return;
+
+    isLoadingSignal.value = true;
+    isInitialStateSignal.value = false;
+    errorSignal.value = null;
+
+    try {
+      await _loadInternal(refresh: false);
+    } catch (e, stackTrace) {
+      errorSignal.value = (e, stackTrace);
+    } finally {
+      isLoadingSignal.value = false;
+    }
+  }
+
+  Future<void> refresh() async {
+    if (isLoading || _isRefreshing) return;
+
+    _isRefreshing = true;
+    isInitialStateSignal.value = false;
+
+    try {
+      await _loadInternal(refresh: true);
+      errorSignal.value = null;
+    } catch (e, stackTrace) {
+      errorSignal.value = (e, stackTrace);
+      handleError(e, stackTrace);
+    } finally {
+      _isRefreshing = false;
+    }
+  }
+
+  void reset() {
+    isInitialStateSignal.value = true;
+    isLoadingSignal.value = false;
+    errorSignal.value = null;
+  }
+
+  void initialize() {}
+  void $onValueEvent(ValueEvent<T> event) {}
+}
+
+abstract class SingleValueSource<TData> extends ValueSource<TData> {
+  SingleValueSource({required super.logger, TData? initialValue}) : super() {
+    if (initialValue != null) {
+      valueSignal.value = initialValue;
+      isInitialStateSignal.value = false;
+    }
+  }
+
+  late final valueSignal = $signal<TData?>(null);
+  TData? get value => valueSignal.value;
+
+  @override
+  late final hasValueSignal = $computed<bool>(() => valueSignal.value != null);
+
+  Future<TData?> performLoad();
+
+  @override
+  Future<void> _loadInternal({bool refresh = false}) async {
+    final data = await performLoad();
+
+    if (data != null) {
+      valueSignal.value = data;
+      dispatcher.dispatchFetch(this, data);
+    } else {
+      valueSignal.value = null;
+    }
+  }
+
+  @override
+  void reset() {
+    super.reset();
+    valueSignal.value = null;
+  }
+}
+
+abstract class ListValueSource<TData> extends ValueSource<TData> {
+  ListValueSource({required super.logger, List<TData>? initialValue}) : super() {
+    if (initialValue != null) {
+      valueSignal.value = initialValue.toList();
+      isInitialStateSignal.value = false;
+    }
+  }
+
+  late final valueSignal = $signal<List<TData>?>(null);
+  List<TData>? get value => valueSignal.value;
+
+  @override
+  late final hasValueSignal = $computed<bool>(() => valueSignal.value != null && valueSignal.value!.isNotEmpty);
+
+  late final itemCountSignal = $computed<int>(() => valueSignal.value?.length ?? 0);
+  int get itemCount => itemCountSignal.value;
+
+  late final totalItemCountSignal = $signal<int?>(null);
+  int? get totalItemCount => totalItemCountSignal.value;
+
+  late final _paginationKey = $signal<Object?>(null);
+  late final hasMoreSignal = $computed<bool>(() => valueSignal.value == null || _paginationKey.value != null);
+  bool get hasMore => hasMoreSignal.value;
+
+  TData operator [](int index) => value![index];
+
+  Future<(List<TData> items, Object? nextPageToken, int? totalCount)> performLoad(Object? token);
+
+  @override
+  Future<void> _loadInternal({bool refresh = false}) async {
+    final (data, nextPageToken, totalCount) = await performLoad(_paginationKey.value);
+    for (final v in data) dispatcher.dispatchFetch(this, v);
+
+    if (refresh) {
+      valueSignal.value = data;
+    } else {
+      final newList = [if (value != null) ...value!, ...data];
+      valueSignal.value = newList;
+    }
+
+    _paginationKey.value = nextPageToken;
+    totalItemCountSignal.value = totalCount;
+  }
+
+  @override
+  void reset() {
+    super.reset();
+    valueSignal.value = null;
+    _paginationKey.value = null;
+    totalItemCountSignal.value = null;
+  }
+
+  void $insertAt(int index, TData item) {
+    final list = value;
+
+    if (list == null) {
+      valueSignal.value = [item];
+    } else {
+      if (index < 0 || index > list.length) throw RangeError.index(index, list, 'index');
+      valueSignal.value = [...list..insert(index, item)];
+    }
+  }
+
+  void $removeAt(int index) {
+    final list = value;
+    if (list == null) throw Exception('List is null');
+    if (index < 0 || index >= list.length) throw RangeError.index(index, list, 'index');
+
+    valueSignal.value = [...list..removeAt(index)];
+  }
+
+  @override
+  void $onValueEvent(ValueEvent<TData> event) {
+    if (event is ValueDeleteEvent<TData>) {
+      final id = event.id;
+      final index = value?.indexWhere((e) => dispatcher.identify(e) == id);
+      if (index != null && index >= 0) $removeAt(index);
+    }
+  }
+}
+
+mixin QueryableValueSource<TQuery, T> on ValueSource<T> {
+  late final _debouncer = $debouncer(load, delay: const Duration(milliseconds: 500));
+  late final _query = $signal<TQuery?>(null);
+  TQuery? get query => _query.value;
+  set query(TQuery value) => _query.value = value;
+  bool get isQueryEmpty => query == null || (query is String && (query as String).isEmpty);
+
+  bool get providesResultsOnEmptyQuery => true;
+  bool get immediatelyClearValueOnQueryChange => true;
+  bool _isLoadingOverridden = false;
+
+  @override
+  void initialize() {
+    super.initialize();
+
+    $effect(() {
+      _query.value;
+
+      if (immediatelyClearValueOnQueryChange) {
+        untracked(() => reset());
+
+        if (!isQueryEmpty || providesResultsOnEmptyQuery) {
+          isInitialStateSignal.value = false;
+          isLoadingSignal.value = true;
+          _isLoadingOverridden = true;
+          _debouncer.schedule();
+        }
+      } else {
+        _debouncer.schedule();
+      }
+    });
+  }
+
+  @override
+  Future<void> load() async {
+    if (_isLoadingOverridden) {
+      isLoadingSignal.value = false;
+      _isLoadingOverridden = false;
+    }
+
+    if (isQueryEmpty && !providesResultsOnEmptyQuery) return;
+    return super.load(); // todo: ignore loads that finished after query changed
+  }
+}

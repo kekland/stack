@@ -5,6 +5,9 @@ analyzer:
     curly_braces_in_flow_control_structures: ignore
     no_leading_underscores_for_local_identifiers: ignore
 
+  exclude:
+    - old/**
+
 formatter:
   page_width: 120
   trailing_commas: preserve

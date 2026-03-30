@@ -1,0 +1,31 @@
+name: stack_ffi
+description: Utilities for accessing some platform-specific APIs via FFI.
+version: 1.0.0
+publish_to: none
+resolution: workspace
+
+environment: 
+  sdk: ^3.10.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  objective_c: ^9.3.0
+  ffi: ^2.2.0
+  stack:
+
+dev_dependencies: 
+  ffigen: ^20.1.1
+
+flutter:
+  plugin:
+    platforms:
+      ios:
+        pluginClass: StackFfiPluginIos
+        sharedDarwinSource: true
+        ffiPlugin: true
+      macos:
+        pluginClass: StackFfiPluginMacos
+        sharedDarwinSource: true
+        ffiPlugin: true

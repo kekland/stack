@@ -1,0 +1,12 @@
+name: stack_theme
+description: Generator for platform-aware theming classes.
+version: 1.0.0
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  flutter:
+    sdk: flutter

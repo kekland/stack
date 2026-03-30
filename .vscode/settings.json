@@ -6,5 +6,11 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     "**/.dart_tool": true,
+    "**/.build": true,
+  },
+  "material-icon-theme.folders.associations": {
+    "stack_ui": "ui",
+    "stack_theme": "theme",
+    "stack_assets": "resource",
   }
 }
