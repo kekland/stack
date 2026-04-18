@@ -76,7 +76,6 @@ class _RenderMacosTitlebar extends RenderProxyBox {
        _mediaQuerySize = mediaQuerySize {
     _fullscreenObserver = FullscreenObserver();
     _disposeEffect = effect(() {
-      print(_fullscreenObserver.isFullscreen);
       _onFullscreenChanged();
     });
 

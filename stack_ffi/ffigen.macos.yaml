@@ -32,6 +32,7 @@ headers:
     - $MACOS_SDK/System/Library/Frameworks/AppKit.framework/Headers/NSImage.h
     - $MACOS_SDK/System/Library/Frameworks/AppKit.framework/Headers/NSImageRep.h
     - $MACOS_SDK/System/Library/Frameworks/AppKit.framework/Headers/NSBitmapImageRep.h
+    - $MACOS_SDK/System/Library/Frameworks/AppKit.framework/Headers/NSHapticFeedback.h
 
 globals:
   include:
@@ -39,7 +40,7 @@ globals:
     - NSWindowWillExitFullScreenNotification
     - NSWindowDidResizeNotification
     - NSWindowStyleMaskFullScreen
-
+  
 objc-interfaces:
   include:
     # Common AppKit classes
@@ -59,3 +60,10 @@ objc-interfaces:
     
     # Cursor
     - NSCursor
+
+    # Haptics
+    - NSHapticFeedbackManager
+
+objc-protocols:
+  include:
+    - NSHapticFeedbackPerformer

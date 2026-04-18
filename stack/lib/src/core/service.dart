@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:stack/src/core/decorators.dart';
 import 'package:stack/stack.dart';
 
 /// A service is a long-lived object that is located in the dependency injection container.

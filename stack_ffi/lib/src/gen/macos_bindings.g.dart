@@ -763,6 +763,32 @@ set NSWindowWillExitFullScreenNotification(objc.NSString value) {
   _NSWindowWillExitFullScreenNotification = value.ref.retainAndReturnPointer();
 }
 
+@ffi.Native<ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)>(isLeaf: true)
+external ffi.Pointer<objc.ObjCBlockImpl> _MacosStackFfi_wrapListenerBlock_gjex3c(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+);
+
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.DOBJC_Context>,
+  )
+>(isLeaf: true)
+external ffi.Pointer<objc.ObjCBlockImpl> _MacosStackFfi_wrapBlockingBlock_gjex3c(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
+  ffi.Pointer<objc.DOBJC_Context> context,
+);
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)>()
+external void _MacosStackFfi_protocolTrampoline_gjex3c(
+  ffi.Pointer<objc.ObjCObjectImpl> target,
+  ffi.Pointer<ffi.Void> arg0,
+  int arg1,
+  int arg2,
+);
+
 /// WARNING: NSFormatter is a stub. To generate bindings for this class, include
 /// NSFormatter in your config's objc-interfaces list.
 ///
@@ -1025,18 +1051,18 @@ extension type NSUndoManager._(objc.ObjCObject object$) implements objc.ObjCObje
   }
 }
 
-/// WARNING: NSUserActivity is a stub. To generate bindings for this class, include
+/// WARNING: NSUserActivity$1 is a stub. To generate bindings for this class, include
 /// NSUserActivity in your config's objc-interfaces list.
 ///
 /// NSUserActivity
-extension type NSUserActivity._(objc.ObjCObject object$) implements objc.ObjCObject, objc.NSObject {
-  /// Constructs a [NSUserActivity] that points to the same underlying object as [other].
-  NSUserActivity.as(objc.ObjCObject other) : object$ = other {
+extension type NSUserActivity$1._(objc.ObjCObject object$) implements objc.ObjCObject, objc.NSObject {
+  /// Constructs a [NSUserActivity$1] that points to the same underlying object as [other].
+  NSUserActivity$1.as(objc.ObjCObject other) : object$ = other {
     objc.checkOsVersionInternal('NSUserActivity', iOS: (false, (8, 0, 0)), macOS: (false, (10, 10, 0)));
   }
 
-  /// Constructs a [NSUserActivity] that wraps the given raw object pointer.
-  NSUserActivity.fromPointer(ffi.Pointer<objc.ObjCObjectImpl> other, {bool retain = false, bool release = false})
+  /// Constructs a [NSUserActivity$1] that wraps the given raw object pointer.
+  NSUserActivity$1.fromPointer(ffi.Pointer<objc.ObjCObjectImpl> other, {bool retain = false, bool release = false})
     : object$ = objc.ObjCObject(other, retain: retain, release: release) {
     objc.checkOsVersionInternal('NSUserActivity', iOS: (false, (8, 0, 0)), macOS: (false, (10, 10, 0)));
   }
@@ -2128,7 +2154,7 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSCoder$CallExtension
 late final _sel_insertText_ = objc.registerName("insertText:");
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>)>`.
-abstract final class ObjCBlock_ffiVoid_ffiVoid_objcObjCObjectImpl {
+abstract final class ObjCBlock_ffiVoid_ffiVoid_objcObjCObjectImpl$1 {
   /// Returns a block that wraps the given raw block pointer.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>)> fromPointer(
     ffi.Pointer<objc.ObjCBlockImpl> pointer, {
@@ -2341,7 +2367,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_objcObjCObjectImpl {
 }
 
 /// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>)>`.
-extension ObjCBlock_ffiVoid_ffiVoid_objcObjCObjectImpl$CallExtension
+extension ObjCBlock_ffiVoid_ffiVoid_objcObjCObjectImpl$1$CallExtension
     on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>)> {
   void call(ffi.Pointer<ffi.Void> arg0, objc.ObjCObject arg1) => ref.pointer.ref.invoke
       .cast<
@@ -2583,7 +2609,7 @@ extension ObjCBlock_ffiVoid_ffiVoid_objcObjCSelector$CallExtension
 late final _sel_moveForward_ = objc.registerName("moveForward:");
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>?)>`.
-abstract final class ObjCBlock_ffiVoid_ffiVoid_objcObjCObjectImpl$1 {
+abstract final class ObjCBlock_ffiVoid_ffiVoid_objcObjCObjectImpl {
   /// Returns a block that wraps the given raw block pointer.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>?)> fromPointer(
     ffi.Pointer<objc.ObjCBlockImpl> pointer, {
@@ -2797,7 +2823,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_objcObjCObjectImpl$1 {
 }
 
 /// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>?)>`.
-extension ObjCBlock_ffiVoid_ffiVoid_objcObjCObjectImpl$1$CallExtension
+extension ObjCBlock_ffiVoid_ffiVoid_objcObjCObjectImpl$CallExtension
     on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>?)> {
   void call(ffi.Pointer<ffi.Void> arg0, objc.ObjCObject? arg1) => ref.pointer.ref.invoke
       .cast<
@@ -9045,7 +9071,7 @@ late final _sel_draggingUpdated_ = objc.registerName("draggingUpdated:");
 late final _sel_draggingExited_ = objc.registerName("draggingExited:");
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>?)>`.
-abstract final class ObjCBlock_ffiVoid_ffiVoid_idNSDraggingInfo$1 {
+abstract final class ObjCBlock_ffiVoid_ffiVoid_idNSDraggingInfo {
   /// Returns a block that wraps the given raw block pointer.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>?)> fromPointer(
     ffi.Pointer<objc.ObjCBlockImpl> pointer, {
@@ -9259,7 +9285,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_idNSDraggingInfo$1 {
 }
 
 /// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>?)>`.
-extension ObjCBlock_ffiVoid_ffiVoid_idNSDraggingInfo$1$CallExtension
+extension ObjCBlock_ffiVoid_ffiVoid_idNSDraggingInfo$CallExtension
     on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>?)> {
   void call(ffi.Pointer<ffi.Void> arg0, NSDraggingInfo? arg1) => ref.pointer.ref.invoke
       .cast<
@@ -9379,7 +9405,7 @@ late final _sel_concludeDragOperation_ = objc.registerName("concludeDragOperatio
 late final _sel_draggingEnded_ = objc.registerName("draggingEnded:");
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>)>`.
-abstract final class ObjCBlock_ffiVoid_ffiVoid_idNSDraggingInfo {
+abstract final class ObjCBlock_ffiVoid_ffiVoid_idNSDraggingInfo$1 {
   /// Returns a block that wraps the given raw block pointer.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>)> fromPointer(
     ffi.Pointer<objc.ObjCBlockImpl> pointer, {
@@ -9592,7 +9618,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_idNSDraggingInfo {
 }
 
 /// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>)>`.
-extension ObjCBlock_ffiVoid_ffiVoid_idNSDraggingInfo$CallExtension
+extension ObjCBlock_ffiVoid_ffiVoid_idNSDraggingInfo$1$CallExtension
     on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>)> {
   void call(ffi.Pointer<ffi.Void> arg0, NSDraggingInfo arg1) => ref.pointer.ref.invoke
       .cast<
@@ -9632,7 +9658,7 @@ extension type NSAppearance._(objc.ObjCObject object$) implements objc.ObjCObjec
 late final _sel_appearance = objc.registerName("appearance");
 
 /// Construction methods for `objc.ObjCBlock<NSAppearance? Function(ffi.Pointer<ffi.Void>)>`.
-abstract final class ObjCBlock_NSAppearance_ffiVoid$1 {
+abstract final class ObjCBlock_NSAppearance_ffiVoid {
   /// Returns a block that wraps the given raw block pointer.
   static objc.ObjCBlock<NSAppearance? Function(ffi.Pointer<ffi.Void>)> fromPointer(
     ffi.Pointer<objc.ObjCBlockImpl> pointer, {
@@ -9697,7 +9723,7 @@ abstract final class ObjCBlock_NSAppearance_ffiVoid$1 {
 }
 
 /// Call operator for `objc.ObjCBlock<NSAppearance? Function(ffi.Pointer<ffi.Void>)>`.
-extension ObjCBlock_NSAppearance_ffiVoid$1$CallExtension
+extension ObjCBlock_NSAppearance_ffiVoid$CallExtension
     on objc.ObjCBlock<NSAppearance? Function(ffi.Pointer<ffi.Void>)> {
   NSAppearance? call(ffi.Pointer<ffi.Void> arg0) =>
       ref.pointer.ref.invoke
@@ -9969,7 +9995,7 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSAppearance$CallExtension
 late final _sel_effectiveAppearance = objc.registerName("effectiveAppearance");
 
 /// Construction methods for `objc.ObjCBlock<NSAppearance Function(ffi.Pointer<ffi.Void>)>`.
-abstract final class ObjCBlock_NSAppearance_ffiVoid {
+abstract final class ObjCBlock_NSAppearance_ffiVoid$1 {
   /// Returns a block that wraps the given raw block pointer.
   static objc.ObjCBlock<NSAppearance Function(ffi.Pointer<ffi.Void>)> fromPointer(
     ffi.Pointer<objc.ObjCBlockImpl> pointer, {
@@ -10034,7 +10060,8 @@ abstract final class ObjCBlock_NSAppearance_ffiVoid {
 }
 
 /// Call operator for `objc.ObjCBlock<NSAppearance Function(ffi.Pointer<ffi.Void>)>`.
-extension ObjCBlock_NSAppearance_ffiVoid$CallExtension on objc.ObjCBlock<NSAppearance Function(ffi.Pointer<ffi.Void>)> {
+extension ObjCBlock_NSAppearance_ffiVoid$1$CallExtension
+    on objc.ObjCBlock<NSAppearance Function(ffi.Pointer<ffi.Void>)> {
   NSAppearance call(ffi.Pointer<ffi.Void> arg0) => NSAppearance.fromPointer(
     ref.pointer.ref.invoke
         .cast<
@@ -11174,7 +11201,7 @@ late final _sel_setAccessibilityValueDescription_ = objc.registerName("setAccess
 late final _sel_accessibilityVisibleChildren = objc.registerName("accessibilityVisibleChildren");
 
 /// Construction methods for `objc.ObjCBlock<objc.NSArray? Function(ffi.Pointer<ffi.Void>)>`.
-abstract final class ObjCBlock_NSArray_ffiVoid$1 {
+abstract final class ObjCBlock_NSArray_ffiVoid {
   /// Returns a block that wraps the given raw block pointer.
   static objc.ObjCBlock<objc.NSArray? Function(ffi.Pointer<ffi.Void>)> fromPointer(
     ffi.Pointer<objc.ObjCBlockImpl> pointer, {
@@ -11239,7 +11266,7 @@ abstract final class ObjCBlock_NSArray_ffiVoid$1 {
 }
 
 /// Call operator for `objc.ObjCBlock<objc.NSArray? Function(ffi.Pointer<ffi.Void>)>`.
-extension ObjCBlock_NSArray_ffiVoid$1$CallExtension on objc.ObjCBlock<objc.NSArray? Function(ffi.Pointer<ffi.Void>)> {
+extension ObjCBlock_NSArray_ffiVoid$CallExtension on objc.ObjCBlock<objc.NSArray? Function(ffi.Pointer<ffi.Void>)> {
   objc.NSArray? call(ffi.Pointer<ffi.Void> arg0) =>
       ref.pointer.ref.invoke
               .cast<
@@ -11277,7 +11304,7 @@ extension ObjCBlock_NSArray_ffiVoid$1$CallExtension on objc.ObjCBlock<objc.NSArr
 late final _sel_setAccessibilityVisibleChildren_ = objc.registerName("setAccessibilityVisibleChildren:");
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSArray?)>`.
-abstract final class ObjCBlock_ffiVoid_ffiVoid_NSArray$1 {
+abstract final class ObjCBlock_ffiVoid_ffiVoid_NSArray {
   /// Returns a block that wraps the given raw block pointer.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSArray?)> fromPointer(
     ffi.Pointer<objc.ObjCBlockImpl> pointer, {
@@ -11490,7 +11517,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSArray$1 {
 }
 
 /// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSArray?)>`.
-extension ObjCBlock_ffiVoid_ffiVoid_NSArray$1$CallExtension
+extension ObjCBlock_ffiVoid_ffiVoid_NSArray$CallExtension
     on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSArray?)> {
   void call(ffi.Pointer<ffi.Void> arg0, objc.NSArray? arg1) => ref.pointer.ref.invoke
       .cast<
@@ -11835,7 +11862,7 @@ late final _sel_setAccessibilityRequired_ = objc.registerName("setAccessibilityR
 late final _sel_accessibilityCustomRotors = objc.registerName("accessibilityCustomRotors");
 
 /// Construction methods for `objc.ObjCBlock<objc.NSArray Function(ffi.Pointer<ffi.Void>)>`.
-abstract final class ObjCBlock_NSArray_ffiVoid {
+abstract final class ObjCBlock_NSArray_ffiVoid$1 {
   /// Returns a block that wraps the given raw block pointer.
   static objc.ObjCBlock<objc.NSArray Function(ffi.Pointer<ffi.Void>)> fromPointer(
     ffi.Pointer<objc.ObjCBlockImpl> pointer, {
@@ -11900,7 +11927,7 @@ abstract final class ObjCBlock_NSArray_ffiVoid {
 }
 
 /// Call operator for `objc.ObjCBlock<objc.NSArray Function(ffi.Pointer<ffi.Void>)>`.
-extension ObjCBlock_NSArray_ffiVoid$CallExtension on objc.ObjCBlock<objc.NSArray Function(ffi.Pointer<ffi.Void>)> {
+extension ObjCBlock_NSArray_ffiVoid$1$CallExtension on objc.ObjCBlock<objc.NSArray Function(ffi.Pointer<ffi.Void>)> {
   objc.NSArray call(ffi.Pointer<ffi.Void> arg0) => objc.NSArray.fromPointer(
     ref.pointer.ref.invoke
         .cast<
@@ -11919,7 +11946,7 @@ extension ObjCBlock_NSArray_ffiVoid$CallExtension on objc.ObjCBlock<objc.NSArray
 late final _sel_setAccessibilityCustomRotors_ = objc.registerName("setAccessibilityCustomRotors:");
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSArray)>`.
-abstract final class ObjCBlock_ffiVoid_ffiVoid_NSArray {
+abstract final class ObjCBlock_ffiVoid_ffiVoid_NSArray$1 {
   /// Returns a block that wraps the given raw block pointer.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSArray)> fromPointer(
     ffi.Pointer<objc.ObjCBlockImpl> pointer, {
@@ -12129,7 +12156,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSArray {
 }
 
 /// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSArray)>`.
-extension ObjCBlock_ffiVoid_ffiVoid_NSArray$CallExtension
+extension ObjCBlock_ffiVoid_ffiVoid_NSArray$1$CallExtension
     on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSArray)> {
   void call(ffi.Pointer<ffi.Void> arg0, objc.NSArray arg1) => ref.pointer.ref.invoke
       .cast<
@@ -36951,14 +36978,14 @@ late final _sel_setUserActivity_ = objc.registerName("setUserActivity:");
 late final _sel_updateUserActivityState_ = objc.registerName("updateUserActivityState:");
 late final _sel_restoreUserActivityState_ = objc.registerName("restoreUserActivityState:");
 
-/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity)>`.
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity$1)>`.
 abstract final class ObjCBlock_ffiVoid_ffiVoid_NSUserActivity {
   /// Returns a block that wraps the given raw block pointer.
-  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity)> fromPointer(
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity$1)> fromPointer(
     ffi.Pointer<objc.ObjCBlockImpl> pointer, {
     bool retain = false,
     bool release = false,
-  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity)>(
+  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity$1)>(
     pointer,
     retain: retain,
     release: release,
@@ -36969,12 +36996,12 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSUserActivity {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity)> fromFunctionPointer(
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity$1)> fromFunctionPointer(
     ffi.Pointer<
       ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObjectImpl> arg1)>
     >
     ptr,
-  ) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity)>(
+  ) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity$1)>(
     objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
     retain: false,
     release: true,
@@ -36988,14 +37015,14 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSUserActivity {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
-  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity)> fromFunction(
-    void Function(ffi.Pointer<ffi.Void>, NSUserActivity) fn, {
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity$1)> fromFunction(
+    void Function(ffi.Pointer<ffi.Void>, NSUserActivity$1) fn, {
     bool keepIsolateAlive = true,
-  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity)>(
+  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity$1)>(
     objc.newClosureBlock(
       _closureCallable,
       (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObjectImpl> arg1) =>
-          fn(arg0, NSUserActivity.fromPointer(arg1, retain: true, release: true)),
+          fn(arg0, NSUserActivity$1.fromPointer(arg1, retain: true, release: true)),
       keepIsolateAlive,
     ),
     retain: false,
@@ -37011,19 +37038,19 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSUserActivity {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
-  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity)> listener(
-    void Function(ffi.Pointer<ffi.Void>, NSUserActivity) fn, {
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity$1)> listener(
+    void Function(ffi.Pointer<ffi.Void>, NSUserActivity$1) fn, {
     bool keepIsolateAlive = true,
   }) {
     final raw = objc.newClosureBlock(
       _listenerCallable.nativeFunction.cast(),
       (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObjectImpl> arg1) =>
-          fn(arg0, NSUserActivity.fromPointer(arg1, retain: false, release: true)),
+          fn(arg0, NSUserActivity$1.fromPointer(arg1, retain: false, release: true)),
       keepIsolateAlive,
     );
     final wrapper = _MacosStackFfi_wrapListenerBlock_18v1jvf(raw);
     objc.objectRelease(raw.cast());
-    return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity)>(
+    return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity$1)>(
       wrapper,
       retain: false,
       release: true,
@@ -37040,26 +37067,26 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSUserActivity {
   /// until it is garbage collected by both Dart and ObjC. If the owner isolate
   /// has shut down, and the block is invoked by native code, it may block
   /// indefinitely, or have other undefined behavior.
-  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity)> blocking(
-    void Function(ffi.Pointer<ffi.Void>, NSUserActivity) fn, {
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity$1)> blocking(
+    void Function(ffi.Pointer<ffi.Void>, NSUserActivity$1) fn, {
     bool keepIsolateAlive = true,
   }) {
     final raw = objc.newClosureBlock(
       _blockingCallable.nativeFunction.cast(),
       (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObjectImpl> arg1) =>
-          fn(arg0, NSUserActivity.fromPointer(arg1, retain: false, release: true)),
+          fn(arg0, NSUserActivity$1.fromPointer(arg1, retain: false, release: true)),
       keepIsolateAlive,
     );
     final rawListener = objc.newClosureBlock(
       _blockingListenerCallable.nativeFunction.cast(),
       (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObjectImpl> arg1) =>
-          fn(arg0, NSUserActivity.fromPointer(arg1, retain: false, release: true)),
+          fn(arg0, NSUserActivity$1.fromPointer(arg1, retain: false, release: true)),
       keepIsolateAlive,
     );
     final wrapper = _MacosStackFfi_wrapBlockingBlock_18v1jvf(raw, rawListener, objc.objCContext);
     objc.objectRelease(raw.cast());
     objc.objectRelease(rawListener.cast());
-    return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity)>(
+    return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity$1)>(
       wrapper,
       retain: false,
       release: true,
@@ -37164,10 +37191,10 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSUserActivity {
           .cast();
 }
 
-/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity)>`.
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity$1)>`.
 extension ObjCBlock_ffiVoid_ffiVoid_NSUserActivity$CallExtension
-    on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity)> {
-  void call(ffi.Pointer<ffi.Void> arg0, NSUserActivity arg1) => ref.pointer.ref.invoke
+    on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSUserActivity$1)> {
+  void call(ffi.Pointer<ffi.Void> arg0, NSUserActivity$1 arg1) => ref.pointer.ref.invoke
       .cast<
         ffi.NativeFunction<
           ffi.Void Function(
@@ -37200,9 +37227,9 @@ extension type NSUserActivityRestoring._(objc.ObjCProtocol object$)
 }
 
 /// NSUserActivity
-extension NSUserActivity$1 on NSResponder {
+extension NSUserActivity on NSResponder {
   /// restoreUserActivityState:
-  void restoreUserActivityState(NSUserActivity userActivity) {
+  void restoreUserActivityState(NSUserActivity$1 userActivity) {
     objc.checkOsVersionInternal(
       'NSResponder.restoreUserActivityState:',
       iOS: (true, null),
@@ -37212,22 +37239,22 @@ extension NSUserActivity$1 on NSResponder {
   }
 
   /// setUserActivity:
-  set userActivity(NSUserActivity? value) {
+  set userActivity(NSUserActivity$1? value) {
     objc.checkOsVersionInternal('NSResponder.setUserActivity:', iOS: (true, null), macOS: (false, (10, 10, 0)));
     _objc_msgSend_xtuoz7(object$.ref.pointer, _sel_setUserActivity_, value?.ref.pointer ?? ffi.nullptr);
   }
 
   /// updateUserActivityState:
-  void updateUserActivityState(NSUserActivity userActivity) {
+  void updateUserActivityState(NSUserActivity$1 userActivity) {
     objc.checkOsVersionInternal('NSResponder.updateUserActivityState:', iOS: (true, null), macOS: (false, (10, 10, 0)));
     _objc_msgSend_xtuoz7(object$.ref.pointer, _sel_updateUserActivityState_, userActivity.ref.pointer);
   }
 
   /// userActivity
-  NSUserActivity? get userActivity {
+  NSUserActivity$1? get userActivity {
     objc.checkOsVersionInternal('NSResponder.userActivity', iOS: (true, null), macOS: (false, (10, 10, 0)));
     final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_userActivity);
-    return $ret.address == 0 ? null : NSUserActivity.fromPointer($ret, retain: true, release: true);
+    return $ret.address == 0 ? null : NSUserActivity$1.fromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -42754,4 +42781,551 @@ enum NSImageSymbolScale {
     3 => NSImageSymbolScaleLarge,
     _ => throw ArgumentError('Unknown value for NSImageSymbolScale: $value'),
   };
+}
+
+enum NSHapticFeedbackPattern {
+  NSHapticFeedbackPatternGeneric(0),
+  NSHapticFeedbackPatternAlignment(1),
+  NSHapticFeedbackPatternLevelChange(2)
+  ;
+
+  final int value;
+  const NSHapticFeedbackPattern(this.value);
+
+  static NSHapticFeedbackPattern fromValue(int value) => switch (value) {
+    0 => NSHapticFeedbackPatternGeneric,
+    1 => NSHapticFeedbackPatternAlignment,
+    2 => NSHapticFeedbackPatternLevelChange,
+    _ => throw ArgumentError('Unknown value for NSHapticFeedbackPattern: $value'),
+  };
+}
+
+enum NSHapticFeedbackPerformanceTime {
+  NSHapticFeedbackPerformanceTimeDefault(0),
+  NSHapticFeedbackPerformanceTimeNow(1),
+  NSHapticFeedbackPerformanceTimeDrawCompleted(2)
+  ;
+
+  final int value;
+  const NSHapticFeedbackPerformanceTime(this.value);
+
+  static NSHapticFeedbackPerformanceTime fromValue(int value) => switch (value) {
+    0 => NSHapticFeedbackPerformanceTimeDefault,
+    1 => NSHapticFeedbackPerformanceTimeNow,
+    2 => NSHapticFeedbackPerformanceTimeDrawCompleted,
+    _ => throw ArgumentError('Unknown value for NSHapticFeedbackPerformanceTime: $value'),
+  };
+}
+
+late final _protocol_NSHapticFeedbackPerformer = objc.getProtocol("NSHapticFeedbackPerformer");
+late final _sel_conformsToProtocol_ = objc.registerName("conformsToProtocol:");
+final _objc_msgSend_e3qsqz = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Bool Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCProtocolImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      bool Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCProtocolImpl>,
+      )
+    >();
+late final _sel_performFeedbackPattern_performanceTime_ = objc.registerName("performFeedbackPattern:performanceTime:");
+final _objc_msgSend_1jumw6o = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<objc.ObjCSelector>, ffi.Long, ffi.UnsignedLong)
+      >
+    >()
+    .asFunction<void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<objc.ObjCSelector>, int, int)>();
+
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)>`.
+abstract final class ObjCBlock_ffiVoid_ffiVoid_NSHapticFeedbackPattern_NSHapticFeedbackPerformanceTime {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)> fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)>(
+    pointer,
+    retain: retain,
+    release: release,
+  );
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)> fromFunctionPointer(
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> arg0, ffi.Long arg1, ffi.UnsignedLong arg2)>>
+    ptr,
+  ) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)>(
+    objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)> fromFunction(
+    void Function(ffi.Pointer<ffi.Void>, NSHapticFeedbackPattern, NSHapticFeedbackPerformanceTime) fn, {
+    bool keepIsolateAlive = true,
+  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)>(
+    objc.newClosureBlock(
+      _closureCallable,
+      (ffi.Pointer<ffi.Void> arg0, int arg1, int arg2) =>
+          fn(arg0, NSHapticFeedbackPattern.fromValue(arg1), NSHapticFeedbackPerformanceTime.fromValue(arg2)),
+      keepIsolateAlive,
+    ),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on FFI's NativeCallable.listener, and has the same
+  /// capabilities and limitations. This block can be invoked from any thread,
+  /// but only supports void functions, and is not run synchronously. See
+  /// NativeCallable.listener for more details.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)> listener(
+    void Function(ffi.Pointer<ffi.Void>, NSHapticFeedbackPattern, NSHapticFeedbackPerformanceTime) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(
+      _listenerCallable.nativeFunction.cast(),
+      (ffi.Pointer<ffi.Void> arg0, int arg1, int arg2) =>
+          fn(arg0, NSHapticFeedbackPattern.fromValue(arg1), NSHapticFeedbackPerformanceTime.fromValue(arg2)),
+      keepIsolateAlive,
+    );
+    final wrapper = _MacosStackFfi_wrapListenerBlock_gjex3c(raw);
+    objc.objectRelease(raw.cast());
+    return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)>(
+      wrapper,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions are not supported.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
+  /// indefinitely, or have other undefined behavior.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)> blocking(
+    void Function(ffi.Pointer<ffi.Void>, NSHapticFeedbackPattern, NSHapticFeedbackPerformanceTime) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(
+      _blockingCallable.nativeFunction.cast(),
+      (ffi.Pointer<ffi.Void> arg0, int arg1, int arg2) =>
+          fn(arg0, NSHapticFeedbackPattern.fromValue(arg1), NSHapticFeedbackPerformanceTime.fromValue(arg2)),
+      keepIsolateAlive,
+    );
+    final rawListener = objc.newClosureBlock(
+      _blockingListenerCallable.nativeFunction.cast(),
+      (ffi.Pointer<ffi.Void> arg0, int arg1, int arg2) =>
+          fn(arg0, NSHapticFeedbackPattern.fromValue(arg1), NSHapticFeedbackPerformanceTime.fromValue(arg2)),
+      keepIsolateAlive,
+    );
+    final wrapper = _MacosStackFfi_wrapBlockingBlock_gjex3c(raw, rawListener, objc.objCContext);
+    objc.objectRelease(raw.cast());
+    objc.objectRelease(rawListener.cast());
+    return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)>(
+      wrapper,
+      retain: false,
+      release: true,
+    );
+  }
+
+  static void _listenerTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    int arg1,
+    int arg2,
+  ) {
+    (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>, int, int))(arg0, arg1, arg2);
+    objc.objectRelease(block.cast());
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)
+  >
+  _listenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)
+        >.listener(_listenerTrampoline)
+        ..keepIsolateAlive = false;
+  static void _blockingTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> waiter,
+    ffi.Pointer<ffi.Void> arg0,
+    int arg1,
+    int arg2,
+  ) {
+    try {
+      (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>, int, int))(arg0, arg1, arg2);
+    } catch (e) {
+    } finally {
+      objc.signalWaiter(waiter);
+      objc.objectRelease(block.cast());
+    }
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Long,
+      ffi.UnsignedLong,
+    )
+  >
+  _blockingCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Long,
+            ffi.UnsignedLong,
+          )
+        >.isolateLocal(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Long,
+      ffi.UnsignedLong,
+    )
+  >
+  _blockingListenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Long,
+            ffi.UnsignedLong,
+          )
+        >.listener(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static void _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    int arg1,
+    int arg2,
+  ) => block.ref.target
+      .cast<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> arg0, ffi.Long arg1, ffi.UnsignedLong arg2)>>()
+      .asFunction<void Function(ffi.Pointer<ffi.Void>, int, int)>()(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)
+          >(_fnPtrTrampoline)
+          .cast();
+  static void _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    int arg1,
+    int arg2,
+  ) => (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>, int, int))(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)>`.
+extension ObjCBlock_ffiVoid_ffiVoid_NSHapticFeedbackPattern_NSHapticFeedbackPerformanceTime$CallExtension
+    on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)> {
+  void call(ffi.Pointer<ffi.Void> arg0, NSHapticFeedbackPattern arg1, NSHapticFeedbackPerformanceTime arg2) =>
+      ref.pointer.ref.invoke
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(
+                ffi.Pointer<objc.ObjCBlockImpl> block,
+                ffi.Pointer<ffi.Void> arg0,
+                ffi.Long arg1,
+                ffi.UnsignedLong arg2,
+              )
+            >
+          >()
+          .asFunction<void Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>, int, int)>()(
+        ref.pointer,
+        arg0,
+        arg1.value,
+        arg2.value,
+      );
+}
+
+/// NSHapticFeedbackPerformer
+extension type NSHapticFeedbackPerformer._(objc.ObjCProtocol object$)
+    implements objc.ObjCProtocol, objc.NSObjectProtocol {
+  /// Constructs a [NSHapticFeedbackPerformer] that points to the same underlying object as [other].
+  NSHapticFeedbackPerformer.as(objc.ObjCObject other) : object$ = other;
+
+  /// Constructs a [NSHapticFeedbackPerformer] that wraps the given raw object pointer.
+  NSHapticFeedbackPerformer.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSHapticFeedbackPerformer].
+  static bool conformsTo(objc.ObjCObject obj) {
+    return _objc_msgSend_e3qsqz(obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSHapticFeedbackPerformer);
+  }
+}
+
+extension NSHapticFeedbackPerformer$Methods on NSHapticFeedbackPerformer {
+  /// performFeedbackPattern:performanceTime:
+  void performFeedbackPattern(
+    NSHapticFeedbackPattern pattern, {
+    required NSHapticFeedbackPerformanceTime performanceTime,
+  }) {
+    objc.checkOsVersionInternal('NSHapticFeedbackPerformer.performFeedbackPattern:performanceTime:', iOS: (true, null));
+    _objc_msgSend_1jumw6o(
+      object$.ref.pointer,
+      _sel_performFeedbackPattern_performanceTime_,
+      pattern.value,
+      performanceTime.value,
+    );
+  }
+}
+
+interface class NSHapticFeedbackPerformer$Builder {
+  /// Returns the [objc.Protocol] object for this protocol.
+  static objc.Protocol get $protocol => objc.Protocol.fromPointer(_protocol_NSHapticFeedbackPerformer.cast());
+
+  /// Builds an object that implements the NSHapticFeedbackPerformer protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
+  static NSHapticFeedbackPerformer implement({
+    required void Function(NSHapticFeedbackPattern, NSHapticFeedbackPerformanceTime)
+    performFeedbackPattern_performanceTime_,
+    bool $keepIsolateAlive = true,
+  }) {
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSHapticFeedbackPerformer');
+    NSHapticFeedbackPerformer$Builder.performFeedbackPattern_performanceTime_.implement(
+      builder,
+      performFeedbackPattern_performanceTime_,
+    );
+    builder.addProtocol($protocol);
+    return NSHapticFeedbackPerformer.as(builder.build(keepIsolateAlive: $keepIsolateAlive));
+  }
+
+  /// Adds the implementation of the NSHapticFeedbackPerformer protocol to an existing
+  /// [objc.ObjCProtocolBuilder].
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
+  static void addToBuilder(
+    objc.ObjCProtocolBuilder builder, {
+    required void Function(NSHapticFeedbackPattern, NSHapticFeedbackPerformanceTime)
+    performFeedbackPattern_performanceTime_,
+    bool $keepIsolateAlive = true,
+  }) {
+    NSHapticFeedbackPerformer$Builder.performFeedbackPattern_performanceTime_.implement(
+      builder,
+      performFeedbackPattern_performanceTime_,
+    );
+    builder.addProtocol($protocol);
+  }
+
+  /// Builds an object that implements the NSHapticFeedbackPerformer protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
+  /// methods that can be implemented as listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
+  static NSHapticFeedbackPerformer implementAsListener({
+    required void Function(NSHapticFeedbackPattern, NSHapticFeedbackPerformanceTime)
+    performFeedbackPattern_performanceTime_,
+    bool $keepIsolateAlive = true,
+  }) {
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSHapticFeedbackPerformer');
+    NSHapticFeedbackPerformer$Builder.performFeedbackPattern_performanceTime_.implementAsListener(
+      builder,
+      performFeedbackPattern_performanceTime_,
+    );
+    builder.addProtocol($protocol);
+    return NSHapticFeedbackPerformer.as(builder.build(keepIsolateAlive: $keepIsolateAlive));
+  }
+
+  /// Adds the implementation of the NSHapticFeedbackPerformer protocol to an existing
+  /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as listeners will
+  /// be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
+  static void addToBuilderAsListener(
+    objc.ObjCProtocolBuilder builder, {
+    required void Function(NSHapticFeedbackPattern, NSHapticFeedbackPerformanceTime)
+    performFeedbackPattern_performanceTime_,
+    bool $keepIsolateAlive = true,
+  }) {
+    NSHapticFeedbackPerformer$Builder.performFeedbackPattern_performanceTime_.implementAsListener(
+      builder,
+      performFeedbackPattern_performanceTime_,
+    );
+    builder.addProtocol($protocol);
+  }
+
+  /// Builds an object that implements the NSHapticFeedbackPerformer protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
+  /// methods that can be implemented as blocking listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
+  static NSHapticFeedbackPerformer implementAsBlocking({
+    required void Function(NSHapticFeedbackPattern, NSHapticFeedbackPerformanceTime)
+    performFeedbackPattern_performanceTime_,
+    bool $keepIsolateAlive = true,
+  }) {
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSHapticFeedbackPerformer');
+    NSHapticFeedbackPerformer$Builder.performFeedbackPattern_performanceTime_.implementAsBlocking(
+      builder,
+      performFeedbackPattern_performanceTime_,
+    );
+    builder.addProtocol($protocol);
+    return NSHapticFeedbackPerformer.as(builder.build(keepIsolateAlive: $keepIsolateAlive));
+  }
+
+  /// Adds the implementation of the NSHapticFeedbackPerformer protocol to an existing
+  /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as blocking
+  /// listeners will be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
+  static void addToBuilderAsBlocking(
+    objc.ObjCProtocolBuilder builder, {
+    required void Function(NSHapticFeedbackPattern, NSHapticFeedbackPerformanceTime)
+    performFeedbackPattern_performanceTime_,
+    bool $keepIsolateAlive = true,
+  }) {
+    NSHapticFeedbackPerformer$Builder.performFeedbackPattern_performanceTime_.implementAsBlocking(
+      builder,
+      performFeedbackPattern_performanceTime_,
+    );
+    builder.addProtocol($protocol);
+  }
+
+  /// performFeedbackPattern:performanceTime:
+  static final performFeedbackPattern_performanceTime_ =
+      objc.ObjCProtocolListenableMethod<void Function(NSHapticFeedbackPattern, NSHapticFeedbackPerformanceTime)>(
+        _protocol_NSHapticFeedbackPerformer,
+        _sel_performFeedbackPattern_performanceTime_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Void>, ffi.Long, ffi.UnsignedLong)
+              >
+            >(_MacosStackFfi_protocolTrampoline_gjex3c)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NSHapticFeedbackPerformer,
+          _sel_performFeedbackPattern_performanceTime_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (void Function(NSHapticFeedbackPattern, NSHapticFeedbackPerformanceTime) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSHapticFeedbackPattern_NSHapticFeedbackPerformanceTime.fromFunction(
+              (ffi.Pointer<ffi.Void> _, NSHapticFeedbackPattern arg1, NSHapticFeedbackPerformanceTime arg2) =>
+                  func(arg1, arg2),
+            ),
+        (void Function(NSHapticFeedbackPattern, NSHapticFeedbackPerformanceTime) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSHapticFeedbackPattern_NSHapticFeedbackPerformanceTime.listener(
+              (ffi.Pointer<ffi.Void> _, NSHapticFeedbackPattern arg1, NSHapticFeedbackPerformanceTime arg2) =>
+                  func(arg1, arg2),
+            ),
+        (void Function(NSHapticFeedbackPattern, NSHapticFeedbackPerformanceTime) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSHapticFeedbackPattern_NSHapticFeedbackPerformanceTime.blocking(
+              (ffi.Pointer<ffi.Void> _, NSHapticFeedbackPattern arg1, NSHapticFeedbackPerformanceTime arg2) =>
+                  func(arg1, arg2),
+            ),
+      );
+}
+
+late final _class_NSHapticFeedbackManager = objc.getClass("NSHapticFeedbackManager");
+late final _sel_defaultPerformer = objc.registerName("defaultPerformer");
+
+/// NSHapticFeedbackManager
+extension type NSHapticFeedbackManager._(objc.ObjCObject object$) implements objc.ObjCObject, objc.NSObject {
+  /// Constructs a [NSHapticFeedbackManager] that points to the same underlying object as [other].
+  NSHapticFeedbackManager.as(objc.ObjCObject other) : object$ = other {
+    objc.checkOsVersionInternal('NSHapticFeedbackManager', iOS: (true, null), macOS: (false, (10, 11, 0)));
+    assert(isA(object$));
+  }
+
+  /// Constructs a [NSHapticFeedbackManager] that wraps the given raw object pointer.
+  NSHapticFeedbackManager.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    objc.checkOsVersionInternal('NSHapticFeedbackManager', iOS: (true, null), macOS: (false, (10, 11, 0)));
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [NSHapticFeedbackManager].
+  static bool isA(objc.ObjCObject obj) =>
+      _objc_msgSend_19nvye5(obj.ref.pointer, _sel_isKindOfClass_, _class_NSHapticFeedbackManager);
+
+  /// alloc
+  static NSHapticFeedbackManager alloc() {
+    final $ret = _objc_msgSend_151sglz(_class_NSHapticFeedbackManager, _sel_alloc);
+    return NSHapticFeedbackManager.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static NSHapticFeedbackManager allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(_class_NSHapticFeedbackManager, _sel_allocWithZone_, zone);
+    return NSHapticFeedbackManager.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// defaultPerformer
+  static NSHapticFeedbackPerformer getDefaultPerformer() {
+    objc.checkOsVersionInternal('NSHapticFeedbackManager.defaultPerformer', iOS: (true, null));
+    final $ret = _objc_msgSend_151sglz(_class_NSHapticFeedbackManager, _sel_defaultPerformer);
+    return NSHapticFeedbackPerformer.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// new
+  static NSHapticFeedbackManager new$() {
+    final $ret = _objc_msgSend_151sglz(_class_NSHapticFeedbackManager, _sel_new);
+    return NSHapticFeedbackManager.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// Returns a new instance of NSHapticFeedbackManager constructed with the default `new` method.
+  NSHapticFeedbackManager() : this.as(new$().object$);
+}
+
+extension NSHapticFeedbackManager$Methods on NSHapticFeedbackManager {
+  /// init
+  NSHapticFeedbackManager init() {
+    objc.checkOsVersionInternal('NSHapticFeedbackManager.init', iOS: (false, (2, 0, 0)), macOS: (false, (10, 0, 0)));
+    final $ret = _objc_msgSend_151sglz(object$.ref.retainAndReturnPointer(), _sel_init);
+    return NSHapticFeedbackManager.fromPointer($ret, retain: false, release: true);
+  }
 }

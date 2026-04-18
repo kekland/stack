@@ -13,6 +13,7 @@
 #import <AppKit/NSImage.h>
 #import <AppKit/NSImageRep.h>
 #import <AppKit/NSBitmapImageRep.h>
+#import <AppKit/NSHapticFeedback.h>
 
 #if !__has_feature(objc_arc)
 #error "This file must be compiled with ARC enabled"
@@ -777,6 +778,37 @@ _ListenerTrampoline_19 _MacosStackFfi_wrapBlockingBlock_t8l8el(
     listenerBlock(waiter, (__bridge id)(__bridge_retained void*)(arg0), arg1);
   });
 }
+
+typedef void  (^_ListenerTrampoline_20)(void * arg0, NSHapticFeedbackPattern arg1, NSHapticFeedbackPerformanceTime arg2);
+__attribute__((visibility("default"))) __attribute__((used))
+_ListenerTrampoline_20 _MacosStackFfi_wrapListenerBlock_gjex3c(_ListenerTrampoline_20 block) NS_RETURNS_RETAINED {
+  return ^void(void * arg0, NSHapticFeedbackPattern arg1, NSHapticFeedbackPerformanceTime arg2) {
+    objc_retainBlock(block);
+    block(arg0, arg1, arg2);
+  };
+}
+
+typedef void  (^_BlockingTrampoline_20)(void * waiter, void * arg0, NSHapticFeedbackPattern arg1, NSHapticFeedbackPerformanceTime arg2);
+__attribute__((visibility("default"))) __attribute__((used))
+_ListenerTrampoline_20 _MacosStackFfi_wrapBlockingBlock_gjex3c(
+    _BlockingTrampoline_20 block, _BlockingTrampoline_20 listenerBlock,
+    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  BLOCKING_BLOCK_IMPL(ctx, ^void(void * arg0, NSHapticFeedbackPattern arg1, NSHapticFeedbackPerformanceTime arg2), {
+    objc_retainBlock(block);
+    block(nil, arg0, arg1, arg2);
+  }, {
+    objc_retainBlock(listenerBlock);
+    listenerBlock(waiter, arg0, arg1, arg2);
+  });
+}
+
+typedef void  (^_ProtocolTrampoline_43)(void * sel, NSHapticFeedbackPattern arg1, NSHapticFeedbackPerformanceTime arg2);
+__attribute__((visibility("default"))) __attribute__((used))
+void  _MacosStackFfi_protocolTrampoline_gjex3c(id target, void * sel, NSHapticFeedbackPattern arg1, NSHapticFeedbackPerformanceTime arg2) {
+  return ((_ProtocolTrampoline_43)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2);
+}
+
+Protocol* _MacosStackFfi_NSHapticFeedbackPerformer(void) { return @protocol(NSHapticFeedbackPerformer); }
 #undef BLOCKING_BLOCK_IMPL
 
 #pragma clang diagnostic pop

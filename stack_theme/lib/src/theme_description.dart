@@ -55,7 +55,7 @@ abstract class CustomColorDescription extends ColorDescription {
 }
 
 class GroupColorDescription extends CustomColorDescription {
-  const GroupColorDescription(String name, {required this.children, super.isOptional}) : super(name);
+  const GroupColorDescription(super.name, {required this.children, super.isOptional});
 
   @override
   String get className => '${name}Colors';

@@ -50,6 +50,6 @@ compile_objc_headers('ios')
 compile_objc_headers('macos')
 compile_objc_headers('darwin')
 
-exec_cmd('fvm dart run ffigen --config ffigen.ios.yaml')
+# exec_cmd('fvm dart run ffigen --config ffigen.ios.yaml')
 exec_cmd('fvm dart run ffigen --config ffigen.macos.yaml')
-exec_cmd('fvm dart run ffigen --config ffigen.darwin.yaml')
+# exec_cmd('fvm dart run ffigen --config ffigen.darwin.yaml')

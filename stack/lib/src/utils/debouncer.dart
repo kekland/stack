@@ -27,6 +27,7 @@ class Debouncer {
 
 extension DebouncerDisposableExt on Disposable {
   /// Creates a [Debouncer] that is automatically disposed of when this object is disposed.
+  @protected
   Debouncer $debouncer(
     VoidCallback callback, {
     Duration delay = const Duration(seconds: 1),

@@ -1,4 +1,4 @@
-// ignore_for_file: unused_element, unused_element_parameter
+// ignore_for_file: depend_on_referenced_packages, unused_element, unused_element_parameter
 
 import 'package:flutter/widgets.dart';
 import 'package:vector_graphics/vector_graphics.dart';

@@ -32,6 +32,7 @@ mixin Disposable {
 
   /// Whether this object has been disposed.
   bool get isDisposed => _d.isDisposed;
+
   void addDisposeCallback(VoidCallback callback) => _d.addDisposeCallback(callback);
 
   @mustCallSuper
@@ -67,6 +68,7 @@ mixin ChangeNotifierDisposable on ChangeNotifier implements Disposable {
 
 extension DisposableDisposableExt on Disposable {
   /// Creates a [Disposable] that is automatically disposed of when this object is disposed.
+  @protected
   T $disposable<T extends Disposable>(T disposable) {
     addDisposeCallback(disposable.dispose);
     return disposable;
@@ -75,6 +77,7 @@ extension DisposableDisposableExt on Disposable {
 
 extension HttpDisposableExt on Disposable {
   /// Creates an [http.Client] that is automatically closed when this object is disposed.
+  @protected
   http.Client $httpClient() {
     final client = http.Client();
     addDisposeCallback(client.close);
@@ -84,6 +87,7 @@ extension HttpDisposableExt on Disposable {
 
 extension StreamDisposableExt on Disposable {
   /// Adds a [StreamSubscription] to be automatically cancelled when this object is disposed.
+  @protected
   void $streamListen<T>(
     Stream<T> stream,
     void Function(T) onData, {
@@ -95,12 +99,14 @@ extension StreamDisposableExt on Disposable {
     addDisposeCallback(subscription.cancel);
   }
 
+  @protected
   StreamController<T> $streamController<T>({bool sync = false}) {
     final controller = StreamController<T>(sync: sync);
     addDisposeCallback(controller.close);
     return controller;
   }
 
+  @protected
   StreamController<T> $streamControllerBroadcast<T>({bool sync = false}) {
     final controller = StreamController<T>.broadcast(sync: sync);
     addDisposeCallback(controller.close);
@@ -110,6 +116,7 @@ extension StreamDisposableExt on Disposable {
 
 extension SignalDisposableExt on Disposable {
   /// Creates a [signals.Signal] that is automatically disposed of when this object is disposed.
+  @protected
   signals.FlutterSignal<T> $signal<T>(T initialValue) {
     final signal = signals.signal<T>(initialValue);
     addDisposeCallback(signal.dispose);
@@ -117,12 +124,14 @@ extension SignalDisposableExt on Disposable {
   }
 
   /// Creates a [signals.Effect] that is automatically disposed of when this object is disposed.
+  @protected
   void $effect(void Function() effect) {
     final dispose = signals.effect(effect);
     addDisposeCallback(dispose);
   }
 
   /// Creates a [signals.Computed] that is automatically disposed of when this object is disposed.
+  @protected
   signals.FlutterComputed<T> $computed<T>(T Function() compute) {
     final computed = signals.computed<T>(compute);
     addDisposeCallback(computed.dispose);
@@ -130,6 +139,7 @@ extension SignalDisposableExt on Disposable {
   }
 
   /// Creates a [signals.ListSignal] that is automatically disposed of when this object is disposed.
+  @protected
   signals.ListSignal<T> $listSignal<T>(List<T> initialValue) {
     final listSignal = signals.listSignal<T>(initialValue);
     addDisposeCallback(listSignal.dispose);
@@ -137,6 +147,7 @@ extension SignalDisposableExt on Disposable {
   }
 
   /// Creates a [signals.MapSignal] that is automatically disposed of when this object is disposed.
+  @protected
   signals.MapSignal<K, V> $mapSignal<K, V>(Map<K, V> initialValue) {
     final mapSignal = signals.mapSignal<K, V>(initialValue);
     addDisposeCallback(mapSignal.dispose);
@@ -144,6 +155,7 @@ extension SignalDisposableExt on Disposable {
   }
 
   /// Creates a [signals.SetSignal] that is automatically disposed of when this object is disposed.
+  @protected
   signals.SetSignal<T> $setSignal<T>(Set<T> initialValue) {
     final setSignal = signals.setSignal<T>(initialValue);
     addDisposeCallback(setSignal.dispose);
@@ -152,6 +164,7 @@ extension SignalDisposableExt on Disposable {
 }
 
 extension ValueNotifierDisposable on Disposable {
+  @protected
   ValueNotifier<T> $valueNotifier<T>(T initialValue) {
     final notifier = ValueNotifier<T>(initialValue);
     addDisposeCallback(notifier.dispose);

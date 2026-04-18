@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:stack/src/core/decorators.dart';
 import 'package:stack/stack.dart';
 
 /// A controller is a short-lived object that manages a specific piece of functionality, and that can be located
