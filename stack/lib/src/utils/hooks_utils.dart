@@ -286,3 +286,7 @@ void usePostFrameEffect(VoidCallback callback, [List<Object?>? keys]) {
     return null;
   }, keys);
 }
+
+void useOnDispose(VoidCallback callback) {
+  useEffect(() => callback, const []);
+}

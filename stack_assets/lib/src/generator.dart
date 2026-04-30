@@ -469,7 +469,7 @@ Future<List<String>> generateAssets(AssetManifest manifest) async {
     'import \'package:vector_graphics/vector_graphics.dart\';',
     for (final imp in imports) 'import \'$imp\';',
     '',
-    '// ignore_for_file: non_constant_identifier_names, unused_import, unused_element, unused_element_parameter',
+    '// ignore_for_file: non_constant_identifier_names, unused_import, unused_element, unused_element_parameter, unnecessary_import',
     '',
     ...manifest.prelude,
   ]);

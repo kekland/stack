@@ -35,6 +35,11 @@ abstract class FfiMouseCursor extends MouseCursor {
 
   @override
   MouseCursorSession createSession(int device) {
+    if (Platform.isAndroid || Platform.isIOS || Platform.isFuchsia) {
+      // No cursor support on mobile platforms.
+      return _NoOpCursorSession(this, device);
+    }
+
     if (Platform.isMacOS) return _MacosMouseCursorSession(this, device);
 
     logger.warning('Unsupported FfiMouseCursor platform. Defaulting to _NoOpCursorSession.');

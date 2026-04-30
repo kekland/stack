@@ -1,4 +1,5 @@
 export 'box.dart';
+export 'dashed_path.dart';
 export 'debug.dart';
 export 'deferred_layout_builder.dart';
 export 'drag_activity.dart';

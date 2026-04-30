@@ -1,8 +1,13 @@
+#if os(macOS)
+
 import Foundation
 import FlutterMacOS
 
+@objc(StackFfiPluginMacos)
 public class StackFfiPluginMacos: NSObject, FlutterPlugin {
-  public static func register(with registrar: FlutterPluginRegistrar) {
+  @objc public static func register(with registrar: FlutterPluginRegistrar) {
     let instance = StackFfiPluginMacos()
   }
 }
+
+#endif

@@ -163,11 +163,19 @@ extension SignalDisposableExt on Disposable {
   }
 }
 
-extension ValueNotifierDisposable on Disposable {
+extension ValueNotifierDisposableExt on Disposable {
   @protected
   ValueNotifier<T> $valueNotifier<T>(T initialValue) {
     final notifier = ValueNotifier<T>(initialValue);
     addDisposeCallback(notifier.dispose);
     return notifier;
+  }
+}
+
+extension CustomDisposableExt on Disposable {
+  @protected
+  T $customDisposable<T>(T disposable, void Function(T) dispose) {
+    addDisposeCallback(() => dispose(disposable));
+    return disposable;
   }
 }

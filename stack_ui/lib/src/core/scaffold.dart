@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -65,7 +66,7 @@ class Scaffold extends StatelessWidget {
           ),
 
           // Only add the tap-to-scroll-to-top area on iOS when we're guaranteed that the scaffold is full-screen
-          if (isFullScreen && Platform.isIOS)
+          if (isFullScreen && !kIsWeb && Platform.isIOS)
             ListenableBuilder(
               listenable: scrollController,
               builder: (context, child) {

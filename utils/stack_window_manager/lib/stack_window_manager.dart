@@ -30,7 +30,12 @@ class WindowRootState extends State<WindowRoot> {
 }
 
 class WindowEntry extends OverlayEntry {
-  WindowEntry({required super.builder});
+  WindowEntry({
+    required super.builder,
+    required this.onRemoved,
+  });
+
+  final VoidCallback onRemoved;
 
   @override
   WidgetBuilder get builder {
@@ -40,6 +45,12 @@ class WindowEntry extends OverlayEntry {
   void insert(BuildContext context) {
     final root = context.findAncestorStateOfType<WindowRootState>()!;
     root.overlay.insert(this);
+  }
+
+  @override
+  void remove() {
+    super.remove();
+    onRemoved();
   }
 }
 
@@ -66,7 +77,7 @@ class WindowWidgetState extends State<WindowWidget> {
     return _WindowPositioned(
       rect: rect,
       onInitialRectComputed: (r) => _rect = r,
-      windowConstraints: BoxConstraints.loose(Size.square(400.0)),
+      // windowConstraints: BoxConstraints.loose(Size.square(400.0)),
       child: RawGestureDetector(
         behavior: HitTestBehavior.opaque,
         gestures: {
@@ -158,7 +169,7 @@ class _RenderWindowPositioned extends RenderProxyBox {
   final ValueChanged<Rect>? _onInitialRectComputed;
 
   void _recomputeRect() {
-    child!.layout(windowConstraints ?? constraints, parentUsesSize: true);
+    child!.layout(windowConstraints ?? constraints.loosen(), parentUsesSize: true);
 
     final childSize = child!.size;
     final alignment = _initialAlignment ?? Alignment.center;

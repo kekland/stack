@@ -22,11 +22,9 @@ let package = Package(
                 .target(name: "stack_ffi_darwin_bindings"),
 
                 // macOS specific code
-                .target(name: "stack_ffi_macos", condition: .when(platforms: [.macOS])),
                 .target(name: "stack_ffi_macos_bindings", condition: .when(platforms: [.macOS])),
 
                 // iOS specific code
-                .target(name: "stack_ffi_ios", condition: .when(platforms: [.iOS])),
                 .target(name: "stack_ffi_ios_bindings", condition: .when(platforms: [.iOS]))
             ]
         ),

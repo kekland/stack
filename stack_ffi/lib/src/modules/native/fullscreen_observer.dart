@@ -7,12 +7,7 @@ import 'package:stack_ffi/macos.dart' as macos;
 import 'package:stack_ffi/src/logger.dart';
 
 abstract class FullscreenObserver extends Controller {
-  FullscreenObserver._() : super(logger: Logger('FullscreenObserver')) {
-    $effect(() {
-      final isFullscreen = this.isFullscreen;
-      logger.finer('Fullscreen state changed: $isFullscreen');
-    });
-  }
+  FullscreenObserver._() : super(logger: Logger('FullscreenObserver'));
 
   factory FullscreenObserver() {
     if (Platform.isMacOS) return _MacosFullscreenObserver();
@@ -20,6 +15,7 @@ abstract class FullscreenObserver extends Controller {
     logger.warning(
       'FullscreenObserver is not implemented for this platform. Returning a no-op implementation.',
     );
+
     return _NoopFullscreenObserver();
   }
 
