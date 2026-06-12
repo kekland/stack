@@ -140,6 +140,10 @@ class _MultiPaneContainerState extends State<MultiPaneContainer> {
   void _onDragStart(int index, DragStartDetails details) {
     if (_activeDragIndex != null) return;
 
+    final range = _getPanelMinMax(index);
+    if (range == null) return;
+    if (range.$1 >= range.$2) return;
+
     _activeDragIndex = index;
     _activeDragDetails = details;
     _dragStartPanelSizes = List.from(_panelSizes!);
@@ -188,7 +192,7 @@ class _MultiPaneContainerState extends State<MultiPaneContainer> {
     if (isClampedOnLeft && !isClampedOnRight) return _startClampedMouseCursor;
     if (!isClampedOnLeft && isClampedOnRight) return _endClampedMouseCursor;
 
-    return SystemMouseCursors.forbidden;
+    return .defer;
   }
 
   MouseCursor? _activeMouseCursor;

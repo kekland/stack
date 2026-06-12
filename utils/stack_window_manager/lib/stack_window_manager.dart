@@ -32,26 +32,95 @@ class WindowRootState extends State<WindowRoot> {
 class WindowEntry extends OverlayEntry {
   WindowEntry({
     required super.builder,
-    required this.onRemoved,
+    this.anchor,
+    this.isModal = false,
+    this.animationStyle = .noAnimation,
+    this.transitionBuilder = _defaultWindowTransitionBuilder,
   });
 
-  final VoidCallback onRemoved;
+  static WindowAnchor createAnchorForContext(
+    BuildContext context, {
+    EdgeInsets padding = .zero,
+  }) {
+    final overlay = context.findAncestorStateOfType<WindowRootState>()!;
+    final renderBox = context.findRenderObject() as RenderBox;
+
+    final rect = MatrixUtils.transformRect(
+      renderBox.getTransformTo(overlay.context.findRenderObject()),
+      (Offset.zero & renderBox.size),
+    );
+
+    return WindowAnchor(rect: padding.inflateRect(rect));
+  }
+
+  factory WindowEntry.withContextAnchor(
+    BuildContext context, {
+    required WidgetBuilder builder,
+    AnimationStyle animationStyle = AnimationStyle.noAnimation,
+    WindowTransitionBuilder transitionBuilder = _defaultWindowTransitionBuilder,
+  }) => WindowEntry(
+    builder: builder,
+    anchor: createAnchorForContext(context),
+    animationStyle: animationStyle,
+    transitionBuilder: transitionBuilder,
+  );
+
+  final AnimationStyle animationStyle;
+  final WindowAnchor? anchor;
+  final bool isModal;
+  final WindowTransitionBuilder transitionBuilder;
+
+  var _isActive = false;
+  bool get isActive => _isActive;
+  bool get isRemoved => !_isActive;
+
+  final _removedNotifier = ChangeNotifier();
+
+  void addRemovedListener(VoidCallback listener) => _removedNotifier.addListener(listener);
+  void removeRemovedListener(VoidCallback listener) => _removedNotifier.removeListener(listener);
 
   @override
   WidgetBuilder get builder {
-    return (context) => WindowWidget(entry: this, builder: super.builder);
+    return (context) => WindowWidget(
+      entry: this,
+      builder: super.builder,
+      transitionBuilder: transitionBuilder,
+    );
   }
 
   void insert(BuildContext context) {
+    if (_isActive) return;
     final root = context.findAncestorStateOfType<WindowRootState>()!;
     root.overlay.insert(this);
+    _isActive = true;
   }
 
   @override
   void remove() {
+    if (!_isActive) return;
     super.remove();
-    onRemoved();
+    _isActive = false;
+
+    // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+    _removedNotifier.notifyListeners();
   }
+
+  @override
+  void dispose() {
+    if (_isActive) remove();
+    _removedNotifier.dispose();
+    super.dispose();
+  }
+}
+
+typedef WindowTransitionBuilder = Widget Function(BuildContext context, Animation<double> animation, Widget child);
+
+Widget _defaultWindowTransitionBuilder(
+  BuildContext context,
+  Animation<double> animation,
+  Widget child,
+) {
+  return FadeTransition(opacity: animation, child: child);
 }
 
 class WindowWidget extends StatefulWidget {
@@ -59,44 +128,123 @@ class WindowWidget extends StatefulWidget {
     super.key,
     required this.entry,
     required this.builder,
+    this.transitionBuilder = _defaultWindowTransitionBuilder,
   });
 
   final WindowEntry entry;
   final WidgetBuilder builder;
+  final WindowTransitionBuilder transitionBuilder;
 
   @override
   State<WindowWidget> createState() => WindowWidgetState();
 }
 
-class WindowWidgetState extends State<WindowWidget> {
+class WindowWidgetState extends State<WindowWidget> with SingleTickerProviderStateMixin {
+  late final _animationController = AnimationController(
+    vsync: this,
+    duration: animationStyle.duration,
+  );
+  late final _animation = CurvedAnimation(
+    parent: _animationController,
+    curve: animationStyle.curve ?? Curves.linear,
+    reverseCurve: animationStyle.reverseCurve,
+  );
+
+  WindowEntry get entry => widget.entry;
+
+  AnimationStyle get animationStyle => widget.entry.animationStyle;
+  bool get isModal => widget.entry.isModal;
+  WindowAnchor? get anchor => widget.entry.anchor;
+
   Rect? _rect;
   Rect? get rect => _rect;
 
   @override
+  void initState() {
+    super.initState();
+
+    if (animationStyle.duration != .zero) {
+      _animationController.forward();
+    } else {
+      _animationController.value = 1.0;
+    }
+
+    _animationController.addStatusListener((status) {
+      if (status == .dismissed) widget.entry.remove();
+    });
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return _WindowPositioned(
-      rect: rect,
-      onInitialRectComputed: (r) => _rect = r,
-      // windowConstraints: BoxConstraints.loose(Size.square(400.0)),
-      child: RawGestureDetector(
-        behavior: HitTestBehavior.opaque,
-        gestures: {
-          DragActivityGestureRecognizer: DragActivityGestureRecognizerFactory(
-            activityFactory: () => WindowMoveActivity(
-              initialRect: rect!,
-              onChanged: (r) => setState(() => _rect = r),
+    Widget child = widget.builder(context);
+    child = widget.transitionBuilder(context, _animation, child);
+
+    // Navigator.of(context).pop();
+
+    return Listener(
+      behavior: .translucent,
+      onPointerDown: (d) {
+        if (!widget.entry.isModal) return;
+
+        final position = d.localPosition;
+        if (!_rect!.contains(position)) {
+          widget.entry.remove();
+        }
+      },
+      child: _WindowPositioned(
+        rect: rect,
+        onInitialRectComputed: (r) => _rect = r,
+        anchor: widget.entry.anchor,
+        // windowConstraints: BoxConstraints.loose(Size.square(400.0)),
+        child: Stack(
+          clipBehavior: .none,
+          children: [
+            // TODO: replace this with an actual Navigator. problem - _RenderTheater layout takes up the entire space.
+            PopScope(
+              canPop: false,
+              onPopInvokedWithResult: (_, _) {
+                _animationController.reverse();
+              },
+              child: child,
             ),
-          ),
-        },
-        // TODO: replace this with an actual Navigator. problem - _RenderTheater layout takes up the entire space.
-        child: PopScope(
-          canPop: false,
-          onPopInvokedWithResult: (_, _) => widget.entry.remove(),
-          child: widget.builder(context),
+
+            // TODO: allow configurable draggable area.
+            Positioned(
+              left: 0.0,
+              right: 0.0,
+              top: 0.0,
+              height: 48.0,
+              child: RawGestureDetector(
+                behavior: HitTestBehavior.translucent,
+                gestures: {
+                  DragActivityGestureRecognizer<WindowMoveActivity>: DragActivityGestureRecognizerFactory(
+                    activityFactory: () => WindowMoveActivity(
+                      initialRect: rect!,
+                      onChanged: (r) => setState(() => _rect = r),
+                    ),
+                  ),
+                },
+                child: SizedBox.expand(),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
+}
+
+class WindowAnchor {
+  const WindowAnchor({required this.rect, this.alignment});
+
+  final Rect rect;
+  final Alignment? alignment;
 }
 
 class _WindowPositioned extends SingleChildRenderObjectWidget {
@@ -104,15 +252,13 @@ class _WindowPositioned extends SingleChildRenderObjectWidget {
     super.key,
     required Widget super.child,
     this.rect,
-    this.initialOffset,
-    this.initialAlignment,
+    this.anchor,
     this.onInitialRectComputed,
     this.windowConstraints,
   });
 
   final Rect? rect;
-  final Offset? initialOffset;
-  final Alignment? initialAlignment;
+  final WindowAnchor? anchor;
   final ValueChanged<Rect>? onInitialRectComputed;
   final BoxConstraints? windowConstraints;
 
@@ -120,15 +266,17 @@ class _WindowPositioned extends SingleChildRenderObjectWidget {
   RenderObject createRenderObject(BuildContext context) {
     return _RenderWindowPositioned(
       rect: rect,
-      initialOffset: initialOffset,
-      initialAlignment: initialAlignment,
+      anchor: anchor,
       onInitialRectComputed: onInitialRectComputed,
       windowConstraints: windowConstraints,
     );
   }
 
   @override
-  void updateRenderObject(BuildContext context, _RenderWindowPositioned renderObject) {
+  void updateRenderObject(
+    BuildContext context,
+    _RenderWindowPositioned renderObject,
+  ) {
     renderObject
       ..rect = rect
       ..windowConstraints = windowConstraints;
@@ -139,12 +287,10 @@ class _RenderWindowPositioned extends RenderProxyBox {
   _RenderWindowPositioned({
     BoxConstraints? windowConstraints,
     Rect? rect,
-    Offset? initialOffset,
-    Alignment? initialAlignment,
+    WindowAnchor? anchor,
     ValueChanged<Rect>? onInitialRectComputed,
   }) : _rect = rect,
-       _initialOffset = initialOffset,
-       _initialAlignment = initialAlignment,
+       _anchor = anchor,
        _onInitialRectComputed = onInitialRectComputed,
        _windowConstraints = windowConstraints;
 
@@ -164,19 +310,52 @@ class _RenderWindowPositioned extends RenderProxyBox {
     markNeedsLayout();
   }
 
-  final Alignment? _initialAlignment;
-  final Offset? _initialOffset;
+  final WindowAnchor? _anchor;
   final ValueChanged<Rect>? _onInitialRectComputed;
 
   void _recomputeRect() {
-    child!.layout(windowConstraints ?? constraints.loosen(), parentUsesSize: true);
+    child!.layout(
+      windowConstraints ?? constraints.loosen(),
+      parentUsesSize: true,
+    );
 
     final childSize = child!.size;
-    final alignment = _initialAlignment ?? Alignment.center;
-    final offset = rect?.center ?? _initialOffset ?? (constraints.biggest.center(Offset.zero));
+
+    final containerRect = Offset.zero & constraints.biggest;
+    late final Offset center;
+
+    if (_anchor != null) {
+      if (_anchor.alignment != null) {
+        // TODO
+      } else {
+        // Try to find a sensible default alignment based on the anchor rect, window rect and child size.
+        final anchorRect = _anchor.rect;
+        final anchorCenter = anchorRect.center;
+        final containerCenter = containerRect.center;
+
+        final halfWidth = childSize.width / 2.0;
+        final halfHeight = childSize.height / 2.0;
+
+        double centerY = anchorRect.bottom + halfHeight;
+        if (centerY + halfHeight > containerRect.bottom) {
+          centerY = anchorRect.top - halfHeight;
+        }
+
+        double centerX = anchorCenter.dx;
+        if (centerX + halfWidth > containerRect.right) {
+          centerX = containerRect.right - halfWidth;
+        } else if (centerX - halfWidth < containerRect.left) {
+          centerX = containerRect.left + halfWidth;
+        }
+
+        center = Offset(centerX, centerY);
+      }
+    } else {
+      center = containerRect.center;
+    }
 
     _rect = Rect.fromCenter(
-      center: offset + Offset(alignment.x * childSize.width, alignment.y * childSize.height),
+      center: center,
       width: childSize.width,
       height: childSize.height,
     );
@@ -196,11 +375,11 @@ class _RenderWindowPositioned extends RenderProxyBox {
 
     final rectConstraints = BoxConstraints.tight(rect!.size);
 
-    // To allow for iteration in debug mode, allow changing the rect during layout.
-    if (kDebugMode) {
-      _recomputeRect();
-      return;
-    }
+    // // To allow for iteration in debug mode, allow changing the rect during layout.
+    // if (kDebugMode) {
+    //   _recomputeRect();
+    //   return;
+    // }
 
     child!.layout(rectConstraints);
   }

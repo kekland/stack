@@ -1,4 +1,5 @@
 export 'box.dart';
+export 'checkerboard_widget.dart';
 export 'dashed_path.dart';
 export 'debug.dart';
 export 'deferred_layout_builder.dart';

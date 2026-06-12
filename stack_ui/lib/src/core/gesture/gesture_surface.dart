@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
 import '../_.dart';
@@ -8,10 +9,29 @@ typedef GestureSurfaceEffectBuilder = Widget Function(BuildContext context, Gest
 mixin GestureSurfaceMixin on Surface {
   Widget Function(BuildContext, Set<WidgetState> state)? get builder;
   GestureSurfaceEffectBuilder? get effectBuilder;
+  Set<PointerDeviceKind>? get supportedDevices;
   VoidCallback? get onTap;
   HitTestBehavior get behavior;
   bool get ignoreDisabled;
   double get effectIntensity;
+
+  GestureDragStartCallback? get onHorizontalDragStart;
+  GestureDragUpdateCallback? get onHorizontalDragUpdate;
+  GestureDragEndCallback? get onHorizontalDragEnd;
+  GestureDragCancelCallback? get onHorizontalDragCancel;
+  GestureDragDownCallback? get onHorizontalDragDown;
+
+  GestureDragStartCallback? get onVerticalDragStart;
+  GestureDragUpdateCallback? get onVerticalDragUpdate;
+  GestureDragEndCallback? get onVerticalDragEnd;
+  GestureDragCancelCallback? get onVerticalDragCancel;
+  GestureDragDownCallback? get onVerticalDragDown;
+
+  GestureDragStartCallback? get onPanStart;
+  GestureDragUpdateCallback? get onPanUpdate;
+  GestureDragEndCallback? get onPanEnd;
+  GestureDragCancelCallback? get onPanCancel;
+  GestureDragDownCallback? get onPanDown;
 
   Widget? resolveChild(BuildContext context, Set<WidgetState>? states) {
     return builder?.call(context, states ?? {}) ?? child;
@@ -78,6 +98,22 @@ class GestureSurface extends Surface with GestureSurfaceMixin {
     this.effectBuilder,
     this.cursor = SystemMouseCursors.click,
     this.builder,
+    this.supportedDevices,
+    this.onHorizontalDragDown,
+    this.onHorizontalDragStart,
+    this.onHorizontalDragUpdate,
+    this.onHorizontalDragEnd,
+    this.onHorizontalDragCancel,
+    this.onVerticalDragDown,
+    this.onVerticalDragStart,
+    this.onVerticalDragUpdate,
+    this.onVerticalDragEnd,
+    this.onVerticalDragCancel,
+    this.onPanDown,
+    this.onPanStart,
+    this.onPanUpdate,
+    this.onPanEnd,
+    this.onPanCancel,
   });
 
   @override
@@ -98,7 +134,30 @@ class GestureSurface extends Surface with GestureSurfaceMixin {
   @override
   final double effectIntensity;
 
+  @override
+  final Set<PointerDeviceKind>? supportedDevices;
+
   final MouseCursor cursor;
+
+  // dart format off
+  @override final GestureDragStartCallback? onHorizontalDragStart;
+  @override final GestureDragUpdateCallback? onHorizontalDragUpdate;
+  @override final GestureDragEndCallback? onHorizontalDragEnd;
+  @override final GestureDragCancelCallback? onHorizontalDragCancel;
+  @override final GestureDragDownCallback? onHorizontalDragDown;
+
+  @override final GestureDragStartCallback? onVerticalDragStart;
+  @override final GestureDragUpdateCallback? onVerticalDragUpdate;
+  @override final GestureDragEndCallback? onVerticalDragEnd;
+  @override final GestureDragCancelCallback? onVerticalDragCancel;
+  @override final GestureDragDownCallback? onVerticalDragDown;
+
+  @override final GestureDragStartCallback? onPanStart;
+  @override final GestureDragUpdateCallback? onPanUpdate;
+  @override final GestureDragEndCallback? onPanEnd;
+  @override final GestureDragCancelCallback? onPanCancel;
+  @override final GestureDragDownCallback? onPanDown;
+  // dart format on
 
   @override
   Widget build(BuildContext context) {

@@ -3,10 +3,8 @@ import '../../_.dart';
 import 'package:flutter/material.dart';
 
 Widget gestureSurfaceCupertinoOpacityEffect(BuildContext context, GestureSurface surface) {
-  return GestureRegion(
-    behavior: surface.behavior,
-    onTap: surface.onTap,
-    cursor: surface.cursor,
+  return GestureRegion.fromSurface(
+    surface: surface,
     detectorBuilder: defaultGestureRegionDetectorBuilder,
     builder: (context, state) => _CupertinoOpacityEffectAnimator(
       state: state,

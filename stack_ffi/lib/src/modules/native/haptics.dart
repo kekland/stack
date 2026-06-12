@@ -10,6 +10,8 @@ class Haptics {
 
     if (Platform.isMacOS) {
       _storedInstance = _MacosHaptics();
+    } else if (Platform.isIOS) {
+      _storedInstance = _IosHaptics();
     } else {
       _storedInstance = _FallbackHaptics();
     }
@@ -33,6 +35,13 @@ final class _MacosHaptics extends _Haptics {
       .NSHapticFeedbackPatternLevelChange,
       performanceTime: .NSHapticFeedbackPerformanceTimeDrawCompleted,
     );
+  }
+}
+
+final class _IosHaptics extends _Haptics {
+  @override
+  void click() {
+    services.HapticFeedback.selectionClick();
   }
 }
 

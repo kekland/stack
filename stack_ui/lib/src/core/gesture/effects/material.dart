@@ -8,10 +8,8 @@ Widget gestureSurfaceMaterialEffect(BuildContext context, GestureSurface surface
     padding: EdgeInsets.zero,
     state: null,
     materialIsContainer: true,
-    child: GestureRegion(
-      behavior: surface.behavior,
-      onTap: surface.onTap,
-      cursor: surface.cursor,
+    child: GestureRegion.fromSurface(
+      surface: surface,
       detectorBuilder: materialInkWellMnGestureRegionDetectorBuilder(context, surface),
       builder: (context, state) => Padding(
         padding: surface.padding ?? EdgeInsets.zero,

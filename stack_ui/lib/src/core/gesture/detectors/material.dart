@@ -1,3 +1,5 @@
+import 'package:flutter/gestures.dart';
+
 import '../../_.dart';
 import '../../flutter/material/material.dart';
 
@@ -49,6 +51,25 @@ class _InkResponse extends InkResponseWithNoInkClip {
     super.onTapCancel,
     super.child,
     this.offset = Offset.zero,
+    super.supportedDevices,
+
+    super.onHorizontalDragDown,
+    super.onHorizontalDragStart,
+    super.onHorizontalDragUpdate,
+    super.onHorizontalDragEnd,
+    super.onHorizontalDragCancel,
+
+    super.onVerticalDragDown,
+    super.onVerticalDragStart,
+    super.onVerticalDragUpdate,
+    super.onVerticalDragEnd,
+    super.onVerticalDragCancel,
+
+    super.onPanDown,
+    super.onPanStart,
+    super.onPanUpdate,
+    super.onPanEnd,
+    super.onPanCancel,
   });
 
   final GestureSurface surface;
@@ -128,10 +149,26 @@ GestureRegionDetectorBuilder materialInkWellMnGestureRegionDetectorBuilder(
   return (
     BuildContext context,
     HitTestBehavior behavior,
+    Set<PointerDeviceKind>? supportedDevices,
     Widget child,
     VoidCallback? onTapStart,
     VoidCallback? onTapEnd,
     VoidCallback? onTap,
+    GestureDragStartCallback? onHorizontalDragStart,
+    GestureDragUpdateCallback? onHorizontalDragUpdate,
+    GestureDragEndCallback? onHorizontalDragEnd,
+    GestureDragCancelCallback? onHorizontalDragCancel,
+    GestureDragDownCallback? onHorizontalDragDown,
+    GestureDragStartCallback? onVerticalDragStart,
+    GestureDragUpdateCallback? onVerticalDragUpdate,
+    GestureDragEndCallback? onVerticalDragEnd,
+    GestureDragCancelCallback? onVerticalDragCancel,
+    GestureDragDownCallback? onVerticalDragDown,
+    GestureDragStartCallback? onPanStart,
+    GestureDragUpdateCallback? onPanUpdate,
+    GestureDragEndCallback? onPanEnd,
+    GestureDragCancelCallback? onPanCancel,
+    GestureDragDownCallback? onPanDown,
   ) {
     final enabled = onTap != null || onTapStart != null || onTapEnd != null;
 
@@ -149,7 +186,23 @@ GestureRegionDetectorBuilder materialInkWellMnGestureRegionDetectorBuilder(
       onTapDown: enabled ? (_) => onTapStart?.call() : null,
       onTapCancel: enabled ? onTapEnd : null,
       onTapUp: enabled ? (_) => onTapEnd?.call() : null,
+      onHorizontalDragDown: onHorizontalDragDown,
+      onHorizontalDragStart: onHorizontalDragStart,
+      onHorizontalDragUpdate: onHorizontalDragUpdate,
+      onHorizontalDragEnd: onHorizontalDragEnd,
+      onHorizontalDragCancel: onHorizontalDragCancel,
+      onVerticalDragDown: onVerticalDragDown,
+      onVerticalDragStart: onVerticalDragStart,
+      onVerticalDragUpdate: onVerticalDragUpdate,
+      onVerticalDragEnd: onVerticalDragEnd,
+      onVerticalDragCancel: onVerticalDragCancel,
+      onPanDown: onPanDown,
+      onPanStart: onPanStart,
+      onPanUpdate: onPanUpdate,
+      onPanEnd: onPanEnd,
+      onPanCancel: onPanCancel,
       // offset: surface.materialInkResponseOffset ?? Offset.zero,
+      supportedDevices: supportedDevices,
       offset: Offset.zero,
       child: child,
     );

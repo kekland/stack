@@ -19,6 +19,7 @@ List<String> generateThemeFromDescription(ThemeDescription description) {
   blocks.add(_generateTypography(description));
   blocks.add(_generateShadows(description));
   blocks.add(_generateAnimations(description));
+  blocks.add(_generateSizes(description));
 
   // Finalize lines by adding blocks
   final nonEmptyBlocks = blocks.where((block) => block.isNotEmpty).toList();
@@ -263,6 +264,18 @@ List<String> _generateAnimations(ThemeDescription description) {
   return lines;
 }
 
+List<String> _generateSizes(ThemeDescription description) {
+  final lines = <String>[];
+
+  if (description.sizes.isEmpty) return lines;
+
+  lines.add('typedef AppSizes = ({');
+  for (final size in description.sizes) lines.add('  double ${size.name},');
+  lines.add('});');
+
+  return lines;
+}
+
 List<String> _generateFinal(ThemeDescription description) {
   final lines = <String>[];
 
@@ -274,6 +287,7 @@ List<String> _generateFinal(ThemeDescription description) {
   if (description.typography.isNotEmpty) lines.add('  AppTypography typography,');
   if (description.shadows.isNotEmpty) lines.add('  AppShadows shadows,');
   if (description.animations.isNotEmpty) lines.add('  AppAnimations animations,');
+  if (description.sizes.isNotEmpty) lines.add('  AppSizes sizes,');
   lines.add('});');
   lines.add('');
   lines.add('class _InheritedAppTheme extends InheritedWidget {');
@@ -319,6 +333,7 @@ List<String> _generateFinal(ThemeDescription description) {
   if (description.typography.isNotEmpty) lines.add('  AppTypography get typography => theme.typography;');
   if (description.shadows.isNotEmpty) lines.add('  AppShadows get shadows => theme.shadows;');
   if (description.animations.isNotEmpty) lines.add('  AppAnimations get animations => theme.animations;');
+  if (description.sizes.isNotEmpty) lines.add('  AppSizes get sizes => theme.sizes;');
   lines.add('}');
   lines.add('');
   if (description.variants.isNotEmpty) {

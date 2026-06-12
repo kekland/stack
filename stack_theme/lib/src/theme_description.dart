@@ -8,6 +8,7 @@ class ThemeDescription {
     this.shadows = const [],
     this.platforms = const [],
     this.variants = const [],
+    this.sizes = const [],
   });
 
   final List<String> platforms;
@@ -16,6 +17,7 @@ class ThemeDescription {
   final List<TextStyleDescription> typography;
   final List<AnimationStyleDescription> animations;
   final List<ShadowDescription> shadows;
+  final List<SizeDescription> sizes;
 
   List<String> generate() => generateThemeFromDescription(this);
 }
@@ -138,6 +140,12 @@ class AnimationStyleDescription {
 
 class ShadowDescription {
   const ShadowDescription(this.name);
+
+  final String name;
+}
+
+class SizeDescription {
+  const SizeDescription(this.name);
 
   final String name;
 }

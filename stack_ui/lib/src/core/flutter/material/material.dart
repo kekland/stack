@@ -14,6 +14,7 @@ import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as mat;
 import 'package:flutter/rendering.dart';
@@ -25,9 +26,9 @@ class MaterialWithNoInkClip extends Material {
     super.key,
     super.child,
   }) : super(
-          type: MaterialType.transparency,
-          clipBehavior: Clip.none,
-        );
+         type: MaterialType.transparency,
+         clipBehavior: Clip.none,
+       );
 
   static MaterialInkControllerWithNoInkClip? maybeOf(BuildContext context) {
     return LookupBoundary.findAncestorRenderObjectOfType<_RenderInkFeatures>(context);
@@ -97,10 +98,10 @@ class InkFeatureAdapter extends InkFeatureWithNoInkClip {
     required MaterialInkControllerAdapter controller,
     required this.feature,
   }) : super(
-          controller: controller.parent,
-          referenceBox: feature.referenceBox,
-          onRemoved: feature.onRemoved,
-        );
+         controller: controller.parent,
+         referenceBox: feature.referenceBox,
+         onRemoved: feature.onRemoved,
+       );
 
   final mat.InkFeature feature;
 
@@ -359,6 +360,25 @@ class InkResponseWithNoInkClip extends StatelessWidget {
     this.autofocus = false,
     this.statesController,
     this.hoverDuration,
+    this.supportedDevices,
+
+    this.onHorizontalDragDown,
+    this.onHorizontalDragStart,
+    this.onHorizontalDragUpdate,
+    this.onHorizontalDragEnd,
+    this.onHorizontalDragCancel,
+
+    this.onVerticalDragDown,
+    this.onVerticalDragStart,
+    this.onVerticalDragUpdate,
+    this.onVerticalDragEnd,
+    this.onVerticalDragCancel,
+
+    this.onPanDown,
+    this.onPanStart,
+    this.onPanUpdate,
+    this.onPanEnd,
+    this.onPanCancel,
   });
 
   final Widget? child;
@@ -392,6 +412,25 @@ class InkResponseWithNoInkClip extends StatelessWidget {
   final bool autofocus;
   final FocusNode? focusNode;
   final bool canRequestFocus;
+  final Set<PointerDeviceKind>? supportedDevices;
+
+  final GestureDragStartCallback? onHorizontalDragStart;
+  final GestureDragUpdateCallback? onHorizontalDragUpdate;
+  final GestureDragEndCallback? onHorizontalDragEnd;
+  final GestureDragCancelCallback? onHorizontalDragCancel;
+  final GestureDragDownCallback? onHorizontalDragDown;
+
+  final GestureDragStartCallback? onVerticalDragStart;
+  final GestureDragUpdateCallback? onVerticalDragUpdate;
+  final GestureDragEndCallback? onVerticalDragEnd;
+  final GestureDragCancelCallback? onVerticalDragCancel;
+  final GestureDragDownCallback? onVerticalDragDown;
+
+  final GestureDragStartCallback? onPanStart;
+  final GestureDragUpdateCallback? onPanUpdate;
+  final GestureDragEndCallback? onPanEnd;
+  final GestureDragCancelCallback? onPanCancel;
+  final GestureDragDownCallback? onPanDown;
 
   RectCallback? getRectCallback(RenderBox referenceBox) => null;
 
@@ -438,6 +477,26 @@ class InkResponseWithNoInkClip extends StatelessWidget {
       debugCheckContext: debugCheckContext,
       statesController: statesController,
       hoverDuration: hoverDuration,
+      supportedDevices: supportedDevices,
+
+      onHorizontalDragDown: onHorizontalDragDown,
+      onHorizontalDragStart: onHorizontalDragStart,
+      onHorizontalDragUpdate: onHorizontalDragUpdate,
+      onHorizontalDragEnd: onHorizontalDragEnd,
+      onHorizontalDragCancel: onHorizontalDragCancel,
+
+      onVerticalDragDown: onVerticalDragDown,
+      onVerticalDragStart: onVerticalDragStart,
+      onVerticalDragUpdate: onVerticalDragUpdate,
+      onVerticalDragEnd: onVerticalDragEnd,
+      onVerticalDragCancel: onVerticalDragCancel,
+
+      onPanDown: onPanDown,
+      onPanStart: onPanStart,
+      onPanUpdate: onPanUpdate,
+      onPanEnd: onPanEnd,
+      onPanCancel: onPanCancel,
+
       child: child,
     );
   }
@@ -495,6 +554,25 @@ class _InkResponseStateWidget extends StatefulWidget {
     required this.debugCheckContext,
     this.statesController,
     this.hoverDuration,
+    this.supportedDevices,
+
+    this.onHorizontalDragDown,
+    this.onHorizontalDragStart,
+    this.onHorizontalDragUpdate,
+    this.onHorizontalDragEnd,
+    this.onHorizontalDragCancel,
+
+    this.onVerticalDragDown,
+    this.onVerticalDragStart,
+    this.onVerticalDragUpdate,
+    this.onVerticalDragEnd,
+    this.onVerticalDragCancel,
+
+    this.onPanDown,
+    this.onPanStart,
+    this.onPanUpdate,
+    this.onPanEnd,
+    this.onPanCancel,
   });
 
   final Widget? child;
@@ -533,6 +611,25 @@ class _InkResponseStateWidget extends StatefulWidget {
   final _CheckContext debugCheckContext;
   final WidgetStatesController? statesController;
   final Duration? hoverDuration;
+  final Set<PointerDeviceKind>? supportedDevices;
+
+  final GestureDragStartCallback? onHorizontalDragStart;
+  final GestureDragUpdateCallback? onHorizontalDragUpdate;
+  final GestureDragEndCallback? onHorizontalDragEnd;
+  final GestureDragCancelCallback? onHorizontalDragCancel;
+  final GestureDragDownCallback? onHorizontalDragDown;
+
+  final GestureDragStartCallback? onVerticalDragStart;
+  final GestureDragUpdateCallback? onVerticalDragUpdate;
+  final GestureDragEndCallback? onVerticalDragEnd;
+  final GestureDragCancelCallback? onVerticalDragCancel;
+  final GestureDragDownCallback? onVerticalDragDown;
+
+  final GestureDragStartCallback? onPanStart;
+  final GestureDragUpdateCallback? onPanUpdate;
+  final GestureDragEndCallback? onPanEnd;
+  final GestureDragCancelCallback? onPanCancel;
+  final GestureDragDownCallback? onPanDown;
 
   @override
   _InkResponseState createState() => _InkResponseState();
@@ -585,7 +682,8 @@ class _InkResponseState extends State<_InkResponseStateWidget>
   };
   WidgetStatesController? internalStatesController;
 
-  bool get highlightsExist => _highlights.values.where((InkHighlightWithNoInkClip? highlight) => highlight != null).isNotEmpty;
+  bool get highlightsExist =>
+      _highlights.values.where((InkHighlightWithNoInkClip? highlight) => highlight != null).isNotEmpty;
 
   final ObserverList<_ParentInkResponseState> _activeChildren = ObserverList<_ParentInkResponseState>();
 
@@ -758,7 +856,8 @@ class _InkResponseState extends State<_InkResponseStateWidget>
 
     if (value) {
       if (highlight == null) {
-        final Color resolvedOverlayColor = widget.overlayColor?.resolve(statesController.value) ??
+        final Color resolvedOverlayColor =
+            widget.overlayColor?.resolve(statesController.value) ??
             switch (type) {
               // Use the backwards compatible defaults
               _HighlightType.pressed => widget.highlightColor ?? Theme.of(context).highlightColor,
@@ -862,9 +961,9 @@ class _InkResponseState extends State<_InkResponseStateWidget>
   }
 
   bool get _shouldShowFocus => switch (MediaQuery.maybeNavigationModeOf(context)) {
-        NavigationMode.traditional || null => enabled && _hasFocus,
-        NavigationMode.directional => _hasFocus,
-      };
+    NavigationMode.traditional || null => enabled && _hasFocus,
+    NavigationMode.directional => _hasFocus,
+  };
 
   void updateFocusHighlights() {
     final bool showFocus = switch (FocusManager.instance.highlightMode) {
@@ -986,6 +1085,98 @@ class _InkResponseState extends State<_InkResponseStateWidget>
     updateHighlight(_HighlightType.pressed, value: false);
   }
 
+  /* stack_ui additions */
+
+  void _handleAnyDragStart() {
+    _currentSplash?.confirm();
+    _currentSplash = null;
+    updateHighlight(_HighlightType.pressed, value: false);
+  }
+
+  void _handleAnyDragEnd() {
+    updateHighlight(_HighlightType.pressed, value: false);
+  }
+
+  void _handleAnyDragCancel() {
+    _currentSplash?.cancel();
+    _currentSplash = null;
+    updateHighlight(_HighlightType.pressed, value: false);
+  }
+
+  void _handleHorizontalDragDown(DragDownDetails details) {
+    _handleAnyDragStart();
+    widget.onHorizontalDragDown?.call(details);
+  }
+
+  void _handleHorizontalDragStart(DragStartDetails details) {
+    _handleAnyDragStart();
+    widget.onHorizontalDragStart?.call(details);
+  }
+
+  void _handleHorizontalDragUpdate(DragUpdateDetails details) {
+    widget.onHorizontalDragUpdate?.call(details);
+  }
+
+  void _handleHorizontalDragEnd(DragEndDetails details) {
+    _handleAnyDragEnd();
+    widget.onHorizontalDragEnd?.call(details);
+  }
+
+  void _handleHorizontalDragCancel() {
+    _handleAnyDragCancel();
+    widget.onHorizontalDragCancel?.call();
+  }
+
+  void _handleVerticalDragDown(DragDownDetails details) {
+    _handleAnyDragStart();
+    widget.onVerticalDragDown?.call(details);
+  }
+
+  void _handleVerticalDragStart(DragStartDetails details) {
+    _handleAnyDragStart();
+    widget.onVerticalDragStart?.call(details);
+  }
+
+  void _handleVerticalDragUpdate(DragUpdateDetails details) {
+    widget.onVerticalDragUpdate?.call(details);
+  }
+
+  void _handleVerticalDragEnd(DragEndDetails details) {
+    _handleAnyDragEnd();
+    widget.onVerticalDragEnd?.call(details);
+  }
+
+  void _handleVerticalDragCancel() {
+    _handleAnyDragCancel();
+    widget.onVerticalDragCancel?.call();
+  }
+
+  void _handlePanDown(DragDownDetails details) {
+    _handleAnyDragStart();
+    widget.onPanDown?.call(details);
+  }
+
+  void _handlePanStart(DragStartDetails details) {
+    _handleAnyDragStart();
+    widget.onPanStart?.call(details);
+  }
+
+  void _handlePanUpdate(DragUpdateDetails details) {
+    widget.onPanUpdate?.call(details);
+  }
+
+  void _handlePanEnd(DragEndDetails details) {
+    _handleAnyDragEnd();
+    widget.onPanEnd?.call(details);
+  }
+
+  void _handlePanCancel() {
+    _handleAnyDragCancel();
+    widget.onPanCancel?.call();
+  }
+
+  /* end stack_ui additions */
+
   @override
   void deactivate() {
     if (_splashes != null) {
@@ -1044,9 +1235,9 @@ class _InkResponseState extends State<_InkResponseStateWidget>
   }
 
   bool get _canRequestFocus => switch (MediaQuery.maybeNavigationModeOf(context)) {
-        NavigationMode.traditional || null => enabled && widget.canRequestFocus,
-        NavigationMode.directional => true,
-      };
+    NavigationMode.traditional || null => enabled && widget.canRequestFocus,
+    NavigationMode.directional => true,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -1130,6 +1321,26 @@ class _InkResponseState extends State<_InkResponseStateWidget>
                   onSecondaryTapUp: _secondaryEnabled ? handleSecondaryTapUp : null,
                   onSecondaryTap: _secondaryEnabled ? handleSecondaryTap : null,
                   onSecondaryTapCancel: _secondaryEnabled ? handleSecondaryTapCancel : null,
+
+                  onHorizontalDragDown: widget.onHorizontalDragDown != null ? _handleHorizontalDragDown : null,
+                  onHorizontalDragStart: widget.onHorizontalDragStart != null ? _handleHorizontalDragStart : null,
+                  onHorizontalDragUpdate: widget.onHorizontalDragUpdate != null ? _handleHorizontalDragUpdate : null,
+                  onHorizontalDragEnd: widget.onHorizontalDragEnd != null ? _handleHorizontalDragEnd : null,
+                  onHorizontalDragCancel: widget.onHorizontalDragCancel != null ? _handleHorizontalDragCancel : null,
+
+                  onVerticalDragDown: widget.onVerticalDragDown != null ? _handleVerticalDragDown : null,
+                  onVerticalDragStart: widget.onVerticalDragStart != null ? _handleVerticalDragStart : null,
+                  onVerticalDragUpdate: widget.onVerticalDragUpdate != null ? _handleVerticalDragUpdate : null,
+                  onVerticalDragEnd: widget.onVerticalDragEnd != null ? _handleVerticalDragEnd : null,
+                  onVerticalDragCancel: widget.onVerticalDragCancel != null ? _handleVerticalDragCancel : null,
+
+                  onPanDown: widget.onPanDown != null ? _handlePanDown : null,
+                  onPanStart: widget.onPanStart != null ? _handlePanStart : null,
+                  onPanUpdate: widget.onPanUpdate != null ? _handlePanUpdate : null,
+                  onPanEnd: widget.onPanEnd != null ? _handlePanEnd : null,
+                  onPanCancel: widget.onPanCancel != null ? _handlePanCancel : null,
+
+                  supportedDevices: widget.supportedDevices,
                   behavior: HitTestBehavior.opaque,
                   excludeFromSemantics: true,
                   child: widget.child,
@@ -1321,14 +1532,15 @@ class InkSparkleWithNoInkClip extends InteractiveInkFeatureWithNoInkClip {
     double? radius,
     super.onRemoved,
     double? turbulenceSeed,
-  })  : assert(containedInkWell || rectCallback == null),
-        _color = color,
-        _position = position,
-        _borderRadius = borderRadius ?? BorderRadius.zero,
-        _textDirection = textDirection,
-        _targetRadius = (radius ?? _getTargetRadius(referenceBox, containedInkWell, rectCallback, position)) *
-            _targetRadiusMultiplier,
-        _clipCallback = _getClipCallback(referenceBox, containedInkWell, rectCallback) {
+  }) : assert(containedInkWell || rectCallback == null),
+       _color = color,
+       _position = position,
+       _borderRadius = borderRadius ?? BorderRadius.zero,
+       _textDirection = textDirection,
+       _targetRadius =
+           (radius ?? _getTargetRadius(referenceBox, containedInkWell, rectCallback, position)) *
+           _targetRadiusMultiplier,
+       _clipCallback = _getClipCallback(referenceBox, containedInkWell, rectCallback) {
     // InkSparkle will not be painted until the async compilation completes.
     _InkSparkleFactory.initializeShader();
     controller.addInkFeature(this);
@@ -1720,11 +1932,10 @@ class InkHighlightWithNoInkClip extends InteractiveInkFeatureWithNoInkClip {
 
        _textDirection = textDirection,
        _rectCallback = rectCallback {
-    _alphaController =
-        AnimationController(duration: fadeDuration, vsync: controller.vsync)
-          ..addListener(controller.markNeedsPaint)
-          ..addStatusListener(_handleAlphaStatusChanged)
-          ..forward();
+    _alphaController = AnimationController(duration: fadeDuration, vsync: controller.vsync)
+      ..addListener(controller.markNeedsPaint)
+      ..addStatusListener(_handleAlphaStatusChanged)
+      ..forward();
     _alpha = _alphaController.drive(IntTween(begin: 0, end: color.alpha));
 
     controller.addInkFeature(this);

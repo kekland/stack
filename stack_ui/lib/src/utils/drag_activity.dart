@@ -8,6 +8,7 @@ abstract class DragActivity {
 
   late final PositionedGestureDetails startDetails;
   DragUpdateDetails? lastUpdateDetails;
+  PointerEvent? pointerEvent;
 
   @mustCallSuper
   void onStart(PositionedGestureDetails details) {
@@ -55,11 +56,13 @@ mixin KeyboardListenerDragActivity on DragActivity {
   }
 }
 
-typedef DragActivityFactory = DragActivity Function();
-typedef DragActivityWithArgumentFactory<T> = DragActivity Function(T argument);
+typedef DragActivityFactory<T extends DragActivity> = T Function();
+typedef DragActivityWithArgumentFactory<T extends DragActivity, A> = T Function(A argument);
 
 mixin _DragActivityPointerCountLimiter on PanGestureRecognizer {
   final Set<int> _trackedPointers = <int>{};
+
+  Set<PointerDeviceKind> get devicesToAcceptImmediately;
 
   bool get isActive;
 
@@ -77,6 +80,11 @@ mixin _DragActivityPointerCountLimiter on PanGestureRecognizer {
       }
 
       _trackedPointers.clear();
+    } else {
+      // Instantly win the arena
+      if (devicesToAcceptImmediately.contains(event.kind)) {
+        resolvePointer(event.pointer, .accepted);
+      }
     }
   }
 
@@ -95,7 +103,25 @@ mixin _DragActivityPointerCountLimiter on PanGestureRecognizer {
   }
 }
 
-class DragActivityGestureRecognizer extends PanGestureRecognizer with _DragActivityPointerCountLimiter {
+mixin _DragActivityCommons<T extends DragActivity> on PanGestureRecognizer {
+  T? get currentActivity;
+
+  PointerEvent? _lastPointerEvent;
+  
+  void _onActivityCreated() {
+    currentActivity!.pointerEvent = _lastPointerEvent;
+  }
+
+  @override
+  void handleEvent(PointerEvent event) {
+    _lastPointerEvent = event;
+    currentActivity?.pointerEvent = event;
+    super.handleEvent(event);
+  }
+}
+
+class DragActivityGestureRecognizer<T extends DragActivity> extends PanGestureRecognizer
+    with _DragActivityCommons, _DragActivityPointerCountLimiter {
   DragActivityGestureRecognizer({
     required this.activityFactory,
     super.debugOwner,
@@ -103,15 +129,17 @@ class DragActivityGestureRecognizer extends PanGestureRecognizer with _DragActiv
     super.allowedButtonsFilter,
     VoidCallback? onStart,
     VoidCallback? onEnd,
+    this.devicesToAcceptImmediately = const {},
   }) : _onStart = onStart,
        _onEnd = onEnd,
        super() {
     dragStartBehavior = .down;
-    onlyAcceptDragOnThreshold = true;
+    onlyAcceptDragOnThreshold = false;
 
     this.onStart = (details) {
       assert(_currentActivity == null);
       _currentActivity = activityFactory();
+      _onActivityCreated();
       _currentActivity!.onStart(details);
       _onStart?.call();
     };
@@ -131,14 +159,21 @@ class DragActivityGestureRecognizer extends PanGestureRecognizer with _DragActiv
   @override
   bool get isActive => _currentActivity != null;
 
-  DragActivityFactory activityFactory;
-  DragActivity? _currentActivity;
+  @override
+  Set<PointerDeviceKind> devicesToAcceptImmediately;
+
+  DragActivityFactory<T> activityFactory;
+  T? _currentActivity;
+
+  @override
+  T? get currentActivity => _currentActivity;
 
   final VoidCallback? _onStart;
   final VoidCallback? _onEnd;
 }
 
-class DragActivityWithArgumentGestureRecognizer<T> extends PanGestureRecognizer with _DragActivityPointerCountLimiter {
+class DragActivityWithArgumentGestureRecognizer<T extends DragActivity, A> extends PanGestureRecognizer
+    with _DragActivityCommons, _DragActivityPointerCountLimiter {
   DragActivityWithArgumentGestureRecognizer({
     required this.activityFactory,
     super.debugOwner,
@@ -146,16 +181,21 @@ class DragActivityWithArgumentGestureRecognizer<T> extends PanGestureRecognizer 
     super.allowedButtonsFilter,
     VoidCallback? onStart,
     VoidCallback? onEnd,
+    this.devicesToAcceptImmediately = const {},
   }) : _onStart = onStart,
        _onEnd = onEnd,
        super() {
     dragStartBehavior = .down;
-    onlyAcceptDragOnThreshold = true;
+    onlyAcceptDragOnThreshold = false;
 
     this.onStart = (details) {
       assert(_currentActivity == null);
-      if (_currentArgument == null) throw ArgumentError('Argument must be provided before starting the drag activity.');
-      _currentActivity = activityFactory(_currentArgument as T);
+      if (_currentArgument == null)
+        throw ArgumentError(
+          'Argument must be provided before starting the drag activity.',
+        );
+      _currentActivity = activityFactory(_currentArgument as A);
+      _onActivityCreated();
       _currentActivity!.onStart(details);
       _onStart?.call();
     };
@@ -174,23 +214,30 @@ class DragActivityWithArgumentGestureRecognizer<T> extends PanGestureRecognizer 
   }
 
   @override
+  Set<PointerDeviceKind> devicesToAcceptImmediately;
+
+  @override
   bool get isActive => _currentActivity != null;
 
-  DragActivityWithArgumentFactory<T> activityFactory;
-  T? _currentArgument;
-  DragActivity? _currentActivity;
+  DragActivityWithArgumentFactory<T, A> activityFactory;
+  A? _currentArgument;
+  T? _currentActivity;
+
+  @override
+  T? get currentActivity => _currentActivity;
 
   final VoidCallback? _onStart;
   final VoidCallback? _onEnd;
 
   @override
-  void addPointer(PointerDownEvent event, {T? argument}) {
+  void addPointer(PointerDownEvent event, {A? argument}) {
     _currentArgument = argument;
     super.addPointer(event);
   }
 }
 
-class DragActivityGestureRecognizerFactory extends GestureRecognizerFactory<DragActivityGestureRecognizer> {
+class DragActivityGestureRecognizerFactory<T extends DragActivity>
+    extends GestureRecognizerFactory<DragActivityGestureRecognizer<T>> {
   DragActivityGestureRecognizerFactory({
     required this.activityFactory,
     VoidCallback? onStart,
@@ -198,13 +245,13 @@ class DragActivityGestureRecognizerFactory extends GestureRecognizerFactory<Drag
   }) : _onStart = onStart,
        _onEnd = onEnd;
 
-  final DragActivityFactory activityFactory;
+  final DragActivityFactory<T> activityFactory;
   final VoidCallback? _onStart;
   final VoidCallback? _onEnd;
 
   @override
-  DragActivityGestureRecognizer constructor() {
-    return DragActivityGestureRecognizer(
+  DragActivityGestureRecognizer<T> constructor() {
+    return DragActivityGestureRecognizer<T>(
       activityFactory: activityFactory,
       onStart: _onStart,
       onEnd: _onEnd,
@@ -215,8 +262,8 @@ class DragActivityGestureRecognizerFactory extends GestureRecognizerFactory<Drag
   void initializer(DragActivityGestureRecognizer instance) {}
 }
 
-DragActivityGestureRecognizer useDragActivityRecognizer(
-  DragActivity Function() activityFactory, {
+DragActivityGestureRecognizer<T> useDragActivityRecognizer<T extends DragActivity>(
+  DragActivityFactory<T> activityFactory, {
   VoidCallback? onStart,
   VoidCallback? onEnd,
   Set<PointerDeviceKind>? supportedDevices,
@@ -234,15 +281,15 @@ DragActivityGestureRecognizer useDragActivityRecognizer(
   );
 }
 
-DragActivityWithArgumentGestureRecognizer<T> useDragActivityWithArgumentRecognizer<T>(
-  DragActivity Function(T argument) activityFactory, {
+DragActivityWithArgumentGestureRecognizer<DragActivity, A> useDragActivityWithArgumentRecognizer<A>(
+  DragActivityWithArgumentFactory<DragActivity, A> activityFactory, {
   VoidCallback? onStart,
   VoidCallback? onEnd,
   Set<PointerDeviceKind>? supportedDevices,
   List<Object?>? keys,
 }) {
   return useManagedResource(
-    create: () => DragActivityWithArgumentGestureRecognizer(
+    create: () => DragActivityWithArgumentGestureRecognizer<DragActivity, A>(
       activityFactory: activityFactory,
       onStart: onStart,
       onEnd: onEnd,
